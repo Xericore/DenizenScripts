@@ -1,0 +1,156 @@
+betterhorses:
+  type: world
+  
+  default constants:
+    speedMax: 14.5125
+    speedBonus: 0.0
+    jumpBonus: 0.0
+    
+  events:
+    on entity spawns: #TODO: because breeding
+    
+    - define thePlayer <context.entity.location.find.entities[PLAYER].within[6].get[0]>
+    
+    # TODO: for donkey as well
+    - ^if <context.entity.name> == HORSE && <context.reason> == BREEDING {
+      
+      - ^foreach <context.entity.location.find.entities[<context.entity.name>].within[4]> {
+        - if <def[loop_index]> <= 1 {
+          - define speed1 <def[value].speed.mul[43]>
+          - define jump1 <def[value].jump_strength>
+          - define health1 <def[value].health>
+        } else if <def[loop_index].as_int> == 2 {
+          - define speed2 <def[value].speed.mul[43]>
+          - define jump2 <def[value].jump_strength>
+          - define health2 <def[value].health>
+        }
+        
+        # TODO, don't reset breeding
+        - adjust %value% 'can_breed:true'
+      }
+      
+      #################### SPEED ####################
+      - define minSpeed <el@val[%speed1%].min[%speed2%]>
+      - define absSpeedDelta <el@val[%speed1%].sub[%speed2%].abs>
+      #- define speedBoost <math:(<s@betterhorses.constant[speedMax]>-%minSpeed%)/10>
+      - define speedBoost 0
+      - define muSpeed <math:<s@betterhorses.constant[speedBonus]>+((%minSpeed%-(%absSpeedDelta%/2))+%speedBoost%)>
+      
+      - define averageSpeed <math:0.225*43>
+      
+      - define sigmaSpeed <math:(<proc[normdist].context[%muSpeed%|%averageSpeed%|2]>*5)+(%absSpeedDelta%/10)>
+      
+      
+      #################### JUMP ####################
+      
+      - define minJump <el@val[%jump1%].min[%jump2%]>
+      - define absJumpDelta <el@val[%jump1%].sub[%jump2%].abs>
+      - define deltaHalf <def[absJumpDelta].div[2]>
+      - define minJumpMinusDeltaHalf <def[minJump].sub[%deltaHalf%]>
+      
+      #- define jumpBoost <el@val[1].sub[%minJump%]>
+      #- define jumpBoost <def[jumpBoost].div[10]>
+      - define jumpBoost 0
+      
+      - define muJump <math:<s@betterhorses.constant[jumpBonus]>+%minJumpMinusDeltaHalf%+%jumpBoost%>
+
+      - define averageJump 0.7
+      
+      - define sigmaJump <proc[normdist].context[%muJump%|%averageJump%|0.2]>
+      - define sigmaJump <def[sigmaJump].mul[0.01].add[<def[absJumpDelta].div[10]>]>
+
+      - define foalSpeed <proc[gauss].context[%muSpeed%|%sigmaSpeed%].div[43]>
+      - define foalJumpStrength <proc[gauss].context[%muJump%|%sigmaJump%]>
+      
+      #- narrate "minJump: <def[minJump].round_to[2]>, absJumpDelta: <def[absJumpDelta].round_to[4]>, minJumpMinusDeltaHalf: <def[minJumpMinusDeltaHalf].round_to[4]>," targets:li@<p@Xericore>|<p@Davitee>
+      #- narrate "muJump: %muJump%, sigmaJump: %sigmaJump%" targets:li@<p@Xericore>|<p@Davitee>
+      
+      #- narrate "foal: %foalJumpStrength% J1: <def[jump1].round_to[2]> J2: <def[jump2].round_to[2]>" targets:li@<p@Xericore>|<p@Davitee>
+      
+      #################### HEALTH ####################
+      - define avgHealth <math:(%health1%+%health2%)/2>
+      - define foalHealth <proc[gauss].context[%avgHealth%|2]>
+      
+      #################### sanity checks ####################
+      - if %foalSpeed% > 0.3375 {
+        - define foalSpeed 0.3375
+      } else if %foalSpeed% < 0.1125 {
+        - define foalSpeed 0.1125
+      }
+      
+      - if %foalJumpStrength% > 1 {
+        - define foalJumpStrength 1
+      } else if %foalJumpStrength% < 0.4 {
+        - define foalJumpStrength 0.4
+      }
+      
+      - if %foalHealth% > 30 {
+        - define foalHealth 30
+      } else if %foalHealth% < 15 {
+        - define foalHealth 15
+      }
+      
+      - ^adjust <context.entity> 'speed:%foalSpeed%'
+      - ^adjust <context.entity> 'jump_strength:%foalJumpStrength%'
+      - ^adjust <context.entity> 'health:%foalHealth%'
+      
+      # TODO: remove me
+      # debug stuff
+      
+      - define speedMinus2Sigma <math:%muSpeed%-(2*%sigmaSpeed%)>
+      - define speedPlus2Sigma <math:%muSpeed%+(2*%sigmaSpeed%)>
+            
+      - narrate " " targets:li@<p@Xericore>|<p@Davitee>
+      - narrate "speed: <def[speedMinus2Sigma].round_to[2]> - <def[muSpeed].round_to[2]> - <def[speedPlus2Sigma].round_to[2]>" target:%thePlayer%
+      
+      - define jumpMinus2Sigma <proc[toJumpHeight].context[<math:%muJump%-(2*%sigmaJump%)>]>
+      - define jumpPlus2Sigma <proc[toJumpHeight].context[<math:%muJump%+(2*%sigmaJump%)>]>
+      
+      - narrate "jump: <def[jumpMinus2Sigma].round_to[2]> - <proc[toJumpHeight].context[%muJump%].round_to[2]> - <def[jumpPlus2Sigma].round_to[2]>" target:%thePlayer%
+      
+      - narrate "health: <def[foalHealth].round>" target:%thePlayer%
+      
+      #- wait 16s
+      #- remove <context.entity>
+    }
+
+toJumpHeight:
+  type: procedure
+  definitions: internalJump
+  script:
+  - determine <math:(-0.1817584952*%internalJump%^3)+(3.689713992*%internalJump%^2)+(2.128599134*%internalJump%)-0.343930367>
+
+gauss:
+  type: procedure
+  definitions: mu|sigma
+  script:
+  - define returnValue <math:(<util.random.gauss>*%sigma%)+%mu%>
+  - determine %returnValue%
+
+normdist:
+  type: procedure
+  definitions: x|mu|sigma
+  script:
+  - ^define euler 2.718281828459045
+  - ^define epow <math:%euler%^(-(1/2)*(((%x%-%mu%)/%sigma%)^2))>
+  - ^define firstPart <math:(1/(%sigma%*<util.pi.mul[2].sqrt>))>
+  - ^define returnValue <math:%firstPart%*%epow%>
+  - ^determine %returnValue%
+  
+resetbreedingandtame:
+  type: task
+  script:
+  - ^foreach <player.location.find.entities[HORSE].within[8]> {
+    # TODO, don't reset breeding
+    - adjust %value% 'can_breed:true'
+    - adjust %value% 'tame:true'
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
