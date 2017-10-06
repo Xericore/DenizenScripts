@@ -1,0 +1,568 @@
+# Copyright (c) 2015, Xericore
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#    * Redistributions of source code must retain the above copyright notice.
+#
+##########################################################################################
+#
+# Marryme
+#
+# @version 1.0
+# @author Xericore
+# @last-updated 11 May 2015
+# xericore@gmail.com
+# http://www.petricevic.net/minecraft/marryme/
+#
+# Citizens 2.0.15-SNAPSHOT (build 1227) (ci.citizensnpcs.co/job/Citizens2/)
+# Denizen 0.9.6-SNAPSHOT (build 186)    (http://ci.mineconomy.org/job/Denizen_Developmental/)
+#
+###  To assign to an NPC, type:  ###
+# /npc assign --set marryme
+#
+# Optional:
+# /npc constant --set marryitem --value i@allium
+# /npc constant --set likescolor --value purple
+#
+# As of Citizens 2 build #1226, it's possible to set the skin independently of the NPC's name:
+# e.g. /npc skin -p Xericore
+#
+# Some good female skins: Alanaria, Meara, Lewna, Sanjaa, Pandema, Azelia, Nelia, Mnealia, Azalia, 
+# Melisee, Nefala, Endjulia, Anilia, Amelisten, Raiissa, Ameliabelia, Ellisah, Comitissa
+
+marryme: 
+  type: assignment
+
+  actions:
+    on assignment:
+    - trigger name:click state:true
+    - trigger name:chat state:true radius:4
+    - trigger name:proximity state:true
+    - trigger name:damage toggle:true
+    - lookclose state:true
+    
+    on damage:
+      - random {
+        - ^chat "Hey, that hurts!"
+        - ^chat "Stop it!"
+        - ^chat "Why are you doing this?"
+      }
+      - animate <npc> animation:HURT
+      - if !<npc.flag[attackedme].is[CONTAINS].to[<player>]> && !<player.is[==].to[<npc.flag[marriedTo]>]> {
+        - flag npc attackedme:->:<player>
+      }
+
+  interact scripts:
+  - 1 marryme_interact
+  - 2 married
+  - 3 marryequipmode
+
+  default constants:
+    # You will need this amount to marry the NPC.
+    price: 2000
+    # NPC will reward you daily with the following amount of money if you ask them about it.
+    earningreward: 50
+    earningcooldownduration: 20h
+    
+    # The NPC will tell you that this is their favourite color
+    likescolor: red
+    # You will need to give the NPCs this item to be able to marry the NPC. 
+    marryitem: i@poppy
+    
+    # How long the NPC will not have a conversation with you after a positive or negative reaction.
+    negativecooldown: 1d
+    positivecooldown: 6h
+ 
+marryme_interact:
+  type: interact
+  steps:
+    1:
+      click trigger:
+        script:
+        - trigger name:chat state:true
+        - random {
+          - ^playsound <npc.location> sound:mob.villager.haggle custom
+          - ^playsound <npc.location> sound:mob.villager.idle custom
+        }
+        - if !<npc.has_flag[<player.name>_karma]> {
+          - flag npc <player.name>_karma:0
+        }
+        - ^flag npc justtalked
+        - if <player.has_flag[<npc.id>_cooldown]> {
+          - random {
+            - chat "Sorry, I<&sq>m busy right now, please visit me another time."
+            - chat "I have to do something now, please come back later."
+            - chat "Sorry I have no time right now, but we can talk later."
+          }
+        }
+        else {
+          - if <npc.flag[<player.name>_karma].is[OR_MORE].than[1]> {
+            - random {
+              - ^chat "Hello <player.name>."
+              - ^chat "Greetings, what can I do for you, <player.name>?"
+              - ^chat "Good day, <player.name>."
+              - ^chat "How can I help you, <player.name>?"
+              - ^chat "Yes, do you need anything?"
+            }
+          }
+
+          - if <npc.flag[<player.name>_karma].is[OR_MORE].than[4]> {
+            - ^narrate "<&e>1. <&b>Sure darling. I will help you open your shop. <gray>(Give <npc.constant[price]> <player.money.currency>)"
+          }
+          else if <npc.flag[<player.name>_karma].is[OR_MORE].than[3]> {
+            - ^narrate "<&e>1. <&b>I know this is surprising, but I really love you. Will you marry me?"
+          }
+          else if <npc.flag[<player.name>_karma].is[OR_MORE].than[2]> {
+            - ^narrate "<&e>1. <&b>Here, I have something for you."
+            - ^narrate "<&e>2. <&b>I<&sq>m just curious. What are your hobbies?"
+          }
+          else if <npc.flag[<player.name>_karma].is[OR_MORE].than[1]> {
+            - ^narrate "<&e>1. <&b>Is there anything you need help with?"
+            - ^narrate "<&e>2. <&b>Would you like to go out with me?"
+          }
+          else if <npc.flag[<player.name>_karma].is[==].to[-1]> {
+            - random {
+              - chat "I<&sq>m not talking to you anymore."
+              - chat "Go away."
+              - chat "Fuck off, <player.name>."
+              - chat "Leave me alone."
+            }
+            - queue clear
+          }
+          else {
+            # 0 karma
+            - random {
+              - ^chat "Hello stranger."
+              - ^chat "Greetings, we don't seem to know each other."
+              - ^chat "Good day, fellow Kratanian."
+            }
+            - ^narrate "<&e>1. <&b>Hey there, beautiful!"
+            - ^narrate "<&e>2. <&b>Greetings, how are you doing?"
+          }
+          - ^narrate "<&e>Q. <&b>Goodbye."
+        }
+
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - if <npc.flag[<player.name>_karma].is[OR_MORE].than[4]> {
+            - engage
+            - if <player.money.is[OR_MORE].than[<npc.constant[price]>]> {
+              - ^take money qty:<npc.constant[price]>
+              - ^narrate "<gray>You gave <npc.constant[price]> <player.money.currency> to <npc.name>."
+              - ^flag player marriedTo:<npc.id>
+              - ^flag npc marriedTo:<player>
+              - ^chat "Yes! Thank you, this is a dream come true!"
+              - playeffect HEART qty:3 <npc.eye_location.add[0,-1,0]>
+              - wait 2
+              - chat "This is crazy, but yes, I will marry you!"
+              - playeffect HEART qty:5 <npc.eye_location.add[0,-1,0]>
+              - wait 1
+              - playeffect HEART qty:10 <npc.eye_location.add[0,-1,0]>
+              - announce "<player.name> is now married to <npc.name>."
+              - equip <npc> hand:<npc.constant[marryitem]>
+            }
+            else {
+              - chat "Sorry, but you don<&sq>t seem to have enough."
+            }
+            - disengage
+          }
+          else if <npc.flag[<player.name>_karma].is[OR_MORE].than[3]> {
+            - engage
+            - if <player.has_flag[marriedTo]> {
+              - chat "Sure, I<&sq>d love to!"
+              - wait 1 
+              - chat "Wait a second ... is that a ring on your finger?"
+              - chat "You<&sq>re already married!"
+              - wait 1
+              - chat "How could you say such a thing? You swine!"
+              - attack target:<player>
+              - wait 1
+              - attack cancel
+              - flag npc <player.name>_karma:-1
+            }
+            else if <npc.has_flag[marriedTo]> {
+              - define partner <npc.flag[marriedTo]>
+              - chat "What!? I<&sq>m already married to <%partner%.name>"
+              - wait 1
+              - chat "How could you say such a thing? You swine!"
+              - attack target:<player>
+              - wait 1
+              - attack cancel
+              - chat "I will tell this to <%partner%.name>."
+              - chat "Now get out of my sight!"
+              - flag npc shame:->:<player>
+              - flag npc <player.name>_karma:-1
+            }
+            else {
+              - animate <npc> animation:HURT
+              - chat "Oh wow, <player.name>. This really is surprising."
+              - chat "I don<&sq>t know. I really like you."
+              - playeffect HEART qty:3 <npc.eye_location.add[0,-1,0]>
+              - wait 2
+              - chat "But I can<&sq>t just leave everything behind and go."
+              - wait 2
+              - chat "I<&sq>d like to open my own flower shop. But I still lack <npc.constant[price]> <player.money.currency> for that."
+              - wait 2 
+              - chat "If I could open my shop at your place, I<&sq>d marry you!"
+              - flag npc <player.name>_karma:4
+              - playeffect HEART qty:3 <npc.eye_location.add[0,-1,0]>
+            }
+            - disengage
+          }
+          else if <npc.flag[<player.name>_karma].is[OR_MORE].than[2]> {
+            - engage
+            - if <player.item_in_hand> contains <npc.constant[marryitem]> {
+              - take <player.item_in_hand> qty:1
+              - chat "Geez thanks, that is my favourite flower! How did you know that?"
+              - if !<npc.has_flag[marriedTo]> {
+                - playeffect HEART qty:1 <npc.eye_location.add[0,-1,0]>
+              }
+              - wait 2
+              - chat "They smell so wonderful."
+              - if !<npc.has_flag[marriedTo]> {
+                - playeffect HEART qty:2 <npc.eye_location.add[0,-1,0]>
+              }
+              - wait 2
+              - chat "Thank you so much!"
+              - if !<npc.has_flag[marriedTo]> {
+                - playeffect HEART qty:5 <npc.eye_location.add[0,-1,0]>
+              }
+              - flag npc <player.name>_karma:3
+            }
+            else {
+              - if <player.item_in_hand> contains i@air {
+                - random {
+                  - chat "Well maybe you should put something in your hand before offering me nothing."
+                  - chat "Wow geez, an empty hand. How impressive!"
+                }
+              }
+              else {
+                - chat "Thanks, but I don<&sq>t really need <player.item_in_hand.formatted>."
+              }
+            }
+            - disengage
+          }
+          else if <npc.flag[<player.name>_karma].is[OR_MORE].than[1]> {
+            - ^chat "Not really, but it<&sq>s very kind of you that you care about me."
+            - if !<npc.has_flag[marriedTo]> {
+              - playeffect HEART qty:2 <npc.eye_location.add[0,-1,0]>
+            }
+            - flag npc <player.name>_karma:2
+            - flag player <npc.id>_cooldown duration:<npc.constant[positivecooldown]>
+            - trigger name:chat state:false
+          }
+          else {
+            - random {
+              - ^chat "Thanks..."
+              - ^chat "That<&sq>s nice, I guess..."
+              - ^chat "Do you tell that to everyone you just met?"
+            }
+            - flag player <npc.id>_cooldown duration:<npc.constant[negativecooldown]>
+            - trigger name:chat state:false
+          }
+        '2':
+          trigger: "/2/"
+          script:
+          - if <npc.flag[<player.name>_karma].is[OR_MORE].than[2]> {
+            - engage
+            - chat "I enjoy swimming, reading and spending my time in flower fields."
+            - wait 1
+            - chat "I would one day really like to open my own flower shop."
+            - wait 1
+            - chat "I also like the color <npc.constant[likescolor]>."
+            - disengage
+          }
+          else if <npc.flag[<player.name>_karma].is[OR_MORE].than[1]> {
+            - if <npc.has_flag[marriedTo]> {
+              - chat "No, I<&sq>m already married!"
+            }
+            else {
+              - ^chat "Well that is surprising, but I think it<&sq>s too early for that."
+            }
+            - flag player <npc.id>_cooldown duration:<npc.constant[negativecooldown]>
+            - trigger name:chat state:false
+          }
+          else {
+            - ^chat "I<&sq>m doing fine, thanks for asking. Have a good day, <player.name>."
+              - if !<npc.has_flag[marriedTo]> {
+                - ^playeffect HEART qty:1 <npc.eye_location.add[0,-1,0]>
+              }
+            - ^flag npc <player.name>_karma:1
+            - ^flag player <npc.id>_cooldown duration:<npc.constant[positivecooldown]>
+            - trigger name:chat state:false
+          }
+          
+        '3':
+          trigger: "/q/"
+          script:
+          - random {
+            - chat "Bye."
+            - chat "Goodbye."
+            - chat "Have a good day."
+          }
+
+      proximity trigger:
+        entry radius: 5
+        exit radius: 5
+        entry:
+          script:
+          - if !<player.has_flag[<npc.id>_cooldown]> && <npc.flag[<player.name>_karma].is[OR_MORE].than[1]> {
+              - random {
+                - chat "Hi <player.name>, good to see you again."
+                - chat "Greetings, <player.name>."
+                - chat "Good day, <player.name>."
+                - chat "Oh <player.name>, it<&sq>s you."
+              }
+            }
+        exit:
+          script:
+          - if <npc.has_flag[justtalked]> {
+            - ^playsound <npc.location> sound:mob.villager.yes custom
+            - flag npc justtalked:!
+          }
+          
+married:
+  type: interact
+  requirements:
+    mode: all
+    list:
+      - flagged player "marriedTo:<npc.id>" 
+  steps:
+    1:
+      click trigger:
+        script:
+          - trigger name:chat state:true
+          - random {
+            - ^chat "Hello darling."
+            - ^chat "Hi honey!"
+            - ^chat "It<&sq>s always a pleasure to see you, <player.name>."
+            - ^chat "<player.name>, you<&sq>re home!"
+          }
+          - ^if <util.random.decimal.is[OR_LESS].than[0.2]> {
+            - ^playeffect HEART qty:<util.random.int[1].to[5]> <npc.eye_location.add[0,-1,0]>
+          }
+          - ^if <util.random.decimal.is[OR_LESS].than[0.15]> {
+            - lookclose <npc> false
+            - look <player.location]>
+            - wait 0.5
+            - lookclose <npc> true
+            - random {
+              - ^chat "Nice outfit you have there."
+              - ^chat "You look great."
+              - ^chat "Handsome as always, my dear <player.name>."
+            }
+          }
+
+          - ^narrate "<&e>1. <&b>How are you?"
+          - ^narrate "<&e>2. <&b>Did you earn anything in the shop today?"
+          - if <npc.has_flag[isFollowing]> {
+            - ^narrate "<&e>3. <&b>Stay here please."
+          }
+          else {
+            - ^narrate "<&e>3. <&b>Follow me please."
+          }
+          - ^narrate "<&e>4. <&b>I have something new for you to wear."
+          - ^narrate "<&e>5. <&b>A piece of advice..."
+          - ^narrate "<&e>Q. <&b>Goodbye."
+            
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - random {
+              - chat "Thank you, I<&sq>m fine. I hope you are doing well too."
+              - chat "Good, now that you are home."
+              - chat "I always feel good when you are by my side."
+            }
+        '2':
+          trigger: "/2/"
+          script:
+            - if <npc.flag[earningcooldown]> {
+              - chat "I already gave you your share today. You should come back tomorrow."
+              - chat "Not right now, see me tomorrow."
+            }
+            else {
+              - ^chat "Yes, here<&sq>s your share."
+              - ^define reward <el@val[<math:<util.random.gauss>*(<npc.constant[earningreward]>/5)+<npc.constant[earningreward]>>].round>
+              - ^give money qty:%reward%
+              - ^narrate "<gray>Received %reward% <player.money.currency>."
+              - ^flag npc earningcooldown duration:<npc.constant[earningcooldownduration]>
+            }
+        '3':
+          trigger: "/3/"
+          script:
+            - if <npc.has_flag[isFollowing]> {
+              - flag npc isFollowing:!
+              - chat "Ok, I will stay here now."
+              - follow stop
+            }
+            else {
+              - chat "Sure, I will follow you anywhere."
+              - follow target:<player>
+              - flag npc isFollowing
+              - narrate "<gray>Type '/cometome' to teleport <npc.name> to you."
+            }
+        '4':
+          trigger: "/4/"
+          script:
+            - random {
+              - ^chat "Really? Thank you, I<&sq>m curious to find out what you have for me!"
+              - ^chat "Awesome, thanks!"
+              - ^chat "Thank you honey!"
+            }
+            - flag npc equipmode
+            - narrate "<gray>Talk to <npc.name><gray> again to equip new items."
+        '5':
+          trigger: "/5/"
+          script:
+            - chat <proc[randomMOTD]>
+        'Q':
+          trigger: "/q/"
+          script:
+            - random {
+              - chat "Goodbye darling."
+              - chat "Bye honey!"
+              - chat "See you soon <player.name>."
+              - chat "<player.name>, take good care."
+            }
+            
+      proximity trigger:
+        entry radius: 5
+        entry:
+          script:
+          - if <npc.has_flag[shame]> {
+              - chat "<red><player.name>! I have to tell you something!"
+              - chat "<npc.flag[shame].formatted> tried to talk me into leaving you!"
+              - flag npc shame:!
+            }
+          - if <npc.has_flag[attackedme]> {
+              - chat "<red><player.name>! You will want to know about this!"
+              - chat "<npc.flag[attackedme].formatted> attacked me!"
+              - flag npc attackedme:!
+            }
+
+marryequipmode:
+  type: interact
+  requirements:
+    mode: all
+    list:
+      - flagged npc equipmode
+      - flagged player "marriedTo:<npc.id>" 
+  steps:
+    1:
+      click trigger:
+        script:
+          - ^narrate "<&e>1. <&b>Take this in your hand."
+          - ^narrate "<&e>2. <&b>I have a new hat for you."
+          - ^narrate "<&e>3. <&b>Please put this on your chest."
+          - ^narrate "<&e>4. <&b>Please wear these leggings."
+          - ^narrate "<&e>5. <&b>I have new shoes for you."
+          - ^narrate "<&e>6. <&b>Would you kindly drop all the items I gave you?"
+          - ^narrate "<&e>Q. <&b>Let<&sq>s talk about something else..."
+          
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - run marryEquipItem def:<npc.id>|hand|hand instantly
+        '2':
+          trigger: "/2/"
+          script:
+            - run marryEquipItem def:<npc.id>|head|helmet instantly
+        '3':
+          trigger: "/3/"
+          script:
+            - run marryEquipItem def:<npc.id>|chest|chestplate instantly
+        '4':
+          trigger: "/4/"
+          script:
+            - run marryEquipItem def:<npc.id>|legs|leggings instantly
+        '5':
+          trigger: "/5/"
+          script:
+            - run marryEquipItem def:<npc.id>|boots|boots instantly
+        '6':
+          trigger: "/6/"
+          script:
+            - engage
+            - ^drop <npc.item_in_hand> <npc.location>
+            - foreach li@helmet|chestplate|leggings|boots {
+              - if !<npc.equipment.%value%.is[==].to[null]> {
+                - ^drop <npc.equipment.%value%> <npc.location>
+              }
+            }
+            - equip <npc> hand:i@air helmet:i@air chestplate:i@air leggings:i@air boots:i@air
+            - ^chat "Alright. Here you go."
+            - narrate "<gray>You will see the changes when you disconnect and reconnect."
+            - disengage
+        'q':
+          trigger: "/q/"
+          script:
+            - chat "Sure."
+            - flag npc equipmode:!
+            
+marryEquipItem:
+  type: task
+  definitions: npcid|bodypart|equipment
+  script:
+    - engage
+    - if <player.item_in_hand> contains i@air {
+      - chat "You don<&sq>t have anything in your hands. I<&sq>ll give you the item back."
+    }
+    
+    - if %bodypart% == hand {
+      - drop <n@%npcid%.item_in_hand> <n@%npcid%.location>
+    }
+    else {
+      - if <player.item_in_hand> contains %equipment% || <player.item_in_hand> contains i@air {
+        - drop <n@%npcid%.equipment.%equipment%> <n@%npcid%.location>
+      }
+      else {
+        - chat "I can<&sq>t wear this on that bodypart."
+        - disengage
+        - queue clear
+      }
+    }
+    - if <player.item_in_hand> contains i@air {
+      # clear item. Can't do <player.item_in_hand>, because air will be i@air,-1 and the equip will not work correctly and the item would be duplicated
+      - equip <n@%npcid%> %bodypart%:i@air
+    }
+    else {
+      - equip <n@%npcid%> %bodypart%:<player.item_in_hand>
+    }
+    - take iteminhand qty:1
+    - narrate "<gray>You will see the item when you disconnect and reconnect."
+
+    - random {
+      - chat "Ok."
+      - chat "Thank you very much."
+      - chat "Sure, I<&sq>ll give it a try."
+      - chat "Looks great on me, doesn<&sq>t it?."
+    }
+    - disengage
+            
+cometome:
+  type: command
+  name: cometome
+  script:
+  - if <player.has_flag[marriedTo]> {
+    - define marriedTo <player.flag[marriedTo]>
+    - if <server.npc_is_valid[<n@%marriedTo%>]> {
+      - if <n@%marriedTo%.has_flag[isFollowing]> {
+        - teleport <n@%marriedTo%> <player.location>
+        - narrate "<gray><n@%marriedTo%.name> teleported to you."
+      }
+      else {
+        - narrate "<gray><n@%marriedTo%.name> isn<&sq>t following you. You should tell <n@%marriedTo%.name> to follow you."
+      }
+    }
+    else {
+      - narrate "<red>Couldn<&sq>t find npc <n@%marriedTo%>."
+    }
+  }
+  else {
+    - narrate "<gray>You are not married to anyone."
+  }
+ 
