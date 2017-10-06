@@ -1,0 +1,56 @@
+betterbeds:
+  type: world
+  
+  default constants:
+    percentage: 0.5
+    ignorePlayersBelowLevel: 55
+    
+  events:
+    on player enters bed:
+    - wait 0.5
+    - define sleepingPlayers 0
+    - define exemptPlayers 0
+    - define narrateToPlayers li@
+    
+    - define onlinePlayerCount <server.list_online_players.size>
+    
+    - if <def[onlinePlayerCount].is[OR_MORE].than[2]> {
+
+      - ^foreach <server.list_online_players> {
+        - if <def[value].is_sleeping>  {
+          - define sleepingPlayers <def[sleepingPlayers].add_int[1]>
+          - define narrateToPlayers %narrateToPlayers%|<def[value]>
+        }
+        else {
+          - define isPlayerMining <def[value].location.y.is[OR_LESS].than[<s@betterbeds.constant[ignorePlayersBelowLevel]>]>
+          - if %isPlayerMining% {
+            - define exemptPlayers <def[exemptPlayers].add_int[1]>
+          } 
+          else if <def[value].location.world.contains[nether]> || <def[value].location.world.contains[the_end]> || <def[value].location.world.contains[mining]> {
+            - define exemptPlayers <def[exemptPlayers].add_int[1]>
+          }
+          else {
+            - define narrateToPlayers %narrateToPlayers%|<def[value]>
+          }
+        }
+      }
+      
+      # 1 / 0.5 = 2
+      - define divisor <el@val[1].div[<s@betterbeds.constant[percentage]>]> 
+      
+      - define playerThreshold <server.list_online_players.size.sub[%exemptPlayers%].round>
+      
+      - define playerThreshold <def[playerThreshold].div[%divisor%].round_up>
+      
+      # 2 - 1 = 1
+      - define missingPlayers <def[playerThreshold].sub[%sleepingPlayers%].round>
+
+      - if <def[sleepingPlayers].is[OR_MORE].than[<def[playerThreshold]>]> {
+        - wait 2
+        - narrate "<&6>The <&e>sun<&6> is rising, because enough players are asleep." targets:<def[narrateToPlayers].as_list>
+        - time 0
+      }
+      else {
+        - narrate "<&6>%sleepingPlayers%/<def[playerThreshold].add[%missingPlayers%]> considered players are asleep. Need <&e>%missingPlayers% more<&6> for sunrise." targets:<def[narrateToPlayers].as_list>
+      }
+    }
