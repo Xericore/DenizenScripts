@@ -1,0 +1,62 @@
+
+    
+#########################################################################################################
+# 100%
+
+helmet_obsidius:
+    type: item
+    material: i@diamond_helmet
+    display name: Obsidius Helmet
+    lore:
+    - Coated with a thin 
+    - layer of Obsidian.
+    enchantments:
+    - DURABILITY:10
+    
+    
+chestplate_obsidius:
+    type: item
+    material: i@diamond_chestplate
+    display name: Obsidius Chestplate
+    lore:
+    - Coated with a thin 
+    - layer of Obsidian.
+    enchantments:
+    - DURABILITY:10
+    
+    
+leggings_obsidius:
+    type: item
+    material: i@diamond_leggings
+    display name: Obsidius Leggings
+    lore:
+    - Coated with a thin 
+    - layer of Obsidian.
+    enchantments:
+    - DURABILITY:10
+    
+    
+boots_obsidius:
+    type: item
+    material: i@diamond_boots
+    display name: Obsidius Boots
+    lore:
+    - Coated with a thin 
+    - layer of Obsidian.
+    enchantments:
+    - DURABILITY:10
+    
+
+
+
+# 100% + luck - durability
+boots_fourleafclover:
+    type: item
+    material: i@gold_boots[nbt_attributes=li@generic.luck/feet/0/1|generic.armor/feet/0/3|generic.armorToughness/feet/0/2]
+    display name: Four Leaf Clover Boots
+    lore:
+    - Wear this and you can beat 
+    - Pythagoras at dices.
+    enchantments:
+    - DURABILITY:10
+    

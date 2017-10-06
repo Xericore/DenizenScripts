@@ -1,0 +1,162 @@
+
+#################################
+# 70% + movementSpeed + attackSpeed
+
+helmet_ninja:
+    type: item
+    material: i@leather_helmet[nbt_attributes=li@generic.attackSpeed/head/2/0.1|generic.armor/head/0/2|generic.armorToughness/head/0/4;dye=co@0,0,0]
+    display name: Ninja<&sq>s Helmet
+    lore:
+    - Follow the way 
+    - of the ninja.
+    enchantments:
+    - DURABILITY:10
+    
+    
+chestplate_ninja:
+    type: item
+    material: i@leather_chestplate[nbt_attributes=li@generic.attackSpeed/chest/2/0.1|generic.armor/chest/0/7|generic.armorToughness/chest/0/4;dye=co@0,0,0]
+    display name: Ninja<&sq>s Chestplate
+    lore:
+    - Follow the way 
+    - of the ninja.
+    enchantments:
+    - DURABILITY:10
+    
+    
+leggings_ninja:
+    type: item
+    material: i@leather_leggings[nbt_attributes=li@generic.movementSpeed/legs/2/0.05|generic.armor/legs/0/5|generic.armorToughness/legs/0/4;dye=co@0,0,0]
+    display name: Ninja<&sq>s Leggings
+    lore:
+    - Follow the way 
+    - of the ninja.
+    enchantments:
+    - DURABILITY:10
+    
+    
+boots_ninja:
+    type: item
+    material: i@leather_boots[nbt_attributes=li@generic.movementSpeed/feet/2/0.05|generic.armor/feet/0/2|generic.armorToughness/feet/0/4;dye=co@0,0,0]
+    display name: Ninja<&sq>s Boots
+    lore:
+    - Follow the way 
+    - of the ninja.
+    enchantments:
+    - DURABILITY:10
+    
+
+#########################
+boots_korin:
+  type: item
+  material: i@gold_boots
+  display name: Korin<&sq>s Boots
+  lore:
+  - May gravity have mercy on your soul.
+  enchantments:
+  - PROTECTION_FALL:10
+  - PROTECTION_ENVIRONMENTAL:4
+  
+  - BINDING_CURSE:1
+   
+#########################################################################################################
+# 78% + movementSpeed
+
+helmet_burter:
+    type: item
+    material: i@chainmail_helmet[nbt_attributes=li@generic.movementSpeed/head/2/0.04|generic.armor/head/0/3|generic.armorToughness/head/0/2]
+    display name: Burter<&sq>s Helmet
+    lore:
+    - You are the fastest being 
+    - in the universe. At least
+    - you think so.
+    enchantments:
+    
+    
+chestplate_burter:
+    type: item
+    material: i@chainmail_chestplate[nbt_attributes=li@generic.movementSpeed/chest/2/0.04|generic.armor/chest/0/7|generic.armorToughness/chest/0/2]
+    display name: Burter<&sq>s Chestplate
+    lore:
+    - You are the fastest being 
+    - in the universe. At least
+    - you think so.
+    enchantments:
+    
+    
+leggings_burter:
+    type: item
+    material: i@chainmail_leggings[nbt_attributes=li@generic.movementSpeed/legs/2/0.04|generic.armor/legs/0/6|generic.armorToughness/legs/0/2]
+    display name: Burter<&sq>s Leggings
+    lore:
+    - You are the fastest being 
+    - in the universe. At least
+    - you think so.
+    enchantments:
+    
+    
+boots_burter:
+    type: item
+    material: i@chainmail_boots[nbt_attributes=li@generic.movementSpeed/feet/2/0.04|generic.armor/feet/0/2|generic.armorToughness/feet/0/2]
+    display name: Burter<&sq>s Boots
+    lore:
+    - You are the fastest being 
+    - in the universe. At least
+    - you think so.
+    enchantments:
+    
+    
+# 95% + speed - durability
+leggings_forrest:
+    type: item
+    material: i@leather_leggings[nbt_attributes=li@generic.movementSpeed/legs/1/0.1|generic.armor/legs/0/6;dye=co@127,0,127]
+    display name: Forrest<&sq>s Pants
+    lore:
+    - A perfect copy of 
+    - Forrest Gump<&sq>s trousers.
+    enchantments:
+    - DURABILITY:10
+    
+##############################################################################
+# Ace 83% + fire resistance
+
+helmet_ace:
+    type: item
+    material: i@leather_helmet[nbt_attributes=li@generic.armor/head/0/3;dye=co@255,32,32]
+    display name: Ace<&sq>s Helmet
+    lore:
+    - Great against fire!
+    enchantments:
+    - PROTECTION_FIRE:5
+    - DURABILITY:10
+    
+chestplate_ace:
+    type: item
+    material: i@leather_chestplate[nbt_attributes=li@generic.armor/chest/0/8|generic.armorToughness/chest/0/1;dye=co@255,32,32]
+    display name: Ace<&sq>s Chestplate
+    lore:
+    - Great against fire!
+    enchantments:
+    - PROTECTION_FIRE:7
+    - DURABILITY:10
+    
+leggings_ace:
+    type: item
+    material: i@leather_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/1;dye=co@255,32,32]
+    display name: Ace<&sq>s Leggings
+    lore:
+    - Great against fire!
+    enchantments:
+    - PROTECTION_FIRE:5
+    - DURABILITY:10
+    
+boots_ace:
+    type: item
+    material: i@leather_boots[nbt_attributes=li@generic.armor/feet/0/3;dye=co@255,32,32]
+    display name: Ace<&sq>s Boots
+    lore:
+    - Great against fire!
+    enchantments:
+    - PROTECTION_FIRE:5
+    - DURABILITY:10
+    

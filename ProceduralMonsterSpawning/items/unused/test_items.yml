@@ -1,0 +1,13 @@
+  
+# $~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~$~
+
+sword_cheat:
+    type: item
+    material: i@iron_sword[nbt_attributes=li@generic.attackDamage/mainhand/0/120]
+    display name: Cheat sword
+    lore:
+    - Only one is said to be capable 
+    - of effectively using it.
+    enchantments: 
+    - DAMAGE_ALL:10
+    - SWEEPING:10

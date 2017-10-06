@@ -1,0 +1,365 @@
+# 102% - protection III - durability
+helmet_robocop:
+    type: item
+    material: i@iron_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/3]
+    display name: Robocop<&sq>s Head
+    lore:
+    - When someone wears this one, 
+    - no hit can be feared 
+    - for a long time.
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:3
+    - DURABILITY:10
+    
+#########################################################################################################
+# Jinbe 102%
+
+helmet_jinbe:
+    type: item
+    material: i@gold_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/chest/0/2]
+    display name: Jinbe<&sq>s Helmet
+    lore:
+    - For battling underwater.
+    enchantments:
+    - WATER_WORKER:1
+    - OXYGEN:5
+    - DURABILITY:10
+    
+
+chestplate_jinbe:
+    type: item
+    material: i@gold_chestplate[nbt_attributes=li@generic.armor/chest/0/7|generic.armorToughness/chest/0/2]
+    display name: Jinbe<&sq>s Chestplate
+    lore:
+    - For battling underwater.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    - DURABILITY:10
+    
+
+leggings_jinbe:
+    type: item
+    material: i@gold_leggings[nbt_attributes=li@generic.armor/legs/0/5|generic.armorToughness/legs/0/2]
+    display name: Jinbe<&sq>s Leggings
+    lore:
+    - For battling underwater.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    - DURABILITY:10
+    
+
+boots_jinbe:
+    type: item
+    material: i@gold_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/chest/0/2]
+    display name: Jinbe<&sq>s Boots
+    lore:
+    - For battling underwater.
+    enchantments:
+    - DEPTH_STRIDER:5
+    - DURABILITY:10
+    
+#########################################################################################################
+# Garp 102%
+
+
+############ 113%
+helmet_garp:
+    type: item
+    material: i@leather_helmet[nbt_attributes=li@generic.armor/head/0/2|generic.armorToughness/chest/0/2]
+    display name: Garp<&sq>s Helmet
+    lore:
+    - Protects against damage.
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:6
+    
+    
+chestplate_garp:
+    type: item
+    material: i@iron_chestplate[nbt_attributes=li@generic.armor/chest/0/7|generic.armorToughness/chest/0/2]
+    display name: Garp<&sq>s Chestplate
+    lore:
+    - Protects against explosions.
+    enchantments: 
+    - PROTECTION_EXPLOSIONS:8
+    
+    
+leggings_garp:
+    type: item
+    material: i@iron_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/2]
+    display name: Garp<&sq>s Leggings
+    lore:
+    - Protects against explosions.
+    enchantments: 
+    - PROTECTION_EXPLOSIONS:5
+    
+    
+boots_garp:
+    type: item
+    material: i@leather_boots[nbt_attributes=li@generic.armor/feet/0/3]
+    display name: Garp<&sq>s Boots
+    lore:
+    - Protects against damage.
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:5
+    
+#########################################################################################################
+# Luffy 103%
+
+helmet_luffy:
+    type: item
+    material: i@iron_helmet[nbt_attributes=li@generic.armor/head/0/3]
+    display name: Luffy<&sq>s Helmet
+    lore:
+    - Protects against projectiles.
+    enchantments: 
+    - PROTECTION_PROJECTILE:5
+    
+    
+chestplate_luffy:
+    type: item
+    material: i@iron_chestplate[nbt_attributes=li@generic.armor/chest/0/7|generic.armorToughness/chest/0/2]
+    display name: Luffy<&sq>s Chestplate
+    lore:
+    - Protects against projectiles.
+    enchantments: 
+    - PROTECTION_PROJECTILE:7
+    
+    
+leggings_luffy:
+    type: item
+    material: i@leather_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/2;dye=co@255,32,32]
+    display name: Luffy<&sq>s Leggings
+    lore:
+    - Protects against projectiles.
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:5
+    
+    
+boots_luffy:
+    type: item
+    material: i@leather_boots[nbt_attributes=li@generic.armor/feet/0/3]
+    display name: Luffy<&sq>s Boots
+    lore:
+    - Protects against projectiles.
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:5
+    
+#########################################################################################################
+# Marco 102%
+
+    
+helmet_marco:
+    type: item
+    material: i@iron_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/4]
+    display name: Marco<&sq>s Helmet
+    lore:
+    - Like a Phoenix!
+    enchantments: 
+    - DURABILITY:5
+    
+chestplate_marco:
+    type: item
+    material: i@iron_chestplate[nbt_attributes=li@generic.armor/chest/0/7|generic.armorToughness/chest/0/8]
+    display name: Marco<&sq>s Chestplate
+    lore:
+    - Like a Phoenix!
+    enchantments: 
+    - PROTECTION_PROJECTILE:5
+    
+    
+leggings_marco:
+    type: item
+    material: i@iron_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/8]
+    display name: Marco<&sq>s Leggings
+    lore:
+    - Like a Phoenix!
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:3
+    
+    
+boots_marco:
+    type: item
+    material: i@diamond_boots
+    display name: Marco<&sq>s Boots
+    lore:
+    - Like a Phoenix!
+    enchantments: 
+    - PROTECTION_FALL:7
+    - PROTECTION_ENVIRONMENTAL:3
+    
+
+#########################################################################################################
+# 105%
+
+helmet_heart:
+    type: item
+    material: i@gold_helmet[nbt_attributes=li@generic.maxHealth/head/0/2|generic.armor/head/0/3]
+    display name: Heart Helmet
+    lore:
+    - Make love, not war.
+    enchantments:
+    - DURABILITY:10
+    
+    
+chestplate_heart:
+    type: item
+    material: i@gold_chestplate[nbt_attributes=li@generic.maxHealth/chest/0/2|generic.armor/chest/0/7|generic.armorToughness/chest/0/6]
+    display name: Heart Chestplate
+    lore:
+    - Make love, not war.
+    enchantments:
+    - DURABILITY:10
+    
+    
+leggings_heart:
+    type: item
+    material: i@gold_leggings[nbt_attributes=li@generic.maxHealth/legs/0/2|generic.armor/legs/0/5|generic.armorToughness/legs/0/6]
+    display name: Heart Leggings
+    lore:
+    - Make love, not war.
+    enchantments:
+    - DURABILITY:10
+    
+    
+boots_heart:
+    type: item
+    material: i@gold_boots[nbt_attributes=li@generic.maxHealth/feet/0/2|generic.armor/feet/0/2|generic.armorToughness/feet/0/2]
+    display name: Heart Boots
+    lore:
+    - Make love, not war.
+    enchantments:
+    - DURABILITY:10
+    
+    
+#########################################################################################################
+# 105%
+
+helmet_oflife:
+    type: item
+    material: i@chainmail_helmet[nbt_attributes=li@generic.maxHealth/head/0/2|generic.armor/head/0/3]
+    display name: Helmet of life
+    lore:
+    - Protects your heart
+    - and soul from evil.
+    enchantments:
+    
+    
+chestplate_oflife:
+    type: item
+    material: i@chainmail_chestplate[nbt_attributes=li@generic.maxHealth/chest/0/2|generic.armor/chest/0/7|generic.armorToughness/chest/0/2]
+    display name: Chestplate of life
+    lore:
+    - Protects your heart
+    - and soul from evil.
+    enchantments:
+    
+    
+leggings_oflife:
+    type: item
+    material: i@chainmail_leggings[nbt_attributes=li@generic.maxHealth/legs/0/2|generic.armor/legs/0/6|generic.armorToughness/legs/0/2]
+    display name: Leggings of life
+    lore:
+    - Protects your heart
+    - and soul from evil.
+    enchantments:
+    
+    
+boots_oflife:
+    type: item
+    material: i@chainmail_boots[nbt_attributes=li@generic.maxHealth/feet/0/2|generic.armor/feet/0/2|generic.armorToughness/feet/0/3]
+    display name: Boots of life
+    lore:
+    - Protects your heart
+    - and soul from evil.
+    enchantments:
+    
+    
+#########################################################################################################
+# ~105%
+
+helmet_cardiac:
+    type: item
+    material: i@iron_helmet[nbt_attributes=li@generic.maxHealth/head/0/2|generic.armor/head/0/3]
+    display name: Cardiac Helmet
+    lore:
+    - Makes your heart
+    - pump faster than ever.
+    enchantments: 
+    
+    
+chestplate_cardiac:
+    type: item
+    material: i@iron_chestplate[nbt_attributes=li@generic.maxHealth/chest/0/2|generic.armor/chest/0/8]
+    display name: Cardiac Chestplate
+    lore:
+    - Makes your heart
+    - pump faster than ever.
+    enchantments: 
+    
+    
+leggings_cardiac:
+    type: item
+    material: i@iron_leggings[nbt_attributes=li@generic.maxHealth/legs/0/2|generic.armor/legs/0/6|generic.armorToughness/legs/0/1]
+    display name: Cardiac Leggings
+    lore:
+    - Makes your heart
+    - pump faster than ever.
+    enchantments: 
+    
+    
+boots_cardiac:
+    type: item
+    material: i@iron_boots[nbt_attributes=li@generic.maxHealth/feet/0/2|generic.armor/feet/0/3]
+    display name: Cardiac Boots
+    lore:
+    - Makes your heart
+    - pump faster than ever.
+    enchantments: 
+    
+    
+#########################################################################################################
+# 108%
+
+helmet_souleater:
+    type: item
+    material: i@diamond_helmet[nbt_attributes=li@generic.maxHealth/head/0/1|generic.armor/head/0/3|generic.armorToughness/head/0/1]
+    display name: Soul Eater Helmet
+    lore:
+    - This helmet calms your 
+    - body, yet disturbs the 
+    - peace of your mind.
+    enchantments: 
+    
+    
+chestplate_souleater:
+    type: item
+    material: i@diamond_chestplate[nbt_attributes=li@generic.maxHealth/chest/0/1|generic.armor/chest/0/8|generic.armorToughness/chest/0/1]
+    display name: Soul Eater Chestplate
+    lore:
+    - This chestplate calms your 
+    - body, yet disturbs the 
+    - peace of your mind.
+    enchantments: 
+    
+    
+leggings_souleater:
+    type: item
+    material: i@diamond_leggings[nbt_attributes=li@generic.maxHealth/legs/0/1|generic.armor/legs/0/6|generic.armorToughness/legs/0/1]
+    display name: Soul Eater Leggings
+    lore:
+    - These leggings calm your 
+    - body, yet disturbs the 
+    - peace of your mind.
+    enchantments: 
+    
+    
+boots_souleater:
+    type: item
+    material: i@diamond_boots[nbt_attributes=li@generic.maxHealth/feet/0/1|generic.armor/feet/0/3|generic.armorToughness/feet/0/1]
+    display name: Soul Eater Boots
+    lore:
+    - These boots calm your 
+    - body, yet disturbs the 
+    - peace of your mind.
+    enchantments: 
+    

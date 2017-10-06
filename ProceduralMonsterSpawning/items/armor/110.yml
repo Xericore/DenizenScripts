@@ -1,0 +1,258 @@
+#########################################################################################################
+# 109%
+
+helmet_kratanien:
+    type: item
+    material: i@leather_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/2;dye=co@127,255,127]
+    display name: Kratanien<&sq>s Helmet
+    lore:
+    - Kratanien<&sq>s finest leather helmet.
+    enchantments:
+    - DURABILITY:10
+    
+    
+chestplate_kratanien:
+    type: item
+    material: i@leather_chestplate[nbt_attributes=li@generic.armor/chest/0/8|generic.armorToughness/chest/0/2;dye=co@127,255,127]
+    display name: Kratanien<&sq>s Chestplate
+    lore:
+    - Kratanien<&sq>s finest leather chestplate.
+    enchantments:
+    - DURABILITY:10
+    
+    
+leggings_kratanien:
+    type: item
+    material: i@leather_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/2;dye=co@127,255,127]
+    display name: Kratanien<&sq>s Leggings
+    lore:
+    - Kratanien<&sq>s finest leather leggings.
+    enchantments:
+    - DURABILITY:10
+    
+    
+boots_kratanien:
+    type: item
+    material: i@leather_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/feet/0/2;dye=co@127,255,127]
+    display name: Kratanien<&sq>s Boots
+    lore:
+    - Kratanien<&sq>s finest leather boots.
+    enchantments:
+    - DURABILITY:10
+
+#########################################################################################################
+# 110%
+
+helmet_dwarven:
+    type: item
+    material: i@gold_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/3]
+    display name: Dwarven Helmet
+    lore:
+    - Forged in the depths 
+    - of ancient ruins.
+    enchantments:
+    - DURABILITY:10
+    
+    
+chestplate_dwarven:
+    type: item
+    material: i@gold_chestplate[nbt_attributes=li@generic.armor/chest/0/8|generic.armorToughness/chest/0/4]
+    display name: Dwarven Chestplate
+    lore:
+    - Forged in the depths 
+    - of ancient ruins.
+    enchantments:
+    - DURABILITY:10
+    
+    
+leggings_dwarven:
+    type: item
+    material: i@gold_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/4]
+    display name: Dwarven Leggings
+    lore:
+    - Forged in the depths 
+    - of ancient ruins.
+    enchantments:
+    - DURABILITY:10
+    
+    
+boots_dwarven:
+    type: item
+    material: i@gold_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/feet/0/3]
+    display name: Dwarven Boots
+    lore:
+    - Forged in the depths 
+    - of ancient ruins.
+    enchantments:
+    - DURABILITY:10
+    
+    
+#########################################################################################################
+# Kaido 110%
+
+helmet_kaido:
+    type: item
+    material: i@chainmail_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/3]
+    display name: Kaido<&sq>s Helmet
+    lore:
+    - Tank with thorns!
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:3
+    
+    
+chestplate_kaido:
+    type: item
+    material: i@chainmail_chestplate[nbt_attributes=li@generic.armor/chest/0/8|generic.armorToughness/chest/0/4]
+    display name: Kaido<&sq>s Chestplate
+    lore:
+    - Tank with thorns!
+    enchantments:
+    - THORNS:5
+    
+    
+leggings_kaido:
+    type: item
+    material: i@chainmail_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/4]
+    display name: Kaido<&sq>s Leggings
+    lore:
+    - Tank with thorns!
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:3
+    
+    
+boots_kaido:
+    type: item
+    material: i@chainmail_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/feet/0/3]
+    display name: Kaido<&sq>s Boots
+    lore:
+    - Tank with thorns!
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:3
+    - FROST_WALKER:2
+    
+    
+#########################################################################################################
+# 110%
+
+helmet_knight:
+    type: item
+    material: i@chainmail_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/3]
+    display name: Knight<&sq>s Helmet
+    lore:
+    - Deus lo vult!
+    enchantments:
+    
+    
+chestplate_knight:
+    type: item
+    material: i@chainmail_chestplate[nbt_attributes=li@generic.armor/chest/0/8|generic.armorToughness/chest/0/4]
+    display name: Knight<&sq>s Chestplate
+    lore:
+    - Deus lo vult!
+    enchantments:
+    
+    
+leggings_knight:
+    type: item
+    material: i@chainmail_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/4]
+    display name: Knight<&sq>s Leggings
+    lore:
+    - Deus lo vult!
+    enchantments:
+    
+    
+boots_knight:
+    type: item
+    material: i@chainmail_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/feet/0/3]
+    display name: Knight<&sq>s Boots
+    lore:
+    - Deus lo vult!
+    enchantments:
+    
+
+#########################################################################################################
+# 110%
+
+helmet_platin:
+    type: item
+    material: i@iron_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/3]
+    display name: Platin Helmet
+    lore:
+    - A knight in a shining
+    - armor has never had 
+    - his metal truly tested.
+    enchantments: 
+    
+    
+chestplate_platin:
+    type: item
+    material: i@iron_chestplate[nbt_attributes=li@generic.armor/chest/0/6|generic.armorToughness/chest/0/4]
+    display name: Platin Chestplate
+    lore:
+    - A knight in a shining
+    - armor has never had 
+    - his metal truly tested.
+    enchantments: 
+    
+    
+leggings_platin:
+    type: item
+    material: i@iron_leggings[nbt_attributes=li@generic.armor/legs/0/5|generic.armorToughness/legs/0/4]
+    display name: Platin Leggings
+    lore:
+    - A knight in a shining
+    - armor has never had 
+    - his metal truly tested.
+    enchantments: 
+    
+    
+boots_platin:
+    type: item
+    material: i@iron_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/feet/0/3]
+    display name: Platin Boots
+    lore:
+    - A knight in a shining
+    - armor has never had 
+    - his metal truly tested.
+    enchantments: 
+    
+
+
+#########################################################################################################
+# 110%
+
+helmet_paladin:
+    type: item
+    material: i@diamond_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/3]
+    display name: Paladin Helmet
+    lore:
+    - Thou have truly earned this, Sire!
+    enchantments: 
+    
+    
+chestplate_paladin:
+    type: item
+    material: i@diamond_chestplate[nbt_attributes=li@generic.armor/chest/0/8|generic.armorToughness/chest/0/4]
+    display name: Paladin Chestplate
+    lore:
+    - Thou have truly earned this, Sire!
+    enchantments: 
+    
+    
+leggings_paladin:
+    type: item
+    material: i@diamond_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/4]
+    display name: Paladin Leggings
+    lore:
+    - Thou have truly earned this, Sire!
+    enchantments: 
+    
+    
+boots_paladin:
+    type: item
+    material: i@diamond_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/feet/0/3]
+    display name: Paladin Boots
+    lore:
+    - Thou have truly earned this, Sire!
+    enchantments: 
+    

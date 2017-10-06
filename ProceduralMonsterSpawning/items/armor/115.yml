@@ -1,0 +1,150 @@
+#########################################################################################################
+# Imperial max: ~114% alone
+
+helmet_imperial:
+    type: item
+    material: i@chainmail_helmet[nbt_attributes=li@generic.armor/head/0/2|generic.armorToughness/head/0/2]
+    display name: Imperial Helmet
+    lore:
+    - The age of aggression
+    - is just about done.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    
+    
+chestplate_imperial:
+    type: item
+    material: i@chainmail_chestplate[nbt_attributes=li@generic.armor/chest/0/6|generic.armorToughness/chest/0/4]
+    display name: Imperial Chestplate
+    lore:
+    - The age of aggression
+    - is just about done.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    
+
+leggings_imperial:
+    type: item
+    material: i@chainmail_leggings[nbt_attributes=li@generic.armor/legs/0/5|generic.armorToughness/legs/0/4]
+    display name: Imperial Leggings
+    lore:
+    - The age of aggression
+    - is just about done.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    
+    
+boots_imperial:
+    type: item
+    material: i@chainmail_boots[nbt_attributes=li@generic.armor/feet/0/2|generic.armorToughness/feet/0/4]
+    display name: Imperial Boots
+    lore:
+    - The age of aggression
+    - is just about done.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    
+    
+#########################################################################################################
+# ~114%
+helmet_onyx:
+    type: item
+    material: i@iron_helmet[nbt_attributes=li@generic.armor/head/0/2|generic.armorToughness/head/0/3]
+    display name: Onyx Helmet
+    lore:
+    - A stone boulder is
+    - nothing compared to
+    - this sturdy armor.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    
+    
+chestplate_onyx:
+    type: item
+    material: i@iron_chestplate[nbt_attributes=li@generic.armor/chest/0/6|generic.armorToughness/chest/0/4]
+    display name: Onyx Chestplate
+    lore:
+    - A stone boulder is
+    - nothing compared to
+    - this sturdy armor.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    
+    
+leggings_onyx:
+    type: item
+    material: i@iron_leggings[nbt_attributes=li@generic.armor/legs/0/5|generic.armorToughness/legs/0/4]
+    display name: Onyx Leggings
+    lore:
+    - A stone boulder is
+    - nothing compared to
+    - this sturdy armor.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    
+    
+boots_onyx:
+    type: item
+    material: i@iron_boots[nbt_attributes=li@generic.armor/feet/0/2|generic.armorToughness/feet/0/3]
+    display name: Onyx Boots
+    lore:
+    - A stone boulder is
+    - nothing compared to
+    - this sturdy armor.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    
+    
+
+
+#########################################################################################################
+# Guardian max: ~117% (in combination with diamond), 114% alone
+
+helmet_guardian:
+    type: item
+    material: i@gold_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/2]
+    display name: Guardian Helmet
+    lore:
+    - This magnificient armor
+    - will not let you down.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    - DURABILITY:10
+    
+    
+chestplate_guardian:
+    type: item
+    material: i@gold_chestplate[nbt_attributes=li@generic.armor/chest/0/6|generic.armorToughness/chest/0/4]
+    display name: Guardian Chestplate
+    lore:
+    - This magnificient armor
+    - will not let you down.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    - DURABILITY:10
+    
+
+leggings_guardian:
+    type: item
+    material: i@gold_leggings[nbt_attributes=li@generic.armor/legs/0/4|generic.armorToughness/legs/0/4]
+    display name: Guardian Leggings
+    lore:
+    - This magnificient armor
+    - will not let you down.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    - DURABILITY:10
+    
+    
+boots_guardian:
+    type: item
+    material: i@gold_boots[nbt_attributes=li@generic.armor/feet/0/2|generic.armorToughness/feet/0/4]
+    display name: Guardian Boots
+    lore:
+    - This magnificient armor
+    - will not let you down.
+    enchantments:
+    - PROTECTION_ENVIRONMENTAL:5
+    - DURABILITY:10
+    
+

@@ -1,0 +1,182 @@
+
+bow_eightstinger:
+    type: item
+    material: i@bow
+    display name: Eightstinger
+    lore:
+    - It<&sq>s highly effective!
+    enchantments: 
+    - DAMAGE_ARTHROPODS:3
+    
+
+bow_zombbomb:
+    type: item
+    material: i@bow
+    display name: Zomb Bomb
+    lore:
+    - It<&sq>s highly effective!
+    enchantments: 
+    - DAMAGE_UNDEAD:3
+    
+    
+bow_omnium:
+    type: item
+    material: i@bow
+    display name: Omnium
+    lore:
+    - The multi-purpose weapon
+    - for the adventurous traveler!
+    enchantments: 
+    - DAMAGE_ALL:5
+    
+    
+bow_vatra:
+    type: item
+    material: i@bow
+    display name: Vatra
+    lore:
+    - This bow has some
+    - tricks up it<&sq>s sleeve!
+    enchantments: 
+    - FIRE_ASPECT:1
+    
+    
+bow_horn:
+    type: item
+    material: i@bow
+    display name: Horned Bow
+    lore:
+    - Handle with care!
+    enchantments: 
+    - THORNS:1
+    
+    
+bow_forcestealer:
+    type: item
+    material: i@bow
+    display name: Force Stealer
+    lore:
+    - Get more out of your kills!
+    enchantments: 
+    - LOOT_BONUS_MOBS:2
+    
+    
+bow_obsidius:
+    type: item
+    material: i@bow
+    display name: Obsidius BX-1
+    lore:
+    - Made from Adamantium.
+    enchantments: 
+    - DURABILITY:5
+    
+    
+bow_fusrodah:
+    type: item
+    material: i@bow
+    display name: Fus Roh Dah
+    lore:
+    - Gives you some breathing room.
+    enchantments: 
+    - KNOCKBACK:1
+    
+  
+bow_sidekick:
+    type: item
+    material: i@bow[nbt_attributes=li@generic.movementSpeed/offhand/1/0.1]
+    display name: Sidekick
+    lore:
+    - Don<&sq>t wanna be, 
+    - all by myself!
+    enchantments: 
+    
+    
+bow_agility:
+    type: item
+    material: i@bow[nbt_attributes=li@generic.movementSpeed/mainhand/1/0.1]
+    display name: Agility Bow
+    lore:
+    - Your body is poetry,
+    - move your body for me!
+    enchantments: 
+    
+
+bow_turtle:
+    type: item
+    material: i@bow[nbt_attributes=li@generic.armor/mainhand/0/1|generic.armor/offhand/0/1]
+    display name: Bow of the Turtle
+    lore:
+    - Rock beats scissors!
+    enchantments: 
+    
+    
+bow_superspeed:
+    type: item
+    material: i@bow[nbt_attributes=li@generic.movementSpeed/mainhand/1/0.1|generic.movementSpeed/offhand/1/0.1]
+    display name: Superspeed
+    lore:
+    - The Flash is nothing
+    - compared to you now.
+    enchantments: 
+    
+    
+bow_health:
+    type: item
+    material: i@bow[nbt_attributes=li@generic.maxHealth/mainhand/0/1|generic.maxHealth/offhand/0/1]
+    display name: Health Bow
+    lore:
+    - Your heart<&sq>s a mess!
+    enchantments: 
+    
+    
+bow_powerheart:
+    type: item
+    material: i@bow[nbt_attributes=li@generic.maxHealth/mainhand/0/2|generic.maxHealth/offhand/0/2]
+    display name: Powerheart
+    lore:
+    - Feel the beating 
+    - in your chest!
+    enchantments: 
+    
+    
+bow_maxray:
+    type: item
+    material: i@bow
+    display name: Max Ray
+    lore:
+    - Can<&sq>t get much better than this.
+    enchantments: 
+    - ARROW_DAMAGE:6
+    
+
+bow_jinbe:
+    type: item
+    material: i@bow
+    display name: Jinbe<&sq>s Seiken
+    lore:
+    - Fishmen Karate!
+    enchantments: 
+    - ARROW_DAMAGE:6
+    - DURABILITY:5
+    - ARROW_KNOCKBACK:1
+    
+bow_bazooka:
+    type: item
+    material: i@bow
+    display name: Bazooka
+    lore:
+    - Sends your enemies flying!
+    enchantments: 
+    - arrow_knockback:3
+    
+    
+bow_luffy:
+    type: item
+    material: i@bow
+    display name: Luffy<&sq>s Red Hawk
+    lore:
+    - Flaming punch!
+    enchantments: 
+    - ARROW_DAMAGE:6
+    - ARROW_KNOCKBACK:3
+    - ARROW_FIRE:1

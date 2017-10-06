@@ -1,0 +1,222 @@
+#########################################################################################################
+# 120%
+
+helmet_elven:
+    type: item
+    material: i@gold_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/6]
+    display name: Elven Helmet
+    lore:
+    - A piece of 
+    - incredible craftsmanship.
+    enchantments:
+    - DURABILITY:10
+    
+    
+chestplate_elven:
+    type: item
+    material: i@gold_chestplate[nbt_attributes=li@generic.armor/chest/0/8|generic.armorToughness/chest/0/6]
+    display name: Elven Chestplate
+    lore:
+    - A piece of 
+    - incredible craftsmanship.
+    enchantments:
+    - DURABILITY:10
+    
+    
+leggings_elven:
+    type: item
+    material: i@gold_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/6]
+    display name: Elven Leggings
+    lore:
+    - A piece of 
+    - incredible craftsmanship.
+    enchantments:
+    - DURABILITY:10
+    
+    
+boots_elven:
+    type: item
+    material: i@gold_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/feet/0/6]
+    display name: Elven Boots
+    lore:
+    - A piece of 
+    - incredible craftsmanship.
+    enchantments:
+    - DURABILITY:10
+    
+
+###################################################################################################
+# 120%
+
+helmet_mythril:
+    type: item
+    material: i@chainmail_helmet[nbt_attributes=li@generic.armor/head/0/5|generic.armorToughness/head/0/6]
+    display name: Mythril Helmet
+    lore:
+    - Light but incredibly sturdy.
+    enchantments:
+    
+
+chestplate_mythril:
+    type: item
+    material: i@chainmail_chestplate[nbt_attributes=li@generic.armor/chest/0/13|generic.armorToughness/chest/0/6]
+    display name: Mythril Chestplate
+    lore:
+    - Light but incredibly sturdy.
+    enchantments:
+    
+    
+leggings_mythril:
+    type: item
+    material: i@chainmail_leggings[nbt_attributes=li@generic.armor/legs/0/10|generic.armorToughness/legs/0/6]
+    display name: Mythril Leggings
+    lore:
+    - Light but incredibly sturdy.
+    enchantments:
+    
+    
+boots_mythril:
+    type: item
+    material: i@chainmail_boots[nbt_attributes=li@generic.armor/feet/0/4|generic.armorToughness/feet/0/6]
+    display name: Mythril Boots
+    lore:
+    - Light but incredibly sturdy.
+    enchantments:
+    
+
+   
+#########################################################################################################
+# 120%
+helmet_adamantium:
+    type: item
+    material: i@iron_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/6]
+    display name: Adamantium Helmet
+    lore:
+    - Not even claws of 
+    - steel can scratch 
+    - this shiny helmet.
+    enchantments: 
+    
+    
+chestplate_adamantium:
+    type: item
+    material: i@iron_chestplate[nbt_attributes=li@generic.armor/chest/0/8|generic.armorToughness/chest/0/6]
+    display name: Adamantium Chestplate
+    lore:
+    - Not even claws of 
+    - steel can scratch 
+    - this shiny chestplate.
+    enchantments: 
+    
+    
+leggings_adamantium:
+    type: item
+    material: i@iron_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/6]
+    display name: Adamantium Leggings
+    lore:
+    - Not even claws of 
+    - steel can scratch 
+    - these shiny leggings.
+    enchantments: 
+    
+    
+boots_adamantium:
+    type: item
+    material: i@iron_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/feet/0/6]
+    display name: Adamantium Boots
+    lore:
+    - Not even claws of 
+    - steel can scratch 
+    - these shiny boots.
+    enchantments: 
+    
+
+#########################################################################################################
+# 120%
+
+helmet_thorium:
+    type: item
+    material: i@diamond_helmet[nbt_attributes=li@generic.armor/head/0/3|generic.armorToughness/head/0/4]
+    display name: Thorium Helmet
+    lore:
+    - Radiates with an
+    - incredibly bold aura.
+    enchantments: 
+    
+    
+chestplate_thorium:
+    type: item
+    material: i@diamond_chestplate[nbt_attributes=li@generic.armor/chest/0/8|generic.armorToughness/chest/0/4]
+    display name: Thorium Chestplate
+    lore:
+    - Radiates with an
+    - incredibly bold aura.
+    enchantments: 
+    
+    
+leggings_thorium:
+    type: item
+    material: i@diamond_leggings[nbt_attributes=li@generic.armor/legs/0/6|generic.armorToughness/legs/0/4]
+    display name: Thorium Leggings
+    lore:
+    - Radiates with an
+    - incredibly bold aura.
+    enchantments: 
+    
+    
+boots_thorium:
+    type: item
+    material: i@diamond_boots[nbt_attributes=li@generic.armor/feet/0/3|generic.armorToughness/feet/0/4]
+    display name: Thorium Boots
+    lore:
+    - Radiates with an
+    - incredibly bold aura.
+    enchantments: 
+    
+    
+#########################################################################################################
+# 120%
+
+helmet_legendary:
+    type: item
+    material: i@diamond_helmet[nbt_attributes=li@generic.maxHealth/head/0/1|generic.armor/head/0/3|generic.armorToughness/head/0/2]
+    display name: Legendary Helmet
+    lore:
+    - Only true legends are
+    - worthy of carrying this
+    - marvellous helmet.
+    enchantments: 
+    
+    
+chestplate_legendary:
+    type: item
+    material: i@diamond_chestplate[nbt_attributes=li@generic.maxHealth/chest/0/1|generic.armor/chest/0/8|generic.armorToughness/chest/0/2]
+    display name: Legendary Chestplate
+    lore:
+    - Only true legends are
+    - worthy of carrying this
+    - marvellous chestplate.
+    enchantments: 
+    
+    
+leggings_legendary:
+    type: item
+    material: i@diamond_leggings[nbt_attributes=li@generic.maxHealth/legs/0/1|generic.armor/legs/0/6|generic.armorToughness/legs/0/2]
+    display name: Legendary Leggings
+    lore:
+    - Only true legends are
+    - worthy of carrying these
+    - marvellous leggings.
+    enchantments: 
+    
+    
+boots_legendary:
+    type: item
+    material: i@diamond_boots[nbt_attributes=li@generic.maxHealth/feet/0/1|generic.armor/feet/0/3|generic.armorToughness/feet/0/2]
+    display name: Legendary Boots
+    lore:
+    - Only true legends are
+    - worthy of carrying these
+    - marvellous boots.
+    enchantments: 
+    

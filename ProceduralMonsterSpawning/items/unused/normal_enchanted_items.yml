@@ -1,0 +1,896 @@
+
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~   WEAPONS + ARMOR + LORE  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+sword_1:
+    type: item
+    material: i@iron_sword
+    display name: Buster Sword
+    lore:
+    - Old but still usable.
+    enchantments: 
+    - durability:2
+    
+sword_2:
+    type: item
+    material: i@gold_sword
+    display name: Mystic Weapon
+    lore:
+    - A good looking weapon.
+    enchantments: 
+    - durability:3
+    - damage_all:3
+    
+sword_3:
+    type: item
+    material: i@gold_sword
+    display name: Hardedge
+    lore:
+    - A SOLDIER's old weapon.
+    enchantments: 
+    - durability:3
+    - damage_all:4
+    - fire_aspect:1
+
+sword_4:
+    type: item
+    material: i@gold_sword
+    display name: Butterfly Weapon
+    lore:
+    - A sleek weapon with a sturdy frame.
+    enchantments: 
+    - durability:3
+    - fire_aspect:2
+    - damage_all:4
+    - knockback:1
+
+sword_5:
+    type: item
+    material: i@iron_sword
+    display name: Enhance sword
+    lore:
+    - This sword was forged in Gaeas Cliff.
+    enchantments: 
+    - durability:2
+    - damage_undead:4
+    
+sword_6:
+    type: item
+    material: i@iron_sword
+    display name: Organics
+    lore:
+    - It radiates a powerful energy.
+    enchantments: 
+    - durability:3
+    - fire_aspect:1
+    - damage_all:4
+    
+sword_7:
+    type: item
+    material: i@diamond_sword
+    display name: Crystal Sword
+    lore:
+    - It looks very sharp.
+    enchantments: 
+    - damage_all:2
+    
+sword_8:
+    type: item
+    material: i@wood_sword
+    display name: Nailbat
+    lore:
+    - It might look frail,
+    - but it packs quite a punch.
+    enchantments: 
+    - durability:3
+    - knockback:2
+    - damage_all:5
+    - LOOT_BONUS_MOBS:2
+    
+sword_9:
+    type: item
+    material: i@diamond_sword
+    display name: Force Stealer
+    lore:
+    - It's hilt is very strong.
+    enchantments: 
+    - durability:1
+    - DAMAGE_ARTHROPODS:4
+    
+sword_10:
+    type: item
+    material: i@diamond_sword
+    display name: Rune Blade
+    lore:
+    - Seems to have originated
+    - from a far away mountain.
+    enchantments: 
+    - durability:1
+    - DAMAGE_UNDEAD:4
+    - LOOT_BONUS_MOBS:1
+    
+sword_11:
+    type: item
+    material: i@diamond_sword
+    display name: Murasame
+    lore:
+    - A slick and deadly weapon.
+    enchantments: 
+    - damage_all:4
+    - knockback:2
+    
+sword_12:
+    type: item
+    material: i@diamond_sword
+    display name: Yoshiyuki
+    lore:
+    - Looks just like a
+    - japanese katana.
+    enchantments: 
+    - durability:1
+    - DAMAGE_UNDEAD:5
+
+sword_13:
+    type: item
+    material: i@diamond_sword
+    display name: Apocalypse
+    lore:
+    - Will bring destruction
+    - upon your enemies!
+    enchantments: 
+    - durability:2
+    - DAMAGE_UNDEAD:4
+    - fire_aspect:2
+    - LOOT_BONUS_MOBS:1
+    
+sword_14:
+    type: item
+    material: i@diamond_sword
+    display name: Heaven's Cloud
+    lore:
+    - A weapon thought to be long lost.
+    enchantments: 
+    - durability:3
+    - knockback:1
+    - DAMAGE_ALL:4
+    - LOOT_BONUS_MOBS:1
+    
+sword_15:
+    type: item
+    material: i@diamond_sword
+    display name: Ragnarok
+    lore:
+    - A beautiful blade that
+    - makes you feel powerful.
+    enchantments: 
+    - durability:3
+    - knockback:2
+    - DAMAGE_ALL:4
+    - LOOT_BONUS_MOBS:2
+    - fire_aspect:1
+    
+sword_16:
+    type: item
+    material: i@diamond_sword
+    display name: Ultima Weapon
+    lore:
+    - The ultimate weapon.
+    enchantments: 
+    - durability:3
+    - damage_all:5
+    - knockback:2
+    - fire_aspect:2
+    - loot_bonus_mobs:3
+    
+# --------------------------------------------------------------------------------------------------------------------#
+# -------------------------------------------       BOWS            --------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------------------#
+bow_1:
+    type: item
+    material: i@bow
+    display name: Normal
+    lore:
+    - Normal bow.
+    enchantments: 
+    - durability:2
+    
+bow_2:
+    type: item
+    material: i@bow
+    display name: Good Bow
+    lore:
+    - A really good bow.
+    enchantments: 
+    - arrow_damage:1
+    - durability:2
+    
+bow_3:
+    type: item
+    material: i@bow
+    display name: Great Bow
+    lore:
+    - A really great bow.
+    enchantments: 
+    - arrow_damage:2
+    - durability:3
+    
+bow_4:
+    type: item
+    material: i@bow
+    display name: Knocker Bow
+    lore:
+    - Rock you like a hurricane!
+    enchantments: 
+    - durability:2
+    - arrow_damage:3
+    - arrow_knockback:1
+    
+bow_5:
+    type: item
+    material: i@bow
+    display name: Fire Bow
+    lore:
+    - Asses of fire!
+    enchantments: 
+    - durability:2
+    - arrow_damage:3
+    - arrow_knockback:2
+    - arrow_fire:1
+    
+bow_6:
+    type: item
+    material: i@bow
+    display name: Excellent Bow
+    lore:
+    - A really excellent bow.
+    enchantments: 
+    - durability:3
+    - arrow_damage:4
+    - arrow_fire:1
+    - arrow_knockback:2
+    - arrow_infinite:1
+    
+ultimabow:
+    type: item
+    material: i@bow
+    display name: Ultima Bow
+    lore:
+    - Simple the ultimate bow.
+    enchantments: 
+    - arrow_infinite:1
+    - arrow_fire:1
+    - arrow_knockback:2
+    - arrow_damage:5
+
+# --------------------------------------------------------------------------------------------------------------------#
+# -------------------------------------------       HELMETS         --------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------------------#
+helmet_1:
+    type: item
+    material: i@chainmail_helmet
+    display name: Old Helmet
+    lore:
+    - Looks (r)old.
+    enchantments: 
+    - durability:2
+
+helmet_2:
+    type: item
+    material: i@chainmail_helmet
+    display name: Fine Helmet
+    lore:
+    - A really nice helmet. All glowy and stuff.
+    enchantments: 
+    - durability:3
+    - PROTECTION_FIRE:2
+    
+helmet_3:
+    type: item
+    material: i@chainmail_helmet
+    display name: Sturdy Helmet
+    lore:
+    - It is very thick.
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:3
+    - durability:3
+    
+helmet_4:
+    type: item
+    material: i@gold_helmet
+    display name: Anti Arrow Helmet
+    lore:
+    - Still better to dodge those projectiles.
+    enchantments: 
+    - PROTECTION_PROJECTILE:4
+    - durability:3
+
+helmet_5:
+    type: item
+    material: i@gold_helmet
+    display name: Super Gold Helmet
+    lore:
+    - Looks like it<&sq>s got some holes,
+    - but still useable. 
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:4
+    - durability:3
+    
+helmet_6:
+    type: item
+    material: i@gold_helmet
+    display name: Scuba Diver
+    lore:
+    - Waterboarding sounds more fun
+    - than it actually is!
+    enchantments: 
+    - WATER_WORKER:1
+    - oxygen:2
+    - durability:3
+    
+helmet_7:
+    type: item
+    material: i@iron_helmet
+    display name: I don<&sq>t like ships
+    lore:
+    - Player has left the game.
+    enchantments: 
+    - oxygen:3
+    - durability:3
+    
+helmet_8:
+    type: item
+    material: i@iron_helmet
+    display name: Shiny Brighty
+    lore:
+    - Oldie but goldie.
+    enchantments: 
+    - durability:3
+    - thorns:1
+    
+helmet_9:
+    type: item
+    material: i@iron_helmet
+    display name: Iron Giving Head
+    lore:
+    - Pun intended!
+    enchantments: 
+    - durability:3
+    - PROTECTION_EXPLOSIONS:4
+    
+helmet_10:
+    type: item
+    material: i@diamond_helmet
+    display name: I like it cold
+    lore:
+    - You<&sq>re hot and you<&sq>re cold.
+    - You<&sq>re yes and you<&sq>re no...
+    enchantments: 
+    - durability:2
+    - PROTECTION_FIRE:3
+    
+helmet_11:
+    type: item
+    material: i@diamond_helmet
+    display name: Sturdy Diamond Helmet
+    lore:
+    - Good craftsmenship.
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:3
+    - durability:1
+    
+helmet_12:
+    type: item
+    material: i@diamond_helmet
+    display name: Iron Helmet of Doom
+    lore:
+    - How can a helmet sound so dangerous?
+    enchantments: 
+    - durability:2
+    - PROTECTION_EXPLOSIONS:5
+    
+helmet_13:
+    type: item
+    material: i@diamond_helmet
+    display name: Fahrradhelm
+    lore:
+    - Is actually better than it sounds.
+    enchantments: 
+    - durability:1
+    - PROTECTION_ENVIRONMENTAL:4
+   
+helmet_14:
+    type: item
+    material: i@diamond_helmet
+    display name: Diamond Helmet
+    lore:
+    - A normal diamond helmet...
+    - ...almost.
+    enchantments: 
+    - PROTECTION_FIRE:3
+    - oxygen:1
+    - durability:2
+   
+helmet_15:
+    type: item
+    material: i@diamond_helmet
+    display name: Diamondo do Pearl
+    lore:
+    - I like the Japanese!
+    enchantments: 
+    - durability:3
+    - oxygen:2
+    - thorns:1
+    - PROTECTION_EXPLOSIONS:4
+    
+helmet_16:
+    type: item
+    material: i@diamond_helmet
+    display name: Beautiful Helmet
+    lore:
+    - It<&sq>s got engravings <&sq>n shit!
+    enchantments: 
+    - durability:3
+    - thorns:2
+    - PROTECTION_ENVIRONMENTAL:4
+    
+helmet_17:
+    type: item
+    material: i@diamond_helmet
+    display name: Awesome-O Helmet
+    lore:
+    - You won<&sq>t find a better one.
+    enchantments: 
+    - WATER_WORKER:1
+    - oxygen:3
+    - PROTECTION_ENVIRONMENTAL:4
+    - thorns:3
+    
+# --------------------------------------------------------------------------------------------------------------------#
+# -------------------------------------------     CHESTPLATES       --------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------------------#
+chestplate_1:
+    type: item
+    material: i@chainmail_chestplate
+    display name: Normal Armor
+    lore:
+    - Old but still usable.
+    enchantments: 
+    - durability:2
+    
+chestplate_2:
+    type: item
+    material: i@chainmail_chestplate
+    display name: Fine Armor
+    lore:
+    - Well done armor.
+    enchantments: 
+    - durability:3
+    - PROTECTION_PROJECTILE:2
+    
+chestplate_3:
+    type: item
+    material: i@gold_chestplate
+    display name: Chesthair
+    lore:
+    - Noone shaved their chesthair in medieval times!
+    - Neither should you, peasent!
+    enchantments: 
+    - durability:3
+    - PROTECTION_ENVIRONMENTAL:3
+    
+chestplate_4:
+    type: item
+    material: i@gold_chestplate
+    display name: Excellent Armor
+    lore:
+    - The best leather in town.
+    enchantments: 
+    - durability:3
+    - PROTECTION_ENVIRONMENTAL:3
+    - THORNS:2
+    
+chestplate_5:
+    type: item
+    material: i@gold_chestplate
+    display name: Armor of Rol
+    lore:
+    - Don<&sq>t tell him about this!
+    enchantments: 
+    - durability:3
+    - PROTECTION_FIRE:4
+    - thorns:3
+    
+chestplate_6:
+    type: item
+    material: i@iron_chestplate
+    display name: Stay away from me!
+    lore:
+    - Spiky armor.
+    enchantments: 
+    - durability:1
+    - PROTECTION_ENVIRONMENTAL:3
+    - THORNS:1
+    
+chestplate_7:
+    type: item
+    material: i@iron_chestplate
+    display name: Protectorol
+    lore:
+    - Will get you in and out of trouble.
+    enchantments: 
+    - durability:2
+    - PROTECTION_EXPLOSIONS:3
+    
+chestplate_8:
+    type: item
+    material: i@iron_chestplate
+    display name: Antifa I
+    lore:
+    - Stands for anti-faijr!
+    enchantments: 
+    - durability:3
+    - PROTECTION_FIRE:4
+    
+chestplate_9:
+    type: item
+    material: i@diamond_chestplate
+    display name: Antifa II
+    lore:
+    - Stands for anti-faijr version II!
+    enchantments: 
+    - durability:2
+    - PROTECTION_FIRE:4
+    
+chestplate_10:
+    type: item
+    material: i@diamond_chestplate
+    display name: Come get some 
+    lore:
+    - You won<&sq>t get me alive.
+    enchantments: 
+    - durability:2
+    - PROTECTION_EXPLOSIONS:2
+    - THORNS:3
+    
+chestplate_11:
+    type: item
+    material: i@diamond_chestplate
+    display name: Excellento
+    lore:
+    - Created by an excellent blacksmith.
+    enchantments: 
+    - durability:2
+    - PROTECTION_PROJECTILE:3
+    - THORNS:1
+    
+chestplate_12:
+    type: item
+    material: i@diamond_chestplate
+    display name: Wolfmaster
+    lore:
+    - Has absolutely nothing
+    - to do with wolves.
+    enchantments: 
+    - durability:2
+    - PROTECTION_FIRE:3
+    - THORNS:1
+    
+chestplate_12:
+    type: item
+    material: i@diamond_chestplate
+    display name: Bartolomeo
+    lore:
+    - Like an impenetrable barrier!
+    enchantments: 
+    - durability:2
+    - PROTECTION_ENVIRONMENTAL:3
+    - thorns:2
+
+chestplate_13:
+    type: item
+    material: i@diamond_chestplate
+    display name: Resto Chesto
+    lore:
+    - Good for Snorlax!
+    enchantments: 
+    - durability:3
+    - PROTECTION_PROJECTILE:4
+    - THORNS:3
+    
+chestplate_14:
+    type: item
+    material: i@diamond_chestplate
+    display name: Savior X
+    lore:
+    - You don<&sq>t like to get hurt?
+    - Well, me neither!
+    enchantments: 
+    - durability:3
+    - PROTECTION_EXPLOSIONS:4
+    - THORNS:3
+    
+chestplate_15:
+    type: item
+    material: i@diamond_chestplate
+    display name: Ziedrich
+    lore:
+    - Stolen from Reno in Gelnika.
+    enchantments: 
+    - durability:3
+    - PROTECTION_FIRE:4
+    - THORNS:3
+    
+chestplate_15:
+    type: item
+    material: i@diamond_chestplate
+    display name: Mystil
+    lore:
+    - Like heavens cloud!
+    enchantments: 
+    - durability:3
+    - PROTECTION_ENVIRONMENTAL:4
+    - THORNS:3
+
+# --------------------------------------------------------------------------------------------------------------------#
+# -------------------------------------------      LEGGINGS         --------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------------------#
+leggings_1:
+  type: item
+  material: i@chainmail_leggings
+  display name: Starter
+  lore: 
+  - It<&sq>s all about starting.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:1
+  
+leggings_2:
+  type: item
+  material: i@chainmail_leggings
+  display name: Flyweight
+  lore: 
+  - Still you cannot fly.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:2
+  
+leggings_3:
+  type: item
+  material: i@gold_leggings
+  display name: Antifa I
+  lore: 
+  - Anti-faijr Version 1.0
+  enchantments:
+  - durability:3
+  - PROTECTION_FIRE:4
+  
+leggings_4:
+  type: item
+  material: i@gold_leggings
+  display name: Lightweight
+  lore: 
+  - Now you can start fighting.
+  enchantments:
+  - durability:3
+  - PROTECTION_PROJECTILE:4
+  
+leggings_5:
+  type: item
+  material: i@iron_leggings
+  display name: Welterweight
+  lore: 
+  - It<&sq>s worth a try.
+  enchantments:
+  - durability:1
+  - PROTECTION_EXPLOSIONS:3
+  
+leggings_6:
+  type: item
+  material: i@iron_leggings
+  display name: Middleweight
+  lore: 
+  - Still useful.
+  enchantments:
+  - durability:3
+  - PROTECTION_PROJECTILE:4
+  
+leggings_7:
+  type: item
+  material: i@diamond_leggings
+  display name: Heavyweight
+  lore: 
+  - That<&sq>s what I<&sq>m talking about.
+  enchantments:
+  - durability:1
+  - PROTECTION_ENVIRONMENTAL:2
+  
+leggings_8:
+  type: item
+  material: i@diamond_leggings
+  display name: Rare Jewel
+  lore: 
+  - You<&sq>ll be the prettiest.
+  enchantments:
+  - durability:2
+  - PROTECTION_PROJECTILE:3
+  
+leggings_9:
+  type: item
+  material: i@diamond_leggings
+  display name: Casanova
+  lore: 
+  - Don<&sq>t play with the undead.
+  enchantments:
+  - durability:2
+  - PROTECTION_EXPLOSIONS:4
+
+leggings_10:
+  type: item
+  material: i@diamond_leggings
+  display name: Priceless
+  lore: 
+  - The glance blinds enemies.
+  enchantments:
+  - durability:3
+  - PROTECTION_PROJECTILE:4
+  
+leggings_11:
+  type: item
+  material: i@diamond_leggings
+  display name: Champion
+  lore: 
+  - You are worthy wearing these.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:4
+  - thorns:2
+  
+leggings_12:
+  type: item
+  material: i@diamond_leggings
+  display name: Ultima Leggings
+  lore: 
+  - The best available on the market.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:4
+  - thorns:3
+  
+# --------------------------------------------------------------------------------------------------------------------#
+# -------------------------------------------       BOOTS           --------------------------------------------------#
+# --------------------------------------------------------------------------------------------------------------------#
+boots_1:
+  type: item
+  material: i@chainmail_boots
+  display name: Beginner
+  lore:: 
+  - Safety first.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:2
+
+boots_2:
+  type: item
+  material: i@chainmail_boots
+  display name: Stingray
+  lore:
+  - You schould not touch anyone.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:1
+  - THORNS:1
+  
+boots_3:
+  type: item
+  material: i@gold_boots
+  display name: Lightweight
+  lore:
+  - As light as a feather.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:3
+  - DEPTH_STRIDER:2
+  
+boots_4:
+  type: item
+  material: i@gold_boots
+  display name: Traveler
+  lore:
+  - Let<&sq>s kick some ass in hell.
+  enchantments:
+  - durability:3
+  - PROTECTION_FIRE:3
+  - PROTECTION_FALL:3
+  
+boots_5:
+  type: item
+  material: i@iron_boots
+  display name: Middleweight
+  lore:
+  - The golden mean.
+  enchantments:
+  - durability:2
+  - PROTECTION_ENVIRONMENTAL:3
+  - DEPTH_STRIDER:1
+
+boots_6:
+  type: item
+  material: i@iron_boots
+  display name: Heavyweigth
+  lore:
+  - Take it easy.
+  enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - durability:3
+  
+boots_7:
+  type: item
+  material: i@diamond_boots
+  display name: Adventurer
+  lore:
+  - Perfect for exploring the whole map.
+  enchantments:
+  - PROTECTION_FALL:3
+  - PROTECTION_EXPLOSIONS:2
+  - DEPTH_STRIDER:3
+
+boots_8:
+  type: item
+  material: i@diamond_boots
+  display name: Hell Walker
+  lore:
+  - Perfect for the undead.
+  enchantments:
+  - durability:2
+  - PROTECTION_FALL:2
+  - PROTECTION_FIRE:4
+
+boots_9:
+  type: item
+  material: i@diamond_boots
+  display name: BOOM
+  lore:
+  - Let<&sq>s kill some Creeper.
+  enchantments:
+  - durability:2
+  - PROTECTION_EXPLOSIONS:4
+  - PROTECTION_FALL:2
+
+boots_10:
+  type: item
+  material: i@diamond_boots
+  display name: Swimmer
+  lore:
+  - With these you can almost swim in lava.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:4
+  - PROTECTION_FALL:3
+  - DEPTH_STRIDER:1
+ 
+boots_11:
+  type: item
+  material: i@diamond_boots
+  display name: Lighting Boots
+  lore:
+  - Deadly and fast like lightning.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:4
+  - PROTECTION_FALL:3
+  - DEPTH_STRIDER:2
+  - THORNS:2
+
+boots_12:
+  type: item
+  material: i@diamond_boots
+  display name: Ultima Boots
+  lore:
+  - Now you are unstoppable.
+  enchantments:
+  - durability:3
+  - PROTECTION_ENVIRONMENTAL:4
+  - PROTECTION_FALL:4
+  - DEPTH_STRIDER:3
+  - THORNS:3
+   

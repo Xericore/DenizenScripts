@@ -1,0 +1,590 @@
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~   USEFUL ITEMS FOR SURVIVAL  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+# ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ #
+
+# Adding NBT
+  # Operation 0: Additive. 
+  # Operation 1: Multiplicative. 
+  # The slot can be mainhand, offhand, head, chest, legs or feet.
+  # li@attribute/slot/op/amount
+
+carrot_fortune:
+    type: item
+    material: i@golden_carrot
+    display name: Srećko
+    lore:
+    - This must be your lucky day.
+    enchantments: 
+    - LOOT_BONUS_BLOCKS:3
+    
+    
+shield_redstriped:
+    type: item
+    material: i@shield[base_color=WHITE;patterns=li@RED/BORDER|RED/STRIPE_SMALL|BLUE/FLOWER|BLUE/STRIPE_MIDDLE|WHITE/CIRCLE_MIDDLE]
+    display name: Red Striped Shield
+    lore:
+    - Shield made of the same material 
+    - as Captain America<&sq>s one.
+    enchantments:
+    - DURABILITY:10
+    
+    
+fishingrod_luck:
+    type: item
+    material: i@fishing_rod
+    display name: Tsurikichi Sanpei<&sq>s Rod
+    lore:
+    - With this rod, the 
+    - renowned Sanpei cought 
+    - his first golden carp.
+    enchantments: 
+    - LUCK:4
+    - DURABILITY:10
+    
+    
+pufferfish_thorns:
+    type: item
+    material: i@raw_pufferfish
+    display name: Porcupine
+    lore:
+    - Spikier than Sonic<&sq>s hairdo.
+    enchantments: 
+    - THORNS:4
+    
+    
+shears_unbreaking:
+    type: item
+    material: i@shears
+    display name: Sturdy Shears
+    lore:
+    - So strong.
+    enchantments: 
+    - DURABILITY:10
+    
+
+endrod_silktouch:
+    type: item
+    material: i@end_rod
+    display name: Velvet Rod
+    lore:
+    - Don<&sq>t take your gloves off.
+    enchantments: 
+    - SILK_TOUCH:1
+    
+    
+torch_firestarter:
+    type: item
+    material: i@redstone_torch_on
+    display name: Firestarter
+    lore:
+    - I<&sq>m a firestarter,
+    - twisted firestarter!
+    enchantments: 
+    - fire_aspect:4
+    
+    
+stick_knockback:
+    type: item
+    material: i@stick
+    display name: Nailbat
+    lore:
+    - Crafted in the 
+    - Temple of the Ancients.
+    enchantments: 
+    - KNOCKBACK:3
+    
+
+blazerod_looting:
+    type: item
+    material: i@blaze_rod
+    display name: Scavenger<&sq>s Delight
+    lore:
+    - Better than Indiana Jones<&sq> whip.
+    enchantments: 
+    - LOOT_BONUS_MOBS:5
+
+weapon_marco:
+    type: item
+    material: i@blaze_powder
+    display name: Marco<&sq>s Goen
+    lore:
+    - Like a Phoenix!
+    enchantments:
+    - FIRE_ASPECT:5
+    - DAMAGE_ALL:3
+    - KNOCKBACK:2
+    
+weapon_kaido:
+    type: item
+    material: i@bone
+    display name: Kaido<&sq>s Kanabō
+    lore:
+    - Explosive punch!
+    enchantments: 
+    - DAMAGE_ALL:4
+    - KNOCKBACK:3
+    
+weapon_garp:
+    type: item
+    material: i@witherskeleton_skull
+    display name: Garp<&sq>s Genkotsu
+    lore:
+    - Explosive punch!
+    enchantments: 
+    - DAMAGE_ALL:5
+    - KNOCKBACK:3
+    
+
+####################################################################################################
+    
+axe_eightbasher:
+    type: item
+    material: i@wood_axe
+    display name: Eightbasher
+    lore:
+    - Spiderman<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_ARTHROPODS:7
+    
+    
+sword_eightslasher:
+    type: item
+    material: i@wood_sword
+    display name: Eightslasher
+    lore:
+    - Spiderman<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_ARTHROPODS:7
+    
+    
+axe_zombiebasher:
+    type: item
+    material: i@wood_axe
+    display name: Zombiebasher
+    lore:
+    - Frankenstein<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_UNDEAD:7
+    
+    
+axe_zombiethresher:
+    type: item
+    material: i@gold_axe
+    display name: Zombiethresher
+    lore:
+    - Frankenstein<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_UNDEAD:7
+    
+    
+sword_zombieslasher:
+    type: item
+    material: i@wood_sword
+    display name: Zombieslasher
+    lore:
+    - Frankenstein<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_UNDEAD:7
+    
+    
+sword_zombieslicer:
+    type: item
+    material: i@gold_sword
+    display name: Zombieslicer
+    lore:
+    - Slice <&sq>em and dice <&sq>em
+    - like sugar and spice.
+    enchantments: 
+    - DAMAGE_UNDEAD:7
+    - DURABILITY: 10
+    
+    
+#------------
+
+sword_firewind:
+    type: item
+    material: i@gold_sword
+    display name: Firewind
+    lore:
+    - Hotter Charizard<&sq>s breath!
+    enchantments: 
+    - fire_aspect:3
+    - DAMAGE_ALL:7
+    - DURABILITY: 10
+    
+    
+axe_eightcrasher:
+    type: item
+    material: i@stone_axe
+    display name: Eightcrasher
+    lore:
+    - Spiderman<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_ARTHROPODS:6
+    
+
+sword_eightkiller:
+    type: item
+    material: i@stone_sword
+    display name: Eightkiller
+    lore:
+    - Spiderman<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_ARTHROPODS:6
+    
+    
+axe_zombiecrasher:
+    type: item
+    material: i@stone_axe
+    display name: Zombiecrasher
+    lore:
+    - Frankenstein<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_UNDEAD:6
+    
+    
+sword_zombiekiller:
+    type: item
+    material: i@stone_sword
+    display name: Zombiekiller
+    lore:
+    - Frankenstein<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_UNDEAD:6
+    
+    
+#------------
+    
+sword_eternalflame:
+    type: item
+    material: i@gold_sword
+    display name: Eternal Flame
+    lore:
+    - Close your eyes, 
+    - give me your flame, darlin<&sq>...
+    enchantments: 
+    - fire_aspect:4
+    - DAMAGE_ALL:7
+    - DURABILITY: 10
+    
+    
+axe_eightsmasher:
+    type: item
+    material: i@iron_axe
+    display name: Eightsmasher
+    lore:
+    - Spiderman<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_ARTHROPODS:6
+    
+    
+sword_eightslayer:
+    type: item
+    material: i@iron_sword
+    display name: Eightslayer
+    lore:
+    - Spiderman<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_ARTHROPODS:6
+    
+
+axe_zombiesmasher:
+    type: item
+    material: i@iron_axe
+    display name: Zombiesmasher
+    lore:
+    - Frankenstein<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_UNDEAD:6
+    
+    
+sword_zombieslayer:
+    type: item
+    material: i@iron_sword
+    display name: Zombieslayer
+    lore:
+    - Frankenstein<&sq>s nightmare.
+    enchantments: 
+    - DAMAGE_UNDEAD:6
+    
+
+sword_sweeper:
+    type: item
+    material: i@iron_sword
+    display name: Sweeper
+    lore:
+    - You spin me right round
+    - baby right round...
+    enchantments: 
+    - SWEEPING:10
+    
+    
+axe_ali:
+    type: item
+    material: i@stone_axe
+    display name: Ali<&sq>s Punch
+    lore:
+    - Guaranteed to give your
+    - enemies a good beating.
+    enchantments: 
+    - KNOCKBACK:3
+    
+sword_falconpunch:
+    type: item
+    material: i@stone_sword
+    display name: Falcon Punch
+    lore:
+    - Give them a taste
+    - of your knuckles!
+    enchantments: 
+    - KNOCKBACK:3
+    
+sword_obsidius:
+    type: item
+    material: i@diamond_sword
+    display name: Obsidius
+    lore:
+    - Forged in the deepest 
+    - realms of the Nether.
+    enchantments: 
+    - DURABILITY: 5
+    
+    
+spade_obsidius:
+    type: item
+    material: i@diamond_spade
+    display name: Obsidius SX-1
+    lore:
+    - Forged in the deepest 
+    - realms of the Nether.
+    enchantments: 
+    - DURABILITY: 5
+    
+    
+axe_obsidius:
+    type: item
+    material: i@diamond_axe
+    display name: Obsidius AX-1
+    lore:
+    - Forged in the deepest 
+    - realms of the Nether.
+    enchantments: 
+    - DURABILITY: 5
+    
+    
+pickaxe_obsidius:
+    type: item
+    material: i@diamond_pickaxe
+    display name: Obsidius PX-1
+    lore:
+    - Forged in the deepest 
+    - realms of the Nether.
+    enchantments: 
+    - DURABILITY: 5
+    
+    
+# --------------
+    
+axe_scrounger:
+    type: item
+    material: i@diamond_axe
+    display name: Scrounger
+    lore:
+    - At least I feel a little
+    - bit like a sword now.
+    enchantments: 
+    - LOOT_BONUS_MOBS: 1
+    
+    
+axe_lava:
+    type: item
+    material: i@diamond_axe
+    display name: Lava Axe
+    lore:
+    - You can feel the lava
+    - burning on it<&sq>s surface.
+    enchantments: 
+    - fire_aspect: 1
+    
+    
+axe_thief:
+    type: item
+    material: i@stone_axe
+    display name: Thief
+    lore:
+    - You stole it,
+    - my precious!
+    enchantments: 
+    - DAMAGE_ALL: 6
+    - LOOT_BONUS_MOBS: 3
+    
+    
+sword_hiken:
+    type: item
+    material: i@gold_sword
+    display name: Ace<&sq>s Hiken
+    lore:
+    - Firefist!
+    enchantments: 
+    - DAMAGE_UNDEAD:7
+    - FIRE_ASPECT:5
+    - DURABILITY:10
+    
+axe_magma:
+    type: item
+    material: i@stone_axe
+    display name: Magma Axe
+    lore:
+    - You can feel the magma
+    - burning inside.
+    enchantments: 
+    - DAMAGE_ALL: 10
+    - fire_aspect: 2
+    
+    
+axe_gimli:
+    type: item
+    material: i@iron_axe
+    display name: Gimli<&sq>s Axe
+    lore:
+    - You have my axe!
+    enchantments: 
+    - DAMAGE_ALL: 8
+    - fire_aspect: 1
+    - LOOT_BONUS_MOBS: 2
+    
+    
+sword_kitetsu:
+    type: item
+    material: i@gold_sword
+    display name: Sandai Kitetsu
+    lore:
+    - Like all of it<&sq>s 
+    - predecessor Kitetsu swords, 
+    - this one is said to be cursed.
+    enchantments: 
+    - DAMAGE_ALL: 10
+    - SWEEPING: 10
+    - DURABILITY: 10
+    
+    
+sword_ragnarok:
+    type: item
+    material: i@gold_sword
+    display name: Ragnarök
+    lore:
+    - Þá kemur inn ríki
+    - að regindómi
+    - öflugur ofan,
+    - sá er öllu ræður.
+    enchantments: 
+    - fire_aspect:3
+    - DAMAGE_ALL: 10
+    - DURABILITY: 10
+    
+   
+axe_buster:
+    type: item
+    material: i@iron_axe
+    display name: Buster Axe
+    lore:
+    - Once the companion of a
+    - legendary SOLDIER<&sq>s friend.
+    enchantments: 
+    - DAMAGE_ALL: 8
+    
+    
+sword_excalibur:
+    type: item
+    material: i@iron_sword
+    display name: Excalibur
+    lore:
+    - Someone says that this sword 
+    - was owned by King Arthur.
+    enchantments: 
+    - DAMAGE_ALL:8
+    - SWEEPING:5
+    
+    
+axe_bloodninja:
+    type: item
+    material: i@iron_axe[nbt_attributes=li@generic.attackDamage/mainhand/0/5|generic.attackSpeed/mainhand/0/-2]
+    display name: Blood of the Ninja
+    lore:
+    - Fast as a knife, 
+    - hard as obsidian, 
+    - this axe was imbued in the 
+    - blood on an ancient ninja.
+    enchantments: 
+    - DAMAGE_ALL:5
+    
+    
+sword_heart:
+    type: item
+    material: i@iron_sword[nbt_attributes=li@generic.maxHealth/mainhand/0/2|generic.attackDamage/mainhand/0/5|generic.attackSpeed/mainhand/0/-2.4]
+    display name: Heart Sword
+    lore:
+    - This sword has a 
+    - very pleasent aura.
+    enchantments: 
+    - DAMAGE_ALL: 8
+    
+
+sword_apocalypse:
+    type: item
+    material: i@stone_sword
+    display name: Apocalypse
+    lore:
+    - Will bring destruction
+    - upon your enemies!
+    enchantments: 
+    - DAMAGE_ALL:9
+    - fire_aspect:3
+    - SWEEPING:5
+    
+    
+axe_mjolnir:
+    type: item
+    material: i@iron_axe
+    display name: Mjölnir
+    lore:
+    - Extermely heavy, but you
+    - are worthy of wielding it.
+    enchantments: 
+    - DAMAGE_ALL:10
+    
+    
+sword_buster:
+    type: item
+    material: i@iron_sword[nbt_attributes=li@generic.attackDamage/mainhand/0/12|generic.attackSpeed/mainhand/0/-3.2]
+    display name: Buster Sword
+    lore:
+    - Once the companion of
+    - a legendary SOLDIER.
+    enchantments: 
+    - DAMAGE_ALL: 10
+    
+    
+sword_masamune:
+    type: item
+    material: i@iron_sword[nbt_attributes=li@generic.attackDamage/mainhand/0/12|generic.attackSpeed/mainhand/0/-3.2]
+    display name: Masamune
+    lore:
+    - Only one is said to be capable 
+    - of effectively using it.
+    enchantments: 
+    - DAMAGE_ALL:10
+    - SWEEPING:10
+    
+    
+sword_ultima:
+    type: item
+    material: i@diamond_sword
+    display name: Ultima Weapon
+    lore:
+    - Use your inner strength
+    - to remain victorious!
+    enchantments: 
+    - DAMAGE_ALL: 9
+    
+    

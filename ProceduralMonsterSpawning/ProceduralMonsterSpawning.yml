@@ -1,0 +1,680 @@
+#¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸#
+#                                                                                                                             #
+#                                     PROCEDURAL        MONSTER         SPAWNING                                              #         
+#                                                                                                                             #
+#¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸.·´¯`·.¸#
+#
+# FEATURES:
+#   
+#   - Spawn procedurally generated mobs! Each encounter will be different from the one before.
+#   - When a player enters an area, procedural mobs will spawn.
+#   - Easily set the difficulty by changing a single value. More challenging than normal mobs.
+#   - Mobs drop custom loot with lore (Weapons tuned for a fair SMP experience. No overpowered items dropped.)
+#   - Procedurally spawed mobs drop more XP when killed.
+#
+# INSTALLATION:
+#
+#   0. Make sure you have the plugins Citizens 2 and Denizen installed.
+#
+#   1. Copy this file to plugins\Citizens\plugins\Denizen\scripts
+#
+#   2. execute "/gamerule sendCommandFeedback false" 
+#       manually in each world you wish you use this script in to suppress 
+#       the summon commands output ("Object successfully summoned").
+#
+# SETTING UP YOUR FIRST SPAWNING AREA:
+#
+#   0. Check out http://www.petricevic.net/minecraft/procedural-monsters/ for a tutorial containing images.
+#
+#   1. Obtain cuboid coordinates. 
+#      Optional, but recommended is to use WorldEdit + WorldEditCUI, select cuboid and then execute //size. 
+#      Note the coordinates of the corners of the cube.
+#
+#   2. Add cuboid to Denizen notable list, with e.g. coordinates:
+#      /ex note cu@2500,64,500,world|2510,64,510,world as:myCuboid
+#      Don't forget to change 'world' to your world name.
+#
+#   3. Add to script below named 'spawnProceduralMobs_world_events' (or to your own world script):
+#      on player enters myCuboid:
+#      - run spawnProceduralMobs def:myCuboid
+#
+#   4. Enter the cuboid at the specified coordinates and start fighting!
+#
+#   Recommended: Check out the plugin TreasureChest to let your monsters guard a treasure!
+#                https://www.spigotmc.org/resources/treasurechest-reloaded.1747/
+#
+#
+# ADJUSTING DIFFICULTY, MOB COUNT AND MORE:
+#
+#   1. Instead of '- run spawnProceduralMobs def:myCuboid', you can specify additional parameters, e.g.:
+#
+#      - run spawnProceduralMobs def:myCuboid|50|6
+#                                    ^        ^  ^
+#                        spawnCuboid|difficulty|monsterCount
+#
+#   spawnCuboid:  Defines the cuboid in which the mobs will spawn. Note that you can have a different cuboid for triggering the spawn
+#                 and for spawning the actual monsters. To do this, create a new cuboid e.g. 'myTriggerCuboid' and change the event to:
+#                 on player enters myTriggerCuboid: - run spawnProceduralMobs def:myCuboid
+#                 Many more events are possible to trigger the spawning, e.g. lever pulls etc. Check the denizen events for more information.
+#                 A random location suitable for mob spawning within this cuboid will be automatically selected for spawning.
+#                 You may enter it with or without the object notation (the cu@ in front) .
+#                 e.g. cu@myCuboid or myCuboid. 
+#                 Execute "/denizen save" and check notables.yml to see if the cuboid is present if you experience any issues.
+#
+#   difficulty:   How strong the spawned enemies will be. Should be between 1-maxDifficulty (default: 100). 
+#                 Note that this specifies the bosses level/difficulty. Minions will spawn with half the level of the boss.
+#                 This can be changed by altering the mobToBossDifficulty constant in the pmsGlobal task script.
+#                 Difficulty 50 can be already quite tough for players without enchanted gear.
+#                 Default: 30
+#
+#   monsterCount: The amount of enemies to spawn. Should be >=1. If set to 0, no mobs will spawn. The boss will always spawn first. 
+#                 You can enter <util.random.int[3].to[6]> to randomize the count. 
+#                 Default: 5
+#
+#   ignorecooldown: When true, mobs will always spawn when a player enters the cuboid.
+#                 When false, mobs will not spawn for 'treasure_SP_cooldown' (default: 30 minutes) after a player enters the cuboid.
+#                 You should only set this to true for testing purposes, 
+#                 otherwise you will get spammed with monsters every time you enter the cuboid.
+#                 Default: false
+#
+# 
+# @version:       1.3 (06.10.2017)
+# @author:        Xericore
+# @email:         xericore@gmail.com
+# @website:       http://www.petricevic.net/minecraft/procedural-monsters/
+#
+# Tested with Denizen 1.0.1 #1630 and Citizens 2.0.21
+# For Minecraft version 1.11.2 and higher
+
+
+# >>>>>>>>>>>>>>>>>>>>>>>>    ADD YOUR SPAWN CUBOIDS IN THIS SCRIPT   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+spawnProceduralMobs_world_events:
+  type: world
+  events:
+  
+    on player enters treasure_a7:
+    - run spawnProceduralMobs def:treasure_a7|<util.random.int[35].to[45]>|<util.random.int[5].to[9]>
+    
+    on player enters treasure_a8:
+    - run spawnProceduralMobs def:treasure_a8|<util.random.int[65].to[75]>|<util.random.int[4].to[8]>
+  
+    on player enters treasure_b1:
+    - run spawnProceduralMobs def:treasure_b1|<util.random.int[40].to[60]>|5
+    
+    on player enters treasure_b7:
+    - run spawnProceduralMobs def:treasure_b7|<util.random.int[40].to[50]>|<util.random.int[5].to[9]>
+
+    on player enters treasure_f1:
+    - run spawnProceduralMobs def:treasure_f1|<util.random.int[55].to[70]>|<util.random.int[6].to[12]>
+    
+    on player enters treasure_a2:
+    - run spawnProceduralMobs def:treasure_a2|<util.random.int[64].to[76]>|<util.random.int[3].to[7]>
+    
+    on player enters treasure_b2:
+    - run spawnProceduralMobs def:treasure_b2_spawn|<util.random.int[70].to[80]>|<util.random.int[7].to[10]>
+    
+    on player enters treasure_B4:
+    - run spawnProceduralMobs def:treasure_B4|<util.random.int[45].to[55]>|<util.random.int[5].to[8]>
+    
+    on player enters treasure_c6:
+    - run spawnProceduralMobs def:treasure_c6_spawn|<util.random.int[45].to[55]>|<util.random.int[4].to[6]>
+    
+    on player enters treasure_d2:
+    - run spawnProceduralMobs def:treasure_d2|<util.random.int[25].to[35]>|<util.random.int[3].to[6]>
+
+    on player enters treasure_d5_trigger:
+    - run spawnProceduralMobs def:treasure_d5_spawn|<util.random.int[35].to[45]>|<util.random.int[3].to[5]>
+    
+    on player enters treasure_e4:
+    - run spawnProceduralMobs def:treasure_e4_spawn|<util.random.int[12].to[18]>|<util.random.int[2].to[5]>
+    
+    on player enters treasure_f2:
+    - run spawnProceduralMobs def:treasure_f2_spawn|<util.random.int[30].to[40]>|<util.random.int[5].to[10]>
+    
+    on player enters treasure_f2_1:
+    - run spawnProceduralMobs def:treasure_f2_1_spawn|<util.random.int[26].to[36]>|<util.random.int[4].to[8]>
+    
+    on player enters treasure_f2_2:
+    - run spawnProceduralMobs def:treasure_f2_2_spawn|<util.random.int[55].to[65]>|<util.random.int[4].to[8]>
+    
+    on player enters treasure_e3:
+    - run spawnProceduralMobs def:treasure_e3|<util.random.int[15].to[25]>|<util.random.int[3].to[6]>
+    
+    on player enters treasure_f3:
+    - run spawnProceduralMobs def:treasure_f3_spawn|<util.random.int[40].to[50]>|<util.random.int[5].to[9]>
+    
+    on player walks over treasure_f3_1:
+    - run spawnProceduralMobs def:treasure_f3_1_spawn|<util.random.int[25].to[35]>|<util.random.int[3].to[5]>
+    
+    on player enters treasure_f7:
+    - run spawnProceduralMobs def:treasure_f7|<util.random.int[55].to[70]>|<util.random.int[3].to[5]>
+    
+    on player enters treasure_g4_1:
+    - run spawnProceduralMobs def:treasure_g4_1|<util.random.int[25].to[35]>|<util.random.int[8].to[16]>
+    
+    on player enters treasure_g4_2:
+    - run spawnProceduralMobs def:treasure_g4_2|<util.random.int[55].to[65]>|<util.random.int[12].to[18]>
+    
+    on player enters treasure_g4_3:
+    - run spawnProceduralMobs def:treasure_g4_3|100|<util.random.int[16].to[24]>
+    
+    on player enters treasure_G5:
+    - run spawnProceduralMobs def:treasure_g5_spawn|<util.random.int[30].to[40]>|<util.random.int[2].to[4]>
+    
+    on player enters treasure_h6:
+    - run spawnProceduralMobs def:treasure_h6_spawn|<util.random.int[25].to[35]>|<util.random.int[3].to[6]>
+
+    on player walks over treasure_h8:
+    - run spawnProceduralMobs def:treasure_h8_spawn|<util.random.int[45].to[55]>|<util.random.int[3].to[6]>
+    
+AddToPmsLocationsFound:
+  type: task
+  definitions: thePlayer|theLocation
+  script:
+    - if !<player.flag[pmsLocationsFound].as_list.contains[<def[theLocation]>]> {
+      - flag <def[thePlayer]> pmsLocationsFound:->:<def[theLocation]>
+    }
+  
+# You may adjust the values below to your liking. 
+# But be careful, as they have been carefully fine-tuned for a good SMP experience. 
+pmsGlobal: 
+  type: task 
+  default constants:
+  
+    # Monsters will not spawn this long for that player finding a treasure
+    treasure_SP_cooldown: 30m
+    # Player 1 enters the trigger cuboid. Player 2 now has this much time to enter it as well before monsters spawn for player 2.
+    treasure_MP_cooldown: 10m
+    
+    # Normal mobs will have 0.5 * boss difficulty
+    mobToBossDifficulty: 0.5
+
+    # Probability of a boss being spawned with a player head mapped to level 0 - maxDifficulty (default: 100).
+    # All players who have ever visited the server will be part of the pool containing spawnable heads.
+    # Default values mean: Boss with level 0 will have 0% of having player head, and boss with level 100 will have 40%.
+    playerHeadProbability: 0|0.4
+
+    # The probability for the mobs to drop a single item.
+    # Be careful when you change this value, as it has been carefully fine tuned. Increasing these values might
+    # lead to significantly more items being dropped.
+    dropRate: 0.18|0.12
+
+    babyPercentage: 0.3|-1
+
+    # Mobs with min level will have 10% (=0.1) chance of having an item equipped.
+    # Mobs with max level will have 100% (=1) chance of having an item equipped.
+    equipRange: 0.3|1
+    
+    # In percent. E.g.: 0 = Five players have same difficulty as one player.
+    # 15 = Difficulty is 130% for three players (adding 15% difficulty per additional player)
+    # One player will always have difficulty 100% scaled to maxDifficulty
+    difficultyIncreasePerPlayer: 25
+    
+    maxDifficulty: 100
+    
+    # How many XP an enemy will drop.
+    xpRange: 0|100
+    
+    mobHP: 10|170
+    mobSpeed: 0.25|0.38
+    attackDamage: 1|5
+    knockbackResistance: -0.5|1
+    
+    weapons: carrot_fortune|shield_redstriped|fishingrod_luck|pufferfish_thorns|shears_unbreaking|endrod_silktouch|torch_firestarter|stick_knockback|blazerod_looting|weapon_marco|weapon_kaido|weapon_garp|axe_eightbasher|sword_eightslasher|axe_zombiebasher|axe_zombiethresher|sword_zombieslasher|sword_zombieslicer|sword_firewind|axe_eightcrasher|sword_eightkiller|axe_zombiecrasher|sword_zombiekiller|sword_eternalflame|axe_eightsmasher|sword_eightslayer|axe_zombiesmasher|sword_zombieslayer|sword_sweeper|axe_ali|sword_falconpunch|sword_obsidius|spade_obsidius|axe_obsidius|pickaxe_obsidius|axe_scrounger|axe_lava|axe_thief|sword_hiken|axe_magma|axe_gimli|sword_kitetsu|sword_ragnarok|axe_buster|sword_excalibur|axe_bloodninja|sword_heart|sword_apocalypse|axe_mjolnir|sword_buster|sword_masamune|sword_ultima
+    bows: bow_eightstinger|bow_zombbomb|bow_omnium|bow_vatra|bow_horn|bow_forcestealer|bow_obsidius|bow_fusrodah|bow_sidekick|bow_agility|bow_turtle|bow_superspeed|bow_health|bow_powerheart|bow_maxray|bow_jinbe|bow_bazooka|bow_luffy
+    helmets: helmet_ninja|helmet_burter|helmet_ace|helmet_obsidius|helmet_robocop|helmet_jinbe|helmet_luffy|helmet_marco|helmet_heart|helmet_oflife|helmet_cardiac|helmet_souleater|helmet_kratanien|helmet_dwarven|helmet_garp|helmet_kaido|helmet_knight|helmet_platin|helmet_paladin|helmet_imperial|helmet_onyx|helmet_guardian|helmet_elven|helmet_mythril|helmet_adamantium|helmet_thorium|helmet_legendary
+    chestplates: chestplate_ninja|chestplate_burter|chestplate_ace|chestplate_obsidius|chestplate_jinbe|chestplate_garp|chestplate_luffy|chestplate_marco|chestplate_heart|chestplate_oflife|chestplate_cardiac|chestplate_souleater|chestplate_kratanien|chestplate_dwarven|chestplate_kaido|chestplate_knight|chestplate_platin|chestplate_paladin|chestplate_imperial|chestplate_onyx|chestplate_guardian|chestplate_elven|chestplate_mythril|chestplate_adamantium|chestplate_thorium|chestplate_legendary
+    leggings: leggings_ninja|leggings_burter|leggings_forrest|leggings_ace|leggings_obsidius|leggings_jinbe|leggings_garp|leggings_luffy|leggings_marco|leggings_heart|leggings_oflife|leggings_cardiac|leggings_souleater|leggings_kratanien|leggings_dwarven|leggings_kaido|leggings_knight|leggings_platin|leggings_paladin|leggings_imperial|leggings_onyx|leggings_guardian|leggings_elven|leggings_mythril|leggings_adamantium|leggings_thorium|leggings_legendary
+    boots: boots_burter|boots_ninja|boots_ace|boots_fourleafclover|boots_obsidius|boots_jinbe|boots_garp|boots_luffy|boots_heart|boots_oflife|boots_cardiac|boots_souleater|boots_kratanien|boots_dwarven|boots_kaido|boots_marco|boots_knight|boots_platin|boots_paladin|boots_imperial|boots_onyx|boots_guardian|boots_elven|boots_mythril|boots_adamantium|boots_thorium|boots_legendary
+    
+    #weapons: sword_1|sword_2|sword_3|sword_4|sword_5|sword_6|sword_7|sword_8|sword_9|sword_10|sword_11|sword_12|sword_13|sword_14|sword_15|sword_16
+    #bows: bow_1|bow_2|bow_3|bow_4|bow_5|bow_6
+    #helmets: helmet_1|helmet_2|helmet_3|helmet_4|helmet_5|helmet_6|helmet_7|helmet_8|helmet_9|helmet_10|helmet_11|helmet_12|helmet_13|helmet_14|helmet_15|helmet_16|helmet_17
+    #chestplates: chestplate_1|chestplate_2|chestplate_3|chestplate_4|chestplate_5|chestplate_6|chestplate_7|chestplate_8|chestplate_9|chestplate_10|chestplate_11|chestplate_12|chestplate_13|chestplate_14|chestplate_15
+    #leggings: leggings_1|leggings_2|leggings_3|leggings_4|leggings_5|leggings_6|leggings_7|leggings_8|leggings_9|leggings_10|leggings_11|leggings_12
+    #boots: boots_1|boots_2|boots_3|boots_4|boots_5|boots_6|boots_7|boots_8|boots_9|boots_10|boots_11|boots_12
+    
+    # Doesn't work correctly right now because Minecraft ties the durability of an item
+    # to the DropChance. If DropChance is between 0 and 1, it will automatically generate
+    # a random durability for the dropped item, regardless of the actual setting.
+    # If however the DropChance is > 1, the durability will be the set number, but then the item will always drop.
+    # I'm leaving this in as it might chance in the future (now is: Minecraft 1.8.8, 07.11.2015)
+    itemDamaged: 0.2|0.9
+
+    
+#######################################################################################################################
+######################## BE CAREFUL, CHANGING CODE BELOW THIS LINE MIGHT BREAK THE SCRIPT #############################
+#######################################################################################################################
+xRandomTreasureMessage:
+    type: procedure
+    script:
+    - random {
+      - define value "You are not alone..."
+      - define value "Something seems wrong in here..."
+      - define value "You hear the floor cracking..."
+      - define value "Looks like there's someone else here..."
+      - define value "You feel a cold shiver running down your spine..." 
+      - define value "This place seems strange..." 
+      - define value "You feel an evil presence around you..."
+      - define value "Things are not the way they seem here..." 
+      - define value "This looks like a trap..."
+      - define value "This place is not as peaceful as it looks..."
+      - define value "You suddenly regret coming here..." 
+    }
+    - determine %value%
+
+treasureMobs_XP:
+  type: world
+  events:
+    on entity killed:
+    - if <context.entity.name> != null {
+      # e.g. Rulemoot the Destroyer (Lv 64)
+      - if <context.entity.name.matches[^.*\(\w+.(\d+).*]> {
+        # Extract number 64 from "Rulemoot the Destroyer (Lv 64)"
+        - define level <context.entity.name.regex[^.*\(\w+.(\d+).*].group[1]>
+        - if %level% < 0 {
+          - define level 0
+        }
+        else if %level% > <s@pmsGlobal.constant[maxDifficulty]> {
+          - define level <s@pmsGlobal.constant[maxDifficulty]>
+        }
+        - define xpDrop <proc[lerp].context[xpRange|%level%|true]>
+        - drop xp qty:<def[xpDrop].as_int> <context.entity.location>
+      }
+    }
+
+spawnProceduralMobs:
+  type: task
+  definitions: spawnCuboid|difficulty|monsterCount|ignorecooldown
+  script:
+  - ^if <def[spawnCuboid].contains[cu@]> == false {
+    # User forgot to enter cu@ for spawnCuboid, add it in front of the string and try to continue...
+    - ^define spawnCuboid cu@%spawnCuboid%
+  }
+  - ^if !<def[ignorecooldown].exists> {
+    - define ignorecooldown false
+  }
+  
+  - ^define treasurename <def[spawnCuboid].notable_name>
+  
+  - ^define cooldownOK false
+  - ^if !<player.has_flag[%treasurename%_found]> && !<global.has_flag[%treasurename%_MP_cooldown]> {
+    - ^define cooldownOK true
+  }
+  
+  - ^if %ignorecooldown% || %cooldownOK% {
+  
+    - define playersNearby <player.location.find.players.within[36]>
+  
+    # narrate to all players within range
+    - ^foreach <def[playersNearby]> {
+      - ^execute as_op "title <def[value].name> actionbar {<&dq>text<&dq>:<&dq><proc[xRandomTreasureMessage]><&dq>, <&dq>color<&dq>:<&dq>red<&dq>, <&dq>bold<&dq>:true}"
+      - ^run AddToPmsLocationsFound def:<def[value]>|<def[spawnCuboid]>
+    }
+
+    - ^if !<def[difficulty].exists> {
+      - ^define difficulty 30
+    }
+    
+    - ^if !<def[monsterCount].exists> {
+      - ^define monsterCount 5
+    }
+    
+    # Randomize spawn locations so that mobs don't always spawn at the same spot.
+    - ^define locationList <def[spawnCuboid].spawnable_blocks.random[%monsterCount%]>
+    
+    - ^foreach <def[locationList]> {
+      - ^if <def[value].world.is[!=].to[null]> {
+        - flag player %treasurename%_found duration:<s@pmsGlobal.constant[treasure_SP_cooldown]>
+        - flag global %treasurename%_MP_cooldown duration:<s@pmsGlobal.constant[treasure_MP_cooldown]>
+
+        - ^define handEquip <proc[randomitem].context[weapons|%difficulty%|true]>
+        # One boss will be spawned
+        - ^if %loop_index% == 1 {
+          - ^define drop <proc[lerp].context[dropRate|<def[difficulty]>|true]>
+
+          - ^define theMob <proc[getProceduralMob].context[%difficulty%|true]>
+          - ^if <def[theMob].entity_type.is[==].to[SKELETON]> {
+            # Skeletons will have bows most of the time (75%) and swords sometimes (25%)
+            - ^define handEquip <proc[randomitem].context[<li@weapons|bows.get[<util.random.int[<util.random.int[1].to[2]>].to[2]>]>|%difficulty%|true]>
+          }
+          # as_op is necessary so that the summon command works in every world the player is in
+          # If the command was executed as_server, it would only work in the main world and not in e.g. the nether
+          - ^run spawnSummonWrapper def:as_op|%value%|<def[theMob]>|hand:<def[handEquip]>/head:<proc[randomitem].context[helmets|%difficulty%|true]>/chest:<proc[randomitem].context[chestplates|%difficulty%|true]>/legs:<proc[randomitem].context[leggings|%difficulty%|true]>/boots:<proc[randomitem].context[boots|%difficulty%|true]>/DropChances=<def[drop]>|%difficulty%|true
+        }
+        else {
+          # At this point, the boss has already been spawned.
+          # The rest of the locations will be filled with random mobs with half the boss level
+          - ^define drop <proc[lerp].context[dropRate|<def[difficulty]>|false]>
+
+          - ^define theMob <proc[getProceduralMob].context[%difficulty%|false]>
+          - ^if <def[theMob].entity_type.is[==].to[SKELETON]> {
+            - ^define handEquip <proc[randomitem].context[<li@weapons|bows.get[<util.random.int[<util.random.int[1].to[2]>].to[2]>]>|%difficulty%|false]>
+          }
+          - ^run spawnSummonWrapper def:as_op|%value%|<def[theMob]>|hand:<def[handEquip]>/head:<proc[randomitem].context[helmets|%difficulty%|false]>/chest:<proc[randomitem].context[chestplates|%difficulty%|false]>/legs:<proc[randomitem].context[leggings|%difficulty%|false]>/boots:<proc[randomitem].context[boots|%difficulty%|true]>/DropChances=<def[drop]>|%difficulty%|false
+        }
+      }
+    }
+  }
+
+  
+myrandomBossName:
+    type: procedure
+    definitions: difficulty
+    script:
+    - random {
+      - define value "<red>Benttree"
+      - define value "<red>Boltfire The Swift"
+      - define value "<red>Boltlock"
+      - define value "<red>Clayshock The Hunter"
+      - define value "<red>Crashshadow"
+      - define value "<red>Dirtsneak"
+      - define value "<red>Flamegut The Crazed"
+      - define value "<red>Killmurk"
+      - define value "<red>Plantcinder The Regulator"
+      - define value "<red>Shadowlurk"
+      - define value "<red>Skullbash"
+      - define value "<red>Skullbeast The Skeletal"
+      - define value "<red>Slytear The Smart"
+      - define value "<red>Smashchain The Gibbering"
+      - define value "<red>Spiritstorm The Magician"
+      - define value "<red>Steelflame The Binder"
+      - define value "<red>Tomblock The Runner"
+      - define value "<red>Wirespirit The Sneaky"
+      - define value "<red>Evilfire"
+      - define value "<red>Hellcraft"
+      - define value "<red>Metalhunt"
+      - define value "<red>Nailtrap The Desirable"
+      - define value "<red>Rotgreed The Terrifying"
+      - define value "<red>Rulemaw"
+      - define value "<red>Ruleroot"
+      - define value "<red>Shadescare"
+      - define value "<red>Terrorstorm The Charnel"
+      - define value "<red>Treevault"
+      - define value "<red>Deadmace"
+      - define value "<red>Coffincharge The Decayed"
+      - define value "<red>Freezehaunt The Crusher"
+      - define value "<red>Ghoullurk"
+      - define value "<red>Rapidbolt The Ever-hungry"
+      - define value "<red>Scarepassion The Striker"
+      - define value "<red>Tombseek The Black"
+    }
+    - if <def[difficulty].exists> {
+      - define value "<def[value]> (Lv <def[difficulty]>)"
+    }
+    - determine %value%
+
+getProceduralMob:
+  type: procedure
+  definitions: difficulty|isBoss
+  script:
+  - define hp <proc[randomMobHP].context[<def[difficulty]>|<def[isBoss]>]>
+  - define speed <proc[lerp].context[mobSpeed|<def[difficulty]>|<def[isBoss]>]>
+  - define attackDamage <proc[lerp].context[attackDamage|<def[difficulty]>|<def[isBoss]>]>
+  - define knockbackResistance <proc[lerp].context[knockbackResistance|<def[difficulty]>|<def[isBoss]>]>
+
+  # Take a random player who has ever played on the server and set his face to the boss
+  - if <def[isBoss]> && <util.random.decimal.is[OR_LESS].than[<proc[lerp].context[playerHeadProbability|<def[difficulty]>|<def[isBoss]>]>]> {
+    - define skull ";skull=<server.list_players.random.name>"
+  }
+  - if <util.random.decimal.is[OR_LESS].than[<proc[lerp].context[babyPercentage|<def[difficulty]>|<def[isBoss]>]>]> {
+    - define isBaby ";age=baby"
+  }
+  # TODO knockbackresistence as parameter
+  - define defaultAttributes max_health=<def[hp]><tern[<def[skull].exists>]:<def[skull]>||>;health=<def[hp]>;movementSpeed=<def[speed]>;attackDamage=<def[attackDamage]>;followRange=64;knockbackResistance=<def[knockbackResistance]>
+
+  - if <def[isBoss].exists> && <def[isBoss].is[==].to[true]> {
+    - define bossAttributes custom_name=<proc[myrandomBossName].context[<def[difficulty]>]>;%defaultAttributes%
+    - random {
+      # TODO ;villager=true
+      #- determine e@ghast[custom_name=<proc[myrandomBossName]>;<def[defaultAttributes]>]
+      - determine e@skeleton[%bossAttributes%;skeleton=WITHER]
+      - determine e@pig_zombie[%bossAttributes%]
+      - determine e@zombie[%bossAttributes%]
+    }
+  }
+  else {
+    - define defaultAttributes "custom_name=<gray>Lv <def[difficulty].mul[<s@pmsGlobal.constant[mobToBossDifficulty]>].round>;%defaultAttributes%"
+    - random {
+      - determine e@witch[<def[defaultAttributes]>]
+      - determine e@creeper[<def[defaultAttributes]>]
+      - determine e@creeper[powered=true;<def[defaultAttributes]>]
+      # TODO ;jockey=true
+      #- determine e@endermite[<def[defaultAttributes]>]
+      #- determine e@silverfish[<def[defaultAttributes]>]
+      - determine e@blaze[<def[defaultAttributes]>]
+      - determine e@zombie[<def[defaultAttributes]><tern[<def[isBaby].exists>]:<def[isBaby]>||>]
+      - determine e@pig_zombie[<def[defaultAttributes]><tern[<def[isBaby].exists>]:<def[isBaby]>||>]
+      - determine e@skeleton[<def[defaultAttributes]>]
+      #- determine e@rabbit[color=KILLER;<def[defaultAttributes]>]
+    }
+  }
+
+randomMobHP:
+    type: procedure
+    definitions: difficulty|isBoss
+    script:
+    - define mobHP <proc[lerp].context[mobHP|<def[difficulty]>|<def[isBoss]>]>
+    - determine <proc[gaussRand].context[<def[mobHP]>|1|<s@pmsGlobal.constant[mobHP].as_list.get[2]>].round>
+
+gaussRand:
+  type: procedure
+  # TODO implement sigma as percentage
+  definitions: myinput|min|max
+  script:
+  - define returnValue <math:<util.random.gauss>*(%myinput%/16)+%myinput%>
+  - if <def[min].exists> && <def[max].exists> {
+    - if <el@val[%returnValue%].is[LESS].than[<el@val[%min%]>]> {
+      - define returnValue %min%
+    }
+    else if <el@val[%returnValue%].is[MORE].than[<el@val[%max%]>]> {
+      - define returnValue %max%
+    }
+  }
+  - determine %returnValue%
+
+randomitem:
+    type: procedure
+    definitions: globalconstname|difficulty|isBoss
+    script:
+    - define itemlist <s@pmsGlobal.constant[%globalconstname%].as_list>
+    - if !<def[isBoss].exists> || <def[isBoss].is[==].to[false]> {
+      # Normal mob's item level will be 1/2 of the boss item level
+      - define difficulty <def[difficulty].mul[<s@pmsGlobal.constant[mobToBossDifficulty]>].round>
+    }
+
+    - define itemlevel <proc[lerpIndex].context[%globalconstname%|%difficulty%]>
+    # weigh generated item levels closer to max level. E.g: difficulty 50/100 -> most itemlevels will be in range 30-50
+    # E.g. Boss with level 50 will get item 5 (if 10 items in list).
+    - define myrand <util.random.int[<util.random.int[0].to[<def[itemlevel]>]>].to[<def[itemlevel]>]>
+    - determine <def[itemlist].get[%myrand%]>
+
+# Linear interpolation
+lerp:
+  type: procedure
+  # passing the list directly always only passed the first item from the list, thus globalconstname
+  definitions: globalconstname|difficulty|isBoss
+  script:
+    - if !<def[difficulty].exists> {
+      - announce to_console "PMS: Difficulty not specified, assuming 50%."
+      - define difficulty <s@pmsGlobal.constant[maxDifficulty].div[2]>
+    }
+
+    - if !<def[isBoss].exists> || <def[isBoss].is[==].to[false]> {
+      - define difficulty <def[difficulty].mul[<s@pmsGlobal.constant[mobToBossDifficulty]>].round>
+    }
+
+    - define valuelist <s@pmsGlobal.constant[%globalconstname%].as_list>
+
+    - if <def[valuelist].exists> && <el@val[<def[valuelist].size>].is[MORE].than[1]> {
+
+      # 0.6 - 0.2 = 0.4
+      - define rangeDelta <math:<def[valuelist].get[2]>-<def[valuelist].get[1]>>
+      # 60/100 * 0.4 = 0,24 -> 0,24+0,2 = 0,44 -> calculated 60% from 0.2...0.6
+      - define returnlevel <math:(%difficulty%/<s@pmsGlobal.constant[maxDifficulty]>)*%rangeDelta%+<def[valuelist].get[1]>>
+    }
+    else {
+      # Couldn't find range from provided list, trying to return first item in list. Will be null if list is empty.
+      - define returnLevel <def[valuelist].get[1]>
+    }
+    - determine <def[returnlevel]>
+
+lerpIndex:
+  type: procedure
+  definitions: globalconstname|difficulty
+  script:
+    - if !<def[difficulty].exists> {
+      - narrate "Difficulty not specified, assuming 50%"
+      - define difficulty <s@pmsGlobal.constant[maxDifficulty].div[2]>
+    }
+    # map difficulty to number of items in list. Must be integer to access list via .get[i] later, thus .round at the end
+    - define itemlevel <def[difficulty].div[<s@pmsGlobal.constant[maxDifficulty]>].mul[<s@pmsGlobal.constant[%globalconstname%].as_list.size>].round>
+    - determine <def[itemlevel]>
+
+# each player adds difficultyIncreasePerPlayer (percent) difficulty
+playerCountDifficulty:
+  type: procedure
+  definitions: difficulty
+  script:
+  - define playerCount <player.location.find.players.within[36].size>
+  # (( 15 * 3 - 15 )/100) * <s@pmsGlobal.constant[maxDifficulty]>
+  - if <def[playerCount].is[MORE].than[1]> {
+    - define temp <math:((<s@pmsGlobal.constant[difficultyIncreasePerPlayer]>*%playerCount%-<s@pmsGlobal.constant[difficultyIncreasePerPlayer]>)/100+1)*<def[difficulty]>>
+    - determine <def[temp].round>
+  }
+  else {
+    - determine <def[difficulty]>
+  }
+
+
+########################################################################################################################################
+# spawnSummonWrapper
+########################################################################################################################################
+spawnSummonWrapper:
+  type: task
+  definitions: as_executor|location|entity|equip|difficulty|isBoss
+  script:
+  - define entityAttributes <def[entity].split[regex:\w@\w+\[]>
+  - define entityAttributes <def[entityAttributes].substring[0,<def[entityAttributes].length.sub_int[1]>].split[;]>
+  
+  - if !<def[difficulty].exists> {
+    - define difficulty <s@pmsGlobal.constant[maxDifficulty].div[2]>
+  }
+
+  - foreach <def[entityAttributes]> {
+    - if <def[value].contains[<el@val[=]>]> {
+      - if <def[value].contains[custom_name]> {
+        - define custom_name <def[value].split[<el@val[=]>].get[2]>
+      }
+      else if <def[value].contains[max_health]> {
+        - define max_health <def[value].split[<el@val[=]>].get[2]>
+      }
+      else if <def[value].contains[health]> {
+        - define health <def[value].split[<el@val[=]>].get[2]>
+      }
+      else if <def[value].contains[movementSpeed]> {
+        - define movementSpeed <def[value].split[<el@val[=]>].get[2]>
+      }
+      else if <def[value].contains[attackDamage]> {
+        - define attackDamage <def[value].split[<el@val[=]>].get[2]>
+      }
+      else if <def[value].contains[followRange]> {
+        - define followRange <def[value].split[<el@val[=]>].get[2]>
+      }
+      else if <def[value].contains[knockbackResistance]> {
+        - define knockbackResistance <def[value].split[<el@val[=]>].get[2]>
+      }
+      else if <def[value].contains[skeleton]> && <def[value].split[<el@val[=]>].get[2].is[==].to[WITHER]> {
+        - define mobType "SkeletonType:1"
+      }
+      else if <def[value].contains[powered]> && <def[value].split[<el@val[=]>].get[2].is[==].to[true]> {
+        # TODO: radius and fuse should be variables
+        - define poweredCreeper "ExplosionRadius:3,Fuse:30,powered:1"
+      }
+      else if <def[value].contains[villager]> && <def[value].split[<el@val[=]>].get[2].is[==].to[true]> {
+        - define isVillager "IsVillager:1"
+      }
+      else if <def[value].contains[age]> && <def[value].split[<el@val[=]>].get[2].is[==].to[baby]> {
+        - define age "IsBaby:1"
+      }
+      else if <def[value].contains[skull]> {
+        # TODO if player skull is taken, name "Xericore the Shadow" or something
+        - define skull "id:skull,Damage:3,tag:{SkullOwner:<def[value].split[<el@val[=]>].get[2]>}"
+      }
+      else if <def[value].contains[jockey]> && <def[value].split[<el@val[=]>].get[2].is[==].to[true]> {
+        - define jockey "Riding:{id:Chicken,IsChickenJockey:1}"
+      }
+    }
+  }
+
+  # need this to correctly support conversion of pig_zombie to PIG_ZOMBIE
+  - define summonEntity <def[entity].entity_type.to_titlecase>
+
+  # Only (Pig)Zombies and Skeletons will have equipment
+  - if <def[entity].entity_type.is[==].to[SKELETON]> || <def[entity].entity_type.is[==].to[ZOMBIE]> || <def[entity].entity_type.is[==].to[PIG_ZOMBIE]> {
+
+    - if <def[entity].entity_type.is[==].to[PIG_ZOMBIE]> {
+      - define anger "Anger:32767"
+      - define summonEntity zombie_pigman
+    }
+    - define equipChance <proc[lerp].context[equipRange|<def[difficulty]>|<def[isBoss]>]>
+
+    - define equipAttributs <def[equip].split[/]>
+    - foreach <def[equipAttributs]> {
+      - if <util.random.decimal.is[OR_LESS].than[<def[equipChance]>]> || <def[entity].entity_type.is[==].to[SKELETON]> {
+          # Skeletons always get weapons, otherwise they don't do anything.
+          - define equip true
+        }
+        else {
+          - define equip false
+        }
+
+      - if <def[value].contains[hand]> {
+        # bosses always have weapons
+          - if <def[isBoss]> || <def[equip]> {
+            - define hand "<proc[getItemWithDurability].context[<def[value]>|<def[difficulty]>|<def[isBoss]>]>"
+          }
+        }
+        else if <def[value].contains[head]> {
+          # Equip helmet always to prevent mobs from burning at day (you could use fire resistance as well, but I like this better)
+          - define head <proc[getItemWithDurability].context[<def[value]>|<def[difficulty]>|<def[isBoss]>]>
+        }
+        else if <def[value].contains[chest]> && <def[equip]> {
+          - define chest <proc[getItemWithDurability].context[<def[value]>|<def[difficulty]>|<def[isBoss]>]>
+        }
+        else if <def[value].contains[legs]> && <def[equip]> {
+          - define leggings <proc[getItemWithDurability].context[<def[value]>|<def[difficulty]>|<def[isBoss]>]>
+        }
+        else if <def[value].contains[boots]> && <def[equip]> {
+          - define boots <proc[getItemWithDurability].context[<def[value]>|<def[difficulty]>|<def[isBoss]>]>
+        }
+        else if <def[value].contains[DropChances]> {
+          - define dropChance "<def[value].split[=].get[2]>F"
+        }
+      }
+    }
+    
+  - ^if !<def[dropChance].exists> {
+    - ^define dropChance "0F"
+  }
+    
+  - ^execute <def[as_executor]> "summon <def[summonEntity]> <def[location].x> <def[location].y> <def[location].z> { HandItems: [{<tern[<def[hand].exists>]:<def[hand]>||>}, {}],ArmorItems:[{<tern[<def[boots].exists>]:<def[boots]>||>},{<tern[<def[leggings].exists>]:<def[leggings]>||>},{<tern[<def[chest].exists>]:<def[chest]>||>},{<tern[<def[head].exists>]:<def[head]>||>}],<tern[<def[custom_name].exists>]:CustomName:<def[custom_name]>, CustomNameVisible: 1,||> Attributes: [<tern[<def[max_health].exists>]:{Name : generic.maxHealth, Base : <def[max_health]>}||>
+    <tern[<def[movementSpeed].exists>]:,
+    {Name : generic.movementSpeed,Base : <def[movementSpeed]>}||> <tern[<def[attackDamage].exists>]:,
+    {Name : generic.attackDamage,Base : <def[attackDamage]>}||> <tern[<def[followRange].exists>]:,
+    {Name : generic.followRange,Base : <def[followRange]>}||> <tern[<def[knockbackResistance].exists>]:,
+    {Name : generic.knockbackResistance,Base : <def[knockbackResistance]>}||>],HandDropChances:[<def[dropChance]>,<def[dropChance]>],ArmorDropChances:[<def[dropChance]>,<def[dropChance]>,<def[dropChance]>,<def[dropChance]>],Health:<def[max_health]><tern[<def[anger].exists>]:,<def[anger]>||>
+    <tern[<def[poweredCreeper].exists>]:,<def[poweredCreeper]>||>
+    <tern[<def[age].exists>]:,<def[age]>||>
+    <tern[<def[isVillager].exists>]:,<def[isVillager]>||>}"
+
+getItemWithDurability:
+  type: procedure
+  definitions: item|difficulty|isBoss
+  script:
+  - define itemName <def[item].split[:].get[2]>
+  - define maxDurability <i@%itemName%.max_durability>
+  - define durabilityDifficulty <proc[lerp].context[itemDamaged|<def[difficulty]>|<def[isBoss]>]>
+
+  - define randDurability <proc[gaussRand].context[<math:%durabilityDifficulty%*%maxDurability%>|0|%maxDurability%].round>
+  - determine <i@%itemName%[durability=%randDurability%].json.replace[\].with[]>
