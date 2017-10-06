@@ -62,11 +62,6 @@ betterhorses:
       - define foalSpeed <proc[gauss].context[%muSpeed%|%sigmaSpeed%].div[43]>
       - define foalJumpStrength <proc[gauss].context[%muJump%|%sigmaJump%]>
       
-      #- narrate "minJump: <def[minJump].round_to[2]>, absJumpDelta: <def[absJumpDelta].round_to[4]>, minJumpMinusDeltaHalf: <def[minJumpMinusDeltaHalf].round_to[4]>," targets:li@<p@Xericore>|<p@Davitee>
-      #- narrate "muJump: %muJump%, sigmaJump: %sigmaJump%" targets:li@<p@Xericore>|<p@Davitee>
-      
-      #- narrate "foal: %foalJumpStrength% J1: <def[jump1].round_to[2]> J2: <def[jump2].round_to[2]>" targets:li@<p@Xericore>|<p@Davitee>
-      
       #################### HEALTH ####################
       - define avgHealth <math:(%health1%+%health2%)/2>
       - define foalHealth <proc[gauss].context[%avgHealth%|2]>
@@ -93,25 +88,6 @@ betterhorses:
       - ^adjust <context.entity> 'speed:%foalSpeed%'
       - ^adjust <context.entity> 'jump_strength:%foalJumpStrength%'
       - ^adjust <context.entity> 'health:%foalHealth%'
-      
-      # TODO: remove me
-      # debug stuff
-      
-      - define speedMinus2Sigma <math:%muSpeed%-(2*%sigmaSpeed%)>
-      - define speedPlus2Sigma <math:%muSpeed%+(2*%sigmaSpeed%)>
-            
-      - narrate " " targets:li@<p@Xericore>|<p@Davitee>
-      - narrate "speed: <def[speedMinus2Sigma].round_to[2]> - <def[muSpeed].round_to[2]> - <def[speedPlus2Sigma].round_to[2]>" target:%thePlayer%
-      
-      - define jumpMinus2Sigma <proc[toJumpHeight].context[<math:%muJump%-(2*%sigmaJump%)>]>
-      - define jumpPlus2Sigma <proc[toJumpHeight].context[<math:%muJump%+(2*%sigmaJump%)>]>
-      
-      - narrate "jump: <def[jumpMinus2Sigma].round_to[2]> - <proc[toJumpHeight].context[%muJump%].round_to[2]> - <def[jumpPlus2Sigma].round_to[2]>" target:%thePlayer%
-      
-      - narrate "health: <def[foalHealth].round>" target:%thePlayer%
-      
-      #- wait 16s
-      #- remove <context.entity>
     }
 
 toJumpHeight:
