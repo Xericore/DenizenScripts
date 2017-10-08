@@ -2,3 +2,11 @@ testpms:
   type: task
   script:
   - narrate "testpms"
+  
+  - define difficulty 5
+  
+  - ^define theMob <proc[getProceduralMob].context[%difficulty%|true]>
+  
+  - ^define handEquip <proc[randomitem].context[weapons]>|%difficulty%|false]>
+  
+  - ^run spawnSummonWrapper def:as_op|<player.location>|<def[theMob]>|hand:<def[handEquip]>/head:<proc[randomitem].context[helmets|%difficulty%|true]>/chest:<proc[randomitem].context[chestplates|%difficulty%|true]>/legs:<proc[randomitem].context[leggings|%difficulty%|true]>/boots:<proc[randomitem].context[boots|%difficulty%|true]>/DropChances=<def[drop]>|%difficulty%|true
