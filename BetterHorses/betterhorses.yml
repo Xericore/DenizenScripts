@@ -7,7 +7,7 @@ betterhorses:
     jumpBonus: 0.0
     
   events:
-    on entity spawns: #TODO: because breeding
+    on entity spawns because BREEDING:
     
     - define thePlayer <context.entity.location.find.entities[PLAYER].within[6].get[0]>
     
