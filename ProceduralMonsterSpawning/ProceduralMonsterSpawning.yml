@@ -658,7 +658,7 @@ spawnSummonWrapper:
     - ^define dropChance "0F"
   }
     
-  - ^execute <def[as_executor]> "summon <def[summonEntity]> <def[location].x> <def[location].y> <def[location].z> { HandItems: [{<tern[<def[hand].exists>]:<def[hand]>||>}, {}],ArmorItems:[{<tern[<def[boots].exists>]:<def[boots]>||>},{<tern[<def[leggings].exists>]:<def[leggings]>||>},{<tern[<def[chest].exists>]:<def[chest]>||>},{<tern[<def[head].exists>]:<def[head]>||>}],<tern[<def[custom_name].exists>]:CustomName:<def[custom_name]>, CustomNameVisible: 1,||> Attributes: [<tern[<def[max_health].exists>]:{Name : generic.maxHealth, Base : <def[max_health]>}||>
+  - ^execute <def[as_executor]> "summon <def[summonEntity]> <def[location].x> <def[location].y> <def[location].z> { HandItems: [{<tern[<def[hand].exists>]:<def[hand]>||>}, {}],ArmorItems:[{<tern[<def[boots].exists>]:<def[boots]>||>},{<tern[<def[leggings].exists>]:<def[leggings]>||>},{<tern[<def[chest].exists>]:<def[chest]>||>},{<tern[<def[head].exists>]:<def[head]>||>}],<tern[<def[custom_name].exists>]:CustomName:<&dq><def[custom_name]><&dq>, CustomNameVisible: 1,||> Attributes: [<tern[<def[max_health].exists>]:{Name : generic.maxHealth, Base : <def[max_health]>}||>
     <tern[<def[movementSpeed].exists>]:,
     {Name : generic.movementSpeed,Base : <def[movementSpeed]>}||> <tern[<def[attackDamage].exists>]:,
     {Name : generic.attackDamage,Base : <def[attackDamage]>}||> <tern[<def[followRange].exists>]:,
