@@ -78,13 +78,13 @@
 #                 Default: false
 #
 # 
-# @version:       1.3 (06.10.2017)
+# @version:       1.4 (08.10.2017)
 # @author:        Xericore
 # @email:         xericore@gmail.com
 # @website:       http://www.petricevic.net/minecraft/procedural-monsters/
 #
-# Tested with Denizen 1.0.1 #1630 and Citizens 2.0.21
-# For Minecraft version 1.11.2 and higher
+# Tested with Denizen 1.0.2 #1641 and Citizens 2.0.22
+# For Minecraft version 1.12.2 and higher
 
 
 # >>>>>>>>>>>>>>>>>>>>>>>>    ADD YOUR SPAWN CUBOIDS IN THIS SCRIPT   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

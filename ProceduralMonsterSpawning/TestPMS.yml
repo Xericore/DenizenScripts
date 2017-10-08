@@ -1,0 +1,4 @@
+testpms:
+  type: task
+  script:
+  - narrate "testpms"
