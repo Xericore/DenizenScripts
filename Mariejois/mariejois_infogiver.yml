@@ -1,0 +1,101 @@
+mariejois_infogiver: 
+  type: assignment
+
+  actions:
+    on assignment:
+    - trigger name:click state:true
+    - trigger name:chat toggle:true radius:4
+    - trigger name:proximity state:true
+
+  interact scripts:
+  - 1 mariejois_infogiver_interact
+ 
+mariejois_infogiver_interact:
+  type: interact
+  steps:
+    1:
+      click trigger:
+        script:
+        - trigger name:chat state:true
+        - engage
+        - random {
+          - ^playsound <npc.location> sound:mob.villager.haggle custom
+          - ^playsound <npc.location> sound:mob.villager.idle custom
+        }
+        - narrate ""
+        - ^flag npc justtalked
+        - ^chat "<&o>Only the worthy can enter Mariejois."
+        - ^narrate "<&e>1. <&b>What is this place?"
+        - ^narrate "<&e>2. <&b>How do I get inside?"
+        - ^narrate "<&e>3. <&b>Am I a champion of Kratanien yet?"
+        - ^narrate "<&e>Q. <&b>I don<&sq>t care, goodbye."
+        - disengage
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - ^chat "This is Mariejois, a sacred place only true champions of Kratanien can enter."
+          - wait 1
+          - ^chat "A magical barrier will stop any unworthy individual of entering Mariejois."
+        '2':
+          trigger: "/2/"
+          script:
+          - engage
+          - ^chat "You have to prove that you<&sq>re a true champion of Kratanien."
+          - wait 2
+          - ^chat "I suggest you talk to <&b>Thoalk<&a> in the house north of the Blacksmith in <&f>Kratania City<&a>."
+          - wait 2
+          - ^chat "You might also want to talk to <&b>Lewna<&a>. As far as I know, she<&sq>s standing in the spawn palace."
+          - disengage
+        '3':
+          trigger: "/3/"
+          script:
+          - define calculatedPoints <proc[GetKratanienPoints].context[<player>]>
+          
+          - if <def[calculatedPoints].is[LESS].than[10]> {
+            - ^chat "Seems to me you have not yet even started exploring the secrets of Kratanien."
+          }
+          else if <def[calculatedPoints].is[LESS].than[30]> {
+            - ^chat "I think you still have a long way to go."
+          }
+          else if <def[calculatedPoints].is[LESS].than[50]> {
+            - ^chat "You<&sq>ve certainly improved, but you are not yet worthy to enter Mariejois."
+          }
+          else if <def[calculatedPoints].is[LESS].than[70]> {
+            - ^chat "<player.name>, I notice you<&sq>re on right path, but your journey is not yet over."
+          }
+          else if <def[calculatedPoints].is[LESS].than[90]> {
+            - ^chat "Hey there <player.name>, you<&sq>re more than half way done becoming a champion of Kratanien."
+          }
+          else if <def[calculatedPoints].is[LESS].than[110]> {
+            - ^chat "Your journey is slowly coming to an end. Keep up the good work!"
+          }
+          else if <def[calculatedPoints].is[LESS].than[130]> {
+            - ^chat "<player.name>, you<&sq>re almost a champion of Kratanien. Just a little more and you are worthy to enter Mariejois!"
+          }
+          else if <def[calculatedPoints].is[OR_MORE].than[150]> {
+            - ^chat "<player.name>, you are certainly a true champion of Kratanien!"
+          }
+          else {
+            - ^chat "Sorry, not yet!"
+          }
+          
+        'Q':
+          trigger: "/q/"
+          script:
+          - random {
+            - ^chat "Goodbye."
+            - ^chat "See you."
+            - ^chat "Have a good day, <player.name>."
+            - ^chat "Until next time, <player.name>."
+          }
+          - trigger name:chat state:false
+          
+      proximity trigger:
+        exit radius: 4
+        exit:
+          script:
+          - if <npc.has_flag[justtalked]> {
+            - ^playsound <npc.location> sound:mob.villager.yes custom
+            - flag npc justtalked:!
+          }

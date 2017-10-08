@@ -1,0 +1,500 @@
+ommEnemy:
+  type: assignment
+
+  actions:
+    on assignment:
+    - trigger name:click state:true
+    - trigger name:chat state:true radius:5
+    - trigger name:proximity state:true radius:5
+    - trigger name:damage state:true
+    - lookclose state:true
+    
+    - ^execute as_server "npc select <npc.id>"
+    - execute as_server "npc respawn 0"
+    - execute as_server "npc type PigZombie"
+
+    #- trait state:true sentinel
+    #- execute as_server "sentry Health 250"
+    #- execute as_server "sentry Armor 5"
+    #- execute as_server "sentry Strength 7"
+    #- execute as_server "sentry Speed 1.25"
+    #- execute as_server "sentry HealRate 0"
+    #- execute as_server "sentry Respawn 0"
+    - vulnerable state:true
+        
+    on hit on player:
+    - random {
+      - chat "Is that enough?"
+      - chat "Will this make you stop?"
+      - chat "You are the monster here, not me."
+      - chat "Just stop attacking me."
+      - chat "You are not better than the other ignorant idiots."
+      - chat "You are blinded by hate."
+      - chat "Stupid fool, falling for her spell."
+    }
+    
+    on enter proximity:
+    - ^define sisterId <s@ommGlobal.constant[sisterId]>
+    - if <n@%sisterId%.is_spawned> {
+      - ^narrate "<red><&lb><n@%sisterId%.name><red><&rb><&co> Quickly, kill him right now!"
+      # Sister must stop following you as soon as you enter the enemies proximity, otherwise the chat triggers won't work well. 
+      - ^follow followers:<n@%sisterId%> stop target:<player>
+    }
+
+    on spawn:
+    - vulnerable state:true
+    - trait state:true health
+    - health 200
+    - heal <npc>
+    
+    on death:
+    - if <player.has_flag[ommQuest]> && <player.flag[ommQuest].is[!=].to[killedEnemy]> {
+      - announce "<context.killer.name> killed <npc.name>."
+      - flag <context.killer> ommQuest:killedEnemy
+      - despawn <npc>
+    }
+      
+  interact scripts:
+  - 1 ommEnemy_interact
+
+ommEnemy_interact:
+  type: interact
+  steps:
+    1:
+      damage trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>
+          - chat "You just need to learn your lesson the hard way, don<&sq>t you!?"
+        }
+        else {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - flag <context.damager> ommAttackedEnemy
+          - chat "Stop it! Or you will face the consequences of your ignorance!"
+        }
+        
+      proximity trigger:
+        entry radius: 5
+        entry:
+          script:
+          - random {
+            - ^chat "Hello adventurer, what do you seek here?"
+            - ^chat "You look a bit ill, are you alright?."
+          }
+          - cast confusion duration:5
+          
+      click trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - chat "Have you come to your senses?"
+          - flag player ommAttackedEnemy:!
+        }
+        else {
+          - trigger name:chat state:true radius:5
+          - cast confusion duration:5
+          - ^narrate ""
+          - ^chat "Hello adventurer, I can see you look fatigued and I think I know who sent you. Are you here to kill me?"
+          - ^narrate "<&e>1. <&b>Maybe, but I<&sq>d rather listen to you first."
+          - ^narrate "<&e>2. <&b>Yes, die you fucking monster!"
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^narrate "<red><&lb><n@%sisterId%.name><red><&rb><&co> Kill him, otherwise he might play dirty tricks on your mind!"
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - ^engage
+            - ^cast confusion duration:6
+            - ^define sisterId <s@ommGlobal.constant[sisterId]>
+            - ^narrate "<red><&lb><n@%sisterId%.name><red><&rb><&co> Watch out! His influence is confusing you!"
+            - chat "Wow, I<&sq>, impressed. My last visitors weren<&sq>t so toughtful."
+            - wait 1
+            - chat "Your eyes, I can see that you are under the influence of a hallucinogen."
+            - ^narrate "<red><&lb><n@%sisterId%.name><red><&rb><&co> HE is the influence! KILL HIM!"
+            - wait 3
+            - ^define starterId <s@ommGlobal.constant[starterId]>
+            - chat "<n@%starterId%.name> must have sent you too, and this time it looks even worse."
+            - wait 3
+            - ^chat "Are you experiencing any trouble with your eyesight?"
+            - ^narrate "<red><&lb><n@%sisterId%.name><red><&rb><&co> HE is the trouble! KILL HIM!"
+            - ^zap step:2
+            - disengage
+        '2':
+          trigger: "/2/"
+          script:
+            - chat "Well I<&sq>m not looking for a fight. I believe you are misled by your thoughts."
+            - trigger name:chat state:false
+    2:
+      damage trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>
+          - chat "You just need to learn your lesson the hard way, don<&sq>t you!?"
+        }
+        else {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - flag <context.damager> ommAttackedEnemy
+          - chat "Stop it! Or you will face the consequences of your ignorance!"
+        }
+      click trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - chat "Have you come to your senses?"
+          - flag player ommAttackedEnemy:!
+        }
+        else {
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^narrate "<red><&lb><n@%sisterId%.name><red><&rb><&co> Don<&sq>t talk to him, he will try to manipulate you! Just kill him!"
+          - ^trigger name:chat state:true
+          - ^cast confusion duration:6
+          - ^narrate ""
+          - ^chat "Are you having trouble with you vision?"
+          - ^narrate "<&e>1. <&b>Yes, I actually am."
+          - ^narrate "<&e>2. <&b>Cut the crap, I<&sq>m going to make some Pigman-Porkchop out of you now!"
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - ^engage
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^narrate "<red><&lb><n@%sisterId%.name><red><&rb><&co> Don<&sq>t listen to him, KILL HIM NOW!"
+          - ^cast confusion duration:10
+          - ^vulnerable state:false
+          - chat "Hold on a second, I have something that will patch you up."
+          - wait 3
+          - ^cast confusion remove
+          - ^cast regeneration duration:15
+          - ^narrate "<red><&lb><n@%sisterId%.name><red><&rb><&co> NO! I have to get out of here now!"
+          - run despawnSister
+          - wait 2
+          - ^chat "You should feel better now, I gave you an antidote."
+          - ^flag player ommQuest:talkingToEnemy
+          - ^trigger name:chat state:false
+          - ^zap step:3
+          - ^disengage
+        '2':
+          trigger: "/2/"
+          script:
+          - chat "I<&sq>m not going to fight you."
+          - trigger name:chat state:false
+          
+    3:
+      damage trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>
+          - chat "You just need to learn your lesson the hard way, don<&sq>t you!?"
+        }
+        else {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - flag <context.damager> ommAttackedEnemy
+          - chat "Stop it! Or you will face the consequences of your ignorance!"
+        }
+      click trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - chat "Have you come to your senses?"
+          - flag player ommAttackedEnemy:!
+        }
+        else {
+          - ^trigger name:chat state:true
+          - ^narrate ""
+          - ^chat "I suppose you have a lot of questions."
+          - ^narrate "<&e>1. <&b>What on earth is going on here?"
+          - ^narrate "<&e>Q. <&b>I don<&sq>t really want to know."
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - engage
+            - ^define sisterId <s@ommGlobal.constant[sisterId]>
+            - ^define starterId <s@ommGlobal.constant[starterId]>
+            - chat "It might take a while, but let me explain..."
+            - wait 2
+            - chat "<n@%starterId%.name>, <n@%sisterId%.name> and I used to be colleagues, albeit quite a few years ago."
+            - wait 3
+            - chat "We worked for a company named Zavicorp. Officially we were researching medicine for injured soldiers."
+            - wait 3
+            - chat "However, only a few selected knew what the actual goal was."
+            - wait 3
+            - chat "<n@%starterId%.name>, her sister <n@%sisterId%.name> and I had no idea though..."
+            - disengage
+            - zap step:4
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "You<&sq>re not interested in the truth? Too bad."
+            - trigger name:chat state:false
+    4:
+      damage trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>
+          - chat "You just need to learn your lesson the hard way, don<&sq>t you!?"
+        }
+        else {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - flag <context.damager> ommAttackedEnemy
+          - chat "Stop it! Or you will face the consequences of your ignorance!"
+        }
+      click trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - chat "Have you come to your senses?"
+          - flag player ommAttackedEnemy:!
+        }
+        else {
+          - ^trigger name:chat state:true
+          - ^narrate ""
+          - ^chat "All the things that happened, it<&sq>s difficult for me to talk about it."
+          - ^narrate "<&e>1. <&b>I<&sq>m listening..."
+          - ^narrate "<&e>Q. <&b>I don<&sq>t really want to know."
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - engage
+          - chat "The three of us were working on a mutagen that was supposed to quickly heal injuries."
+          - wait 3
+          - chat "But that was only a small part of the whole project."
+          - wait 3
+          - chat "The real goal of Zavicorp was to create a SOLDIER that felt neither pain, nor guilt."
+          - wait 3
+          - chat "But the experiment went wrong, there was an accident..."
+          - disengage
+          - zap step:5
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "You<&sq>re not interested in the truth? Too bad."
+            - trigger name:chat state:false
+    5:
+      damage trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>
+          - chat "You just need to learn your lesson the hard way, don<&sq>t you!?"
+        }
+        else {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - flag <context.damager> ommAttackedEnemy
+          - chat "Stop it! Or you will face the consequences of your ignorance!"
+        }
+      click trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - chat "Have you come to your senses?"
+          - flag player ommAttackedEnemy:!
+        }
+        else {
+          - ^trigger name:chat state:true
+          - ^narrate ""
+          - ^chat "How didn<&sq>t we notice..."
+          - ^narrate "<&e>1. <&b>Please continue..."
+          - ^narrate "<&e>Q. <&b>I don<&sq>t really want to know."
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - engage
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^define starterId <s@ommGlobal.constant[starterId]>
+          - chat "It all happened on the 14th of august in 2009."
+          - wait 3
+          - chat "The virus broke free, we just couldn<&sq>t control it."
+          - wait 3
+          - chat "<red>IT WAS US! We were responsible for the zombie outbreak!"
+          - wait 3
+          - chat "Almost all of the staff was infected, including me."
+          - wait 3
+          - chat "<n@%starterId%.name> was able to escape safely."
+          - wait 3
+          - chat "Her sister <n@%sisterId%.name>..."
+          - disengage
+          - zap step:6
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "You<&sq>re not interested in the truth? Too bad."
+            - trigger name:chat state:false
+    6:
+      damage trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>
+          - chat "You just need to learn your lesson the hard way, don<&sq>t you!?"
+        }
+        else {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - flag <context.damager> ommAttackedEnemy
+          - chat "Stop it! Or you will face the consequences of your ignorance!"
+        }
+      click trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - chat "Have you come to your senses?"
+          - flag player ommAttackedEnemy:!
+        }
+        else {
+          - ^trigger name:chat state:true
+          - ^narrate ""
+          - ^chat "It all happend so fast..."
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^narrate "<&e>1. <&b>What about <n@%sisterId%.name><reset>? She was with me just a moment ago."
+          - ^narrate "<&e>Q. <&b>I don<&sq>t really want to know."
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - engage
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^define starterId <s@ommGlobal.constant[starterId]>
+          - chat "Yes... of course she was."
+          - wait 3
+          - chat "<n@%sisterId%.name> she... when I transformed into THIS, I just couldn<&sq>t protect her."
+          - wait 3
+          - chat "And I will never forgive myself for my actions."
+          - wait 3
+          - chat "This is the reason <n@%starterId%.name> talked and drugged you into killing me."
+          - wait 3
+          - chat "The <&sq>potion<&sq> she gave you was a hallucinogen that was supposed to make you submissive to her will."
+          - wait 3
+          - chat "All this zombie hunting was just a set-up. Your real goal was my head."
+          - disengage
+          - zap step:7
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "You<&sq>re not interested in the truth? Too bad."
+            - trigger name:chat state:false
+    7:
+      damage trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>
+          - chat "You just need to learn your lesson the hard way, don<&sq>t you!?"
+        }
+        else {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - flag <context.damager> ommAttackedEnemy
+          - chat "Stop it! Or you will face the consequences of your ignorance!"
+        }
+      click trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - chat "Have you come to your senses?"
+          - flag player ommAttackedEnemy:!
+        }
+        else {
+          - ^trigger name:chat state:true
+          - ^narrate ""
+          - ^chat "My colleagues... and all of these innocent people..."
+          - ^narrate "<&e>1. <&b>Go ahead, it seems your story isn<&sq>t over yet."
+          - ^narrate "<&e>Q. <&b>I don<&sq>t really want to know."
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - engage
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^define starterId <s@ommGlobal.constant[starterId]>
+          - chat "I cannot change what happened and I don<&sq>t bear a grudge against <n@%starterId%.name>."
+          - wait 3
+          - chat "This body is the punishment for my actions in the past."
+          - wait 3
+          - chat "Tell <n@%starterId%.name> I<&sq>m sorry and ask her whether I really deserve death."
+          - disengage
+          - zap step:8
+          - flag player ommQuest:heardEnemyStory
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "You<&sq>re not interested in the truth? Too bad."
+            - trigger name:chat state:false
+            
+    8:
+      damage trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>
+          - chat "You just need to learn your lesson the hard way, don<&sq>t you!?"
+        }
+        else {
+          - attack stop
+          - flag <context.damager> ommAttackedEnemy
+          - chat "Stop it! Or you will face the consequences of your ignorance!"
+        }
+      click trigger:
+        script:
+        - if <player.has_flag[ommAttackedEnemy]> {
+          - ^run ommBossAttackPlayer def:<npc>|stop
+          - narrate "<gold><npc> stopping attack"
+          - chat "Have you come to your senses?"
+          - flag player ommAttackedEnemy:!
+        }
+        else {
+          - ^trigger name:chat state:true
+          - ^narrate ""
+          - ^chat "That is all I can say. Would you like to listen to my story again?"
+          - ^narrate "<&e>1. <&b>Yes please, I didn<&sq>t get the part with the thing that..."
+          - ^narrate "<&e>Q. <&b>No thanks."
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - chat "If you really insist..."
+          - zap step:3
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "Ok."
+            - trigger name:chat state:false
+
+ommBossAttackPlayer:
+  type: task
+  definitions: theNPC|stop
+  script:
+    - ^execute as_server "npc select <def[theNPC].id>"
+    - if <def[stop].exists> {
+      - ^execute as_server "sentinel fightback false"
+      - ^execute as_server "sentinel forgive"
+    }
+    else {
+      - ^execute as_server "sentinel fightback true"
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

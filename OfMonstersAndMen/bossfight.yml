@@ -1,0 +1,179 @@
+"BossFight":
+    type: assignment
+ 
+    interact scripts:
+    - 1 Boss
+    
+    default constants:    
+      #Range to warn targets should be larger than Range
+      WarningRange: 15 
+      WarningMessage: "Any closer and I will kill you."
+      # This is the health PER PLAYER! Each player in a range of PlayerMPRange adds this amount to the HP
+      Health: 250
+      PlayerMPRange: 36
+      #Requires sentinel to equip and change Armor or weapons, See sentinel documentation for Weapons types. ID Number and Names are acceptable
+      #http://wiki.citizensnpcs.com/sentinel#Commands
+      MeleeEquipment: diamond_sword 
+      RangeEquipment: SKULL_ITEM
+      Helmet: 310
+      ChestPlate: 311
+      Leggins: 312
+      Boots: 313
+      #True or false, if true it will attack anything that attacked it instead of current target
+      Retaliate: true
+      #This is the damage the sentinel does with each hit, regardless of weapon (or object) held.
+      Damage: 5
+      #This value is subtracted from all incoming damage. 
+      #An armor of 1 makes the sentinel very hard to hurt. Armor items equipped on the sentinel have no effect on combat.
+      Armor: 0.6
+      #range in which it will find targets 1-100
+      MeleeRange: 5 
+      #range in which it will find targets 1-100
+      RangeAttackRange: 24
+      #Attack speed can be 0-30
+      AttackSpeed: 2      
+      #walking speed 0-1.5
+      Speed: 0.8
+      #This is the number of seconds between heals of 1 point, values greater than 1.0 are acceptable. Set to 0 to turn off healing.
+      RegenRate: 3
+      #Number in Seconds before the Boss Respawns
+      Respawn: 0
+      #How well the NPC can see in the Dark choose a number 0-16
+      Nightvision: 12
+      # After you leave the bosses proximity, he will wait AT LEAST this long before he teleports to a random player near him.
+      # At most can be up to twice as long.
+      TeleportTimeOut: 20
+      #See http://jd.bukkit.org/rb/apidocs/org/bukkit/potion/PotionEffectType.html for different spells effects 
+      SpellTimeOut: 10s      
+      Spell1: Poison
+      Spell1Duration: 6s
+      Spell1Power: 1
+      #Spell 2
+      Spell2: Slow
+      Spell2Duration: 8s
+      Spell2Power: 1
+      #Spell 3
+      Spell3: Blindness
+      Spell3Duration: 8s
+      Spell3Power: 1
+      #Spell 4
+      Spell4: Confusion
+      Spell4Duration: 6s
+      Spell4Power: 1
+      #Spell 5
+      Spell5: Harm
+      Spell5Duration: 1s
+      Spell5Power: 1
+      #Spell 6
+      Spell6: Wither
+      Spell6Duration: 4s
+      Spell6Power: 1
+      #Spell 7
+      Spell7: Weakness
+      Spell7Duration: 10s
+      Spell7Power: 1
+      
+      #Rewards for killing the Boss
+      Reward1: 264
+      Reward1Qty: 1
+      
+    actions:
+      on assignment:
+      - ^execute as_npc "npc select <npc.id>"
+      - trait state:true health
+      - trait state:true sentinel
+      - trigger name:chat toggle:true
+      - trigger name:click toggle:true
+      - trigger name:damage toggle:true
+      - trigger name:proximity toggle:true radius:<npc.constant[MeleeRange]>
+      - execute as_npc "sentinel Health <npc.constant[Health]>"
+      - execute as_npc "sentinel Armor <npc.constant[Armor]>"
+      - execute as_npc "sentinel Damage <npc.constant[Strength]>"
+      - execute as_npc "sentinel Range <npc.constant[RangeAttackRange]>"
+      - execute as_npc "sentinel Speed <npc.constant[Speed]>"
+      - execute as_npc "sentinel Attackrate <npc.constant[AttackSpeed]>"
+      - execute as_npc "sentinel HealRate <npc.constant[RegenRate]>"
+      - execute as_npc "sentinel Nightvision <npc.constant[Nightvision]>"
+      - execute as_npc "sentinel Respawn <npc.constant[Respawn]>"
+      #- execute as_npc "sentinel equip <npc.constant[Helmet]>"
+      #- execute as_npc "sentinel equip <npc.constant[Leggins]>"
+      #- execute as_npc "sentinel equip <npc.constant[ChestPlate]>"
+      #- execute as_npc "sentinel equip <npc.constant[Boots]>"      
+      - execute as_npc "sentinel retaliate <npc.constant[Retaliate]>"
+      - execute as_npc "sentinel Warning <npc.constant[WarningMessage]>"
+      - execute as_npc "sentinel target clear"
+      - execute as_npc "sentinel ignore clear"
+      - execute as_npc "sentinel target add entity:player"
+      - execute as_npc "sentinel target ignore entity:npc"
+      
+      # hostile mobs will ignore the boss
+      - execute as_npc "sentinel targetable false"
+      
+      - vulnerable state:true
+      - execute as_npc "sentinel invincible false"
+      - ^execute as_npc "sentinel equip <npc.constant[MeleeEquipment]>"
+            
+      on death:
+      - flag npc in_pursuit:!
+      - drop item:<npc.constant[reward1]> qty:<npc.constant[reward1Qty]> location:<npc.location>
+    
+      on enter proximity:
+      - lookclose toggle:true
+      - if <npc.has_flag[in_pursuit]> queue clear
+      - flag npc in_pursuit:true
+      - attack
+    
+      on exit proximity:
+      - if !<npc.has_flag[in_pursuit]> queue clear
+      - lookclose toggle:false
+    
+      on despawn:
+      - flag npc in_pursuit:!
+    
+      on spawn:
+      #- ^announce "<&4><npc.name.nickname> has respawned."
+      - ^define hpMulti <npc.location.find.players.within[<npc.constant[PlayerMPRange]>].size>
+      - execute as_npc "npc select <npc.id>"
+      - execute as_npc "sentinel Health <npc.constant[Health].mul[%hpMulti%].asint>"
+
+#Actual Denizen Boss script here
+'Boss':
+    type: interact
+    steps:
+        '1':
+            proximity trigger:
+              entry:
+                script:
+                - ^execute as_npc "npc equip <npc.constant[MeleeEquipment]>"
+                - run myRandomCast delay:<npc.constant[SpellTimeOut]> instantly
+                - attack
+              #If player is out of range the Boss will switch to a ranged weapon specified above to start attacking                
+              exit:
+                script:
+                - ^Execute as_npc "npc equip <npc.constant[RangeEquipment]>"
+                - run deferredTeleport delay:<util.random.int[<npc.constant[TeleportTimeOut]>].to[<npc.constant[TeleportTimeOut].mul[2].round>]> instantly
+#If you add more spells please make sure to edit the 7 to the new count.
+myRandomCast:
+    type: task
+    script:
+    - run mySpell "def:<util.random.int[1].to[7]>"
+
+mySpell:
+    type: task
+    definitions: spellId
+    script:
+    - if <npc.is_spawned> && <player.location.world> == <npc.location.world> {
+      - narrate "<&c><npc.name.nickname> has casted <npc.constant[Spell%spellId%]> on you."
+      - cast <npc.constant[Spell%spellId%]> duration:<npc.constant[Spell%spellId%Duration]> Power:<npc.constant[Spell%spellId%Power]>
+    }
+
+    
+deferredTeleport:
+  type: task
+  script:
+    - if <npc.is_spawned> {
+      - teleport <npc> <player.location.find.players.within[24].random.location>
+    }
+
+    
+    

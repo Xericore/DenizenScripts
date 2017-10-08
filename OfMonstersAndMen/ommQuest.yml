@@ -1,0 +1,602 @@
+otest:
+  type: task
+  script:
+    - spawn e@zombie[custom_name=Zed;max_health=33;health=33;speed=0.33] l@2279,82,2116,<player.location.world.name>
+
+ommGlobal:
+  type: task 
+  default constants:
+    starterId: 225
+    sisterId: 222
+    enemyId: 231
+    
+    boss1Id: 249
+    boss2Id: 250
+      
+    # This is where the sister will spawn in the various locations
+    location1Sister: -1295,80,64,Kratanien
+    location2Sister: -3536,73,-482,Kratanien
+    location3Sister: 2279,91,2122,Kratanien
+      
+    # This is the location of the sister's grave. 
+    # The player will get this information at the end of the quest if he/she chooses to let the enemy live.
+    locationSistersGrave: -34,71,-68,Kratanien
+      
+    # The enemy will spawn here
+    location3Enemy: 2289,76,2118,Kratanien
+
+ommQuest_world:
+  type: world
+  
+  events:
+    on player kills zombie:
+    - if <player.flag[ommQuest]> == Started {
+      # increment kill count
+      - flag player ommTempKills:++
+      # check requirements for completion of task
+      - define starterId <s@ommGlobal.constant[starterId]>
+      - if <player.flag[ommTempKills].is[OR_MORE].than[<n@%starterId%.constant[killcount1].asint>]> {
+        - narrate "<red>Of monsters and men: I've killed enough zombies and should return to <n@%starterId%.name><red>."
+        - flag player ommQuest:zombies1Done
+        - flag player ommTempKills:0
+      }
+      else {
+        - define tempKills <player.flag[ommTempKills].asint>
+        # Only narrate 5/20, 10/20 and 15/20
+        - if <def[tempKills].mod[5].asint> == 0 {
+          - narrate "<red>I have killed %tempKills% of <n@%starterId%.constant[killcount1].asint> zombies."
+        }
+      }
+    }
+    else if <player.flag[ommQuest]> == location1SisterFound {
+      - flag player ommTempKills:++
+      - define starterId <s@ommGlobal.constant[starterId]>
+      - if <player.flag[ommTempKills].is[OR_MORE].than[<fl@ommZombie1KillRequirement>]> {
+        - narrate "<red>Of monsters and men: I've killed enough zombies and should return to <n@%starterId%.name><red>."
+        - flag player ommQuest:location1Done
+        - flag player ommTempKills:0
+        # Sister will stop following you after you have killed enough zombies in location 1
+        - define sisterId <s@ommGlobal.constant[sisterId]>
+        - follow followers:<n@%sisterId%> stop target:<player>
+        # EDITOPTIONAL: The sister will despawn after this time. 
+        - run despawnSister delay:3m
+      }
+      else {
+        - narrate "<red>I have killed <player.flag[ommTempKills].asint> of <fl@ommZombie1KillRequirement> zombies."
+      }
+    }
+    else if <player.flag[ommQuest]> == location2SisterFound {
+      - flag player ommTempKills:++
+      - define starterId <s@ommGlobal.constant[starterId]>
+      - if <player.flag[ommTempKills].is[OR_MORE].than[<fl@ommZombie2KillRequirement>]> {
+        - narrate "<red>Of monsters and men: I've killed enough zombies and should return to <n@%starterId%.name><red>."
+        - flag player ommQuest:location2Done
+        - flag player ommTempKills:0
+        # Sister will stop following you after you have killed enough zombies in location 1
+        - define sisterId <s@ommGlobal.constant[sisterId]>
+        - follow followers:<n@%sisterId%> stop target:<player>
+        # EDITOPTIONAL: The sister will despawn after this time. 
+        - run despawnSister delay:3m
+      }
+      else {
+        - narrate "<red>I have killed <player.flag[ommTempKills].asint> of <fl@ommZombie2KillRequirement> zombies."
+      }
+    }
+    
+    on player enters ommlocation1:
+    - if <player.flag[ommQuest]> == location1Search {
+      - ^flag player ommQuest:location1SisterFound
+      - ^narrate "<red>Of monsters and men: I have found the tomb and should kill all zombies inside."
+      - ^cast confusion duration:6
+      - ^define sisterId <s@ommGlobal.constant[sisterId]>
+      - spawn <n@%sisterId%> <s@ommGlobal.constant[location1Sister]>
+
+      # EDITME The next line contains the coordinates the zombies will spawn at for location1
+      - define zombie1spawns li@l@-1317,75,70|l@-1317,75,58|l@-1323,75,58|l@-1323,75,71|l@-1331,75,69|l@-1331,75,59
+      # The player will have to kill half of the zombies that have spawned in order to be able to progress the quest
+      - flag global ommZombie1KillRequirement:<%zombie1spawns%.size.div[2].round_up.asint>
+      - foreach %zombie1spawns% {
+        # Spawn a zombie for each location
+        - spawn e@zombie[custom_name=Zed;max_health=32;health=32;speed=0.27] %value%,<player.location.world.name>
+      }
+      - wait 1
+      - ^follow followers:<n@%sisterId%> target:<player>
+    }
+    else if <player.flag[ommQuest]> != location1SisterFound && <player.flag[ommQuest]> != location1Done {
+      # spawn normal treasure mobs
+      - run spawnProceduralMobs def:ommlocation1monsters|45|<util.random.int[4].to[8]>|false
+    }
+    
+    on player enters ommlocation2:
+    - if <player.flag[ommQuest]> == location2Search {
+      - ^flag player ommQuest:location2SisterFound
+      - ^cast confusion duration:9
+      - ^define sisterId <s@ommGlobal.constant[sisterId]>
+      - ^spawn <n@%sisterId%> <s@ommGlobal.constant[location2Sister]>
+      - ^narrate "<red>Of monsters and men: I have found the place and should kill all zombies inside."
+
+      # EDITME The next line contains the coordinates the zombies will spawn at for location1
+      - define zombie2spawns li@l@-3510,73,-479|l@-3502,73,479|l@-3502,73,-487|l@-3502,73,-495|l@-3510,73,-495|l@-3510,73,-487|l@-3506,73,-491|l@-3506,73,-483
+      # The player will have to kill half of zombies that have spawned in order to be able to progress the quest
+      - flag global ommZombie2KillRequirement:<%zombie2spawns%.size.div[2].round_up.asint>
+      - foreach %zombie2spawns% {
+        # Spawn a zombie for each location
+        - spawn e@zombie[custom_name=Zed;max_health=50;health=50;speed=0.30] %value%,<player.location.world.name>
+      }
+      - wait 1
+      - ^follow followers:<n@%sisterId%> target:<player>
+    }
+    else if <player.flag[ommQuest]> != location2SisterFound && <player.flag[ommQuest]> != location2Done {
+      # spawn normal treasure mobs
+      - run spawnProceduralMobs def:ommlocation2monsters|65|<util.random.int[6].to[12]>|false
+    }
+    
+    on player enters ommlocation3:
+    - if <player.flag[ommQuest]> == location3Search {
+      - ^flag player ommQuest:location3SisterFound
+      - ^narrate "<red>Of monsters and men: I have found the place and should kill all zombies inside."
+      - ^cast confusion duration:9
+      - ^define sisterId <s@ommGlobal.constant[sisterId]>
+      - ^spawn <n@%sisterId%> <s@ommGlobal.constant[location3Sister]>
+
+      # spawn the main enemy
+      - ^define enemyId <s@ommGlobal.constant[enemyId]>
+      - ^spawn <n@%enemyId%> <s@ommGlobal.constant[location3Enemy]>
+      - flag global ommSuppressEnemyDespawn duration:10m
+
+      # EDITME The next line contains the coordinates the zombies will spawn at for location3
+      - define zombie3spawns li@l@2279,82,2116|l@2280,82,2116|l@2281,82,2116|l@2278,82,2116|l@2277,82,2116|l@2283,82,2116|l@2276,82,2116|l@2275,82,2116
+      - foreach %zombie3spawns% {
+        # Spawn a zombie for each location
+        - spawn e@zombie[custom_name=Zed;max_health=66;health=66;speed=0.32] %value%,<player.location.world.name>
+      }
+      - wait 1
+      - ^follow followers:<n@%sisterId%> target:<player>
+    }
+    else if <player.flag[ommQuest]> == talkingToEnemy || <player.flag[ommQuest]> == heardEnemyStory {
+      # spawn the main again in case player left or disconnected while talking to him
+      - ^define enemyId <s@ommGlobal.constant[enemyId]>
+      - ^spawn <n@%enemyId%> <s@ommGlobal.constant[location3Enemy]>
+      # despawn sister in case something went wrong and she is still spawned
+      - run despawnSister
+    }
+    else if <player.flag[ommQuest]> != location3SisterFound && <player.flag[ommQuest]> != heardEnemyStory {
+      # despawn enemy if user is not at the right quest stage
+      
+      - if !<global.has_flag[ommSuppressEnemyDespawn]> {
+        # enemy will not be despawned in case a player with the right quest stage just spawned him
+        - ^define enemyId <s@ommGlobal.constant[enemyId]>
+        - despawn <n@%enemyId%>
+        # despawn sister as well in case something went wrong and she is still spawned
+        - run despawnSister
+      }
+
+      # spawn normal treasure mobs
+      - run spawnProceduralMobs def:ommlocation3monsters|80|<util.random.int[5].to[10]>|false
+    }
+
+despawnSister:
+  type: task
+  script:
+    - define sisterId <s@ommGlobal.constant[sisterId]>
+    - despawn <n@%sisterId%>
+          
+          
+###################################################
+###     ASSIGNMENT SCRIPT FOR QUEST STARTER     ###
+###################################################
+ommQuest:
+  type: assignment
+
+  actions:
+    on assignment:
+    - trigger name:click state:true
+    - trigger name:chat state:true radius:5
+    - trigger name:proximity state:true
+    - lookclose state:true
+
+  interact scripts:
+  - 1 ommQuest_interact
+  
+  default constants:
+    killcount1: 20
+    reward1: 150
+
+    rewardLocation1: 150
+    rewardLocation2: 250
+    rewardKillEnemy: 750
+
+# ----------------------------- #
+#     First interact script     #
+# ----------------------------- #
+ommQuest_interact:
+  type: interact
+  steps:
+    1:
+      proximity trigger:
+        entry radius: 5
+        entry:
+          script:
+          - random {
+            - chat "Hey <player.name>, help me please!"
+            - chat "<player.name>! You look like someone who knows how to slay zombies!"
+            - chat "Would you like to earn a few <player.money.currency>, <player.name>?"
+          }
+          
+      click trigger:
+        script:
+        - if <player.flag[ommQuest]> == Started {
+          - chat "Did you kill all the zombies yet? I need you to kill <npc.constant[killcount1]> before you get your reward."
+        }
+        else if <player.flag[ommQuest]> == zombies1Done {
+          - trigger name:chat state:true
+          - engage
+          - narrate ""
+          - ^chat "Thank you for killing the zombies. Here<&sq>s your reward."
+          - ^give money qty:<npc.constant[reward1]>
+          - narrate "<gray>Received <npc.constant[reward1]> <player.money.currency> from <npc.name>."
+          - wait 1
+          - ^chat "Say... are you interested in more work?"
+          - disengage
+          - zap step:2
+        }
+        else {
+          - ^trigger name:chat state:true
+          # This is needed for tracking the number of zombie kills in the event listeners above
+          - ^flag player ommTempKills:0
+          - ^engage
+          - ^narrate ""
+          - ^chat "I really hate zombies! They are the plague of this world."
+          - ^chat "A zombie killed my beloved ones when the apocalypse broke out... and now I want revenge."
+          - ^chat "Go and kill <npc.constant[killcount1]> zombies for me and I will reward you <npc.constant[reward1]> <player.money.currency> for that."
+          - ^narrate "<&e>1. <&b>Sure, I will slay the zombies for you!"
+          - ^narrate "<&e>Q. <&b>I<&sq>m not interested, goodbye."
+          - ^disengage
+        }
+
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - engage
+            - narrate ""
+            - ^chat "Great, many thanks. Return to me when you have killed <npc.constant[killcount1]> zombies."
+            - ^flag player ommQuest:Started
+            - wait 1
+            - ^narrate "<aqua>Quest started: <red>Of monsters and men."
+            - disengage
+            - trigger name:chat state:false
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "Too bad. I think you<&sq>re missing a great opportunity here."
+            - trigger name:chat state:false
+    2: 
+      click trigger:
+        script:      
+        - if <player.flag[ommQuest]> == zombies1Done {
+          - engage
+          - trigger name:chat state:true
+          - narrate ""
+          - ^chat "There<&sq>s something else you could do for me."
+          - ^chat "I<&sq>d like to get rid of all the zombies in the world. But we will never be able to exterminate them just by killing many."
+          - ^chat "We have to find and eliminate the root cause of this. Of course I will also compensate you for your work."
+          - ^narrate "<&e>1. <&b>I<&sq>m in, what are you suggesting?"
+          - ^narrate "<&e>Q. <&b>No thanks, I<&sq>m done with you."
+          - disengage
+        }
+        
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - engage
+            - narrate ""
+            - chat "I believe there<&sq>s a curse that lies upon all zombies. If we can find the source, we might be able to cure all zombies!"
+            - wait 4
+            - chat "Here<&sq>s some preliminary protection against the curse. I don<&sq>t want you to get turned into a zombie too."
+            - wait 4
+            - chat "You might feel dizzy for a few seconds though, but don<&sq>t fret! It won<&sq>t last long."
+            - wait 2
+            - cast blindness duration:11
+            - cast confusion duration:10
+            - wait 4
+            - chat "Don<&sq>t worry, it will be over soon."
+            - wait 4
+            - chat "Are you ready to move on?"
+            - disengage
+            - zap step:3
+            - trigger name:chat state:false
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "Too bad. I think you<&sq>re missing a great opportunity here."
+            - trigger name:chat state:false
+            
+    3:
+      click trigger:
+        script:
+        - ^trigger name:chat state:true
+        - if <player.flag[ommQuest]> == location1Search {
+          - run ommLocation1Description
+        }
+        else if <player.flag[ommQuest]> == location1Done {
+          - ^engage
+          - ^narrate ""
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^chat "Oh hello <player.name>. <n@%sisterId%.name> told me you have killed all the zombies in the tomb."
+          - ^chat "Excellent work. Here<&sq>s your reward."
+          - ^give money qty:<npc.constant[rewardLocation1]>
+          - narrate "<gray>Received <npc.constant[rewardLocation1]> <player.money.currency> from <npc.name>."
+          - wait 1
+          - ^chat "There<&sq>s still some work to do before I can find a cure. Are you willing to help?"
+          - ^disengage
+          - ^zap step:4
+        }
+        else {
+          - ^engage
+          - ^narrate ""
+          - ^chat "Listen, this is the plan. I need to analyse the flesh of special zombies, normal zombies won<&sq>t do this time."
+          - ^chat "There are certain zombie locations where stronger zombies appear."
+          - ^chat "Do you still think you can help me? It might get dangerous."
+          - ^narrate "<&e>1. <&b>Sure, I<&sq>m tough enough for this stuff!"
+          - ^narrate "<&e>Q. <&b>No, leave me alone you crazy witch!"
+          - ^disengage
+        }
+
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - run ommLocation1Description
+            - flag player ommQuest:location1Search
+            - trigger name:chat state:false
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "Too bad. I think you<&sq>re missing a great opportunity here."
+            - trigger name:chat state:false
+            
+    4:
+      click trigger:
+        script:
+        - if <player.flag[ommQuest]> == location2Search {
+          - run ommLocation2Description
+        }
+        else if <player.flag[ommQuest]> == location2Done {
+          - ^engage
+          - ^narrate ""
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^chat "Oh hello <player.name>. <n@%sisterId%.name> informed me you managed to kill all the zombies."
+          - ^chat "Thank you very much. Here<&sq>s your reward."
+          - ^give money qty:<npc.constant[rewardLocation2]>
+          - narrate "<gray>Received <npc.constant[rewardLocation2]> <player.money.currency> from <npc.name>."
+          - wait 1
+          - ^chat "Now I know exactly where the zombie boss is hiding."
+          - ^disengage
+          # Flag isn't needed anymore, clean it up to save some space in saves.yml
+          - ^flag player ommTempKills:!
+          - ^zap step:5
+        }
+        else {
+          - ^trigger name:chat state:true
+          - ^engage
+          - ^narrate ""
+          - ^chat "Thanks to you I was able to find out that zombies are influenced by a zombie leader."
+          - ^chat "However, unfortunately I was not yet able to pinpoint his exact location."
+          - ^chat "If you could kill some more zombies at a certain place, I might be able to find out where he hides."
+          - ^chat "Naturally I will also pay your dangerous work."
+          - ^narrate "<&e>1. <&b>I will glady help you, where shall I go to?"
+          - ^narrate "<&e>Q. <&b>I don<&sq>t want to meddle with you anymore!"
+          - ^disengage
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - run ommLocation2Description
+            - wait 2
+            - ^narrate "<aqua>Quest continued: <red>Of monsters and men."
+            - ^flag player ommQuest:location2Search
+            - trigger name:chat state:false
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "Too bad. I think you<&sq>re missing a great opportunity here."
+            - trigger name:chat state:false
+            
+    5:
+      click trigger:
+        script:
+        - ^trigger name:chat state:true
+        - if <player.flag[ommQuest]> == location3Search {
+          - run ommLocation3Description
+        }
+        else if <player.flag[ommQuest]> == heardEnemyStory {
+          - ^engage
+          - ^narrate ""
+          - ^define enemyId <s@ommGlobal.constant[enemyId]>
+          - ^chat "Did you finally manage to kill him?"
+          - ^narrate "<&e>1. <&b><n@%enemyId%.name><&b> told me everything. Does he really deserve death?"
+          - ^narrate "<&e>Q. <&b>No, not yet."
+          - zap step:6
+          - ^disengage
+        }
+        else if <player.flag[ommQuest]> == killedEnemy {
+          - engage
+          - ^chat "You made it. You killed him! Thank you so much! As promised, here<&sq>s your reward."
+          - ^give money qty:<npc.constant[rewardKillEnemy]>
+          - ^narrate "<gray>Received <npc.constant[rewardKillEnemy]> <player.money.currency> from <npc.name>."
+          - ^flag player ommQuest:completedKilled
+          - ^narrate "<aqua>Quest completed: <red>Of monsters and men."
+          - disengage
+          - zap step:6
+        }
+        else {
+          - ^engage
+          - ^narrate ""
+          - ^chat "Thanks to your marvellous work and dedication, I was able to determine the exact location of the zombie boss."
+          - ^chat "If you kill him, I<&sq>ll reward you with <npc.constant[rewardKillEnemy]> <player.money.currency>! What do you say?"
+          - ^narrate "<&e>1. <&b>Where is he?"
+          - ^narrate "<&e>Q. <&b>On second thought, I<&sq>m not interested."
+          - ^disengage
+        }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - run ommLocation3Description
+            - wait 2
+            - ^narrate "<aqua>Quest continued: <red>Of monsters and men."
+            - flag player ommQuest:location3Search
+            - trigger name:chat state:false
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "Too bad. I think you<&sq>re missing a great opportunity here."
+            - trigger name:chat state:false
+            
+    6:
+      click trigger:
+        script:
+          - if <player.flag[ommQuest]> == heardEnemyStory {
+            - ^engage
+            - ^narrate ""
+            - ^define enemyId <s@ommGlobal.constant[enemyId]>
+            - ^chat "Did you finally manage to kill him?"
+            - ^narrate "<&e>1. <&b><n@%enemyId%.name><&b> told me everything. Does he really deserve death?"
+            - ^narrate "<&e>Q. <&b>No, not yet."
+            - trigger name:chat state:true
+            - zap step:5
+            - ^disengage
+          }
+          else {
+            - random {
+              - chat "Thank you for your help, <player.name>."
+              - chat "Have a wonderful day, <player.name>."
+              - chat "<player.name>, you are my personal hero."
+              - chat "Thanks to you <player.name>, I have finally found inner peace."
+            }
+          }
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - engage
+            - ^flag player ommQuest:completedTalked
+            - ^define sisterId <s@ommGlobal.constant[sisterId]>
+            - ^define enemyId <s@ommGlobal.constant[enemyId]>
+            - ^animate <npc> animation:HURT
+            - ^animate <npc> animation:CRIT
+            - chat "Did he also tell you what he did to <n@%sisterId%.name>?"
+            - wait 3
+            - chat "I just... I just can<&sq>t take it anymore."
+            - ^animate <npc> animation:CRIT
+            - wait 3
+            - lookclose <npc> false
+            - ^animate <npc> animation:HURT
+            - look <player.location]>
+            - chat "It<&sq>s true... I wanted you to kill <n@%enemyId%.name>."
+            - wait 3
+            - chat "Listen, I<&sq>m sorry that I drugged you into doing this. I was blinded by my hatred."
+            - ^animate <npc> animation:HURT
+            - wait 3
+            - chat "Maybe it<&sq>s not all <n@%enemyId%.name><&sq>s mistake. Maybe, maybe I<&sq>m responsible for this as well..."
+            - wait 3
+            - lookclose <npc> true
+            - chat "Please forgive me. In the end, my actions now were no better than that of Zavicorp before the incident."
+            - ^narrate "<&e>1. <&b>What happened to <n@%sisterId%.name>?"
+            - ^narrate "<&e>2. <&b>Who is responsible for the zombie outbreak?"
+            - disengage
+            - zap step:7
+        'Q':
+          trigger: "/q/"
+          script:
+            - chat "What are you waiting for? Kill him!"
+            - zap step:5
+            - trigger name:chat state:false
+    7:
+      click trigger:
+        script:
+          - trigger name:chat state:true
+          - engage
+          - random {
+            - chat "I<&sq>m sorry that I used you for my personal problems."
+            - chat "<player.name>, please forgive me, I was blinded by my hate."
+          }
+          - ^define sisterId <s@ommGlobal.constant[sisterId]>
+          - ^narrate "<&e>1. <&b>What happened to <n@%sisterId%.name><reset>?"
+          - ^narrate "<&e>2. <&b>Who is responsible for the zombie outbreak?"
+          - disengage
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+            - ^define sisterId <s@ommGlobal.constant[sisterId]>
+            - ^define enemyId <s@ommGlobal.constant[enemyId]>
+            - chat "The <n@%sisterId%.name> you saw was just an illusion."
+            - wait 3
+            - chat "Created by me to steer your mind into hating <n@%enemyId%.name> as well."
+            - define tempLoc <s@ommGlobal.constant[locationSistersGrave]>
+            - wait 3
+            - chat "You will find the real <n@%sisterId%.name> at the coordinates X<&co><l@%tempLoc%.x.asint> Z<&co><l@%tempLoc%.z.asint>."
+            - wait 3
+            - if <player.has_flag[ommReceivedAllium]> == false {
+              # Player can get an allium the first time and then after 40h again
+              - chat "Please bring her this flower, it<&sq>s her favourite."
+              - give i@allium qty:1
+              - flag player ommReceivedAllium duration:80h
+              - narrate "<gray><npc.name><gray> gave you <i@allium.formatted>."
+              - wait 3
+            }
+            - chat "And tell her that her sister still loves her!"
+        '2':
+          trigger: "/2/"
+          script:
+            - engage
+            - chat "It<&sq>s the CEO and the Chairman of Zavicorp."
+            - wait 3
+            - chat "As far as I know, they are still conducting experiments."
+            - wait 3
+            - chat "Someone should punish them for their actions!"
+            - wait 3
+            - chat "I don<&sq>t know exactly where they are now, but rumor has it that they are located in a dark palace in the nether."
+            - disengage
+            - ^narrate "<aqua>Quest completed: <red>Of monsters and men."
+
+# EDITME: Text for the special zombie location #1
+ommLocation1Description:
+  type: task
+  script:
+  - ^narrate ""
+  - ^chat "Alright! There<&sq>s a tomb located about 1.3km west of Kratania City. It is just south of the railway."
+  - chat "Go and kill a few zombies there."
+  - wait 1
+  - define sisterId <s@ommGlobal.constant[sisterId]>
+  - chat "You<&sq>re not going alone though! My sister <n@%sisterId%.name> will meet with you there to gather more information. Please be nice to her."
+
+# EDITME: Text for the special zombie location #2
+ommLocation2Description:
+  type: task
+  script:
+  - ^narrate ""
+  - ^chat "Thank you so much, <player.name>. With you, I have a chance of finding a cure for the zombies, how exciting!"
+  - ^chat "To find the zombies, travel 3.5km west of Kratania City. Then move about 0.5km north."
+  - chat "Be careful, and don<&sq>t underestimate the zombie leader<&sq>s influence at that place!"
+  - wait 1
+  - define sisterId <s@ommGlobal.constant[sisterId]>
+  - chat "<n@%sisterId%.name> will join you again to make sure we get enough information to track him down."
+
+# EDITME: Text for the special zombie location #3
+ommLocation3Description:
+  type: task
+  script:
+  - ^narrate ""
+  - ^chat "I traced his brain controlling abilities to a certain location."
+  - wait 2
+  - ^chat "The coordinates are X<&co>2300 Z<&co>2100. Go and get him!"
+  - chat "Take care of yourself. His influence is greatest there, he might try to play dirty tricks on your mind!"
+  - define sisterId <s@ommGlobal.constant[sisterId]>
+  - chat "<n@%sisterId%.name> will join you to make sure you don<&sq>t fall under his spell."
+  - ^chat "Don<&sq>t forget that I will pay you <npc.constant[rewardKillEnemy]> <player.money.currency> for his death!"
+  

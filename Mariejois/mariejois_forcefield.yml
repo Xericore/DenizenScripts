@@ -1,0 +1,43 @@
+mariejois_forcefield:
+  type: world
+  
+  events:
+    on player enters mariejois_barrier:
+    - async: 
+    
+      - define calculatedPoints <proc[GetKratanienPoints].context[<player>]>
+    
+      - if <def[calculatedPoints].is[OR_MORE].than[150]> {
+        - teleport <player> l@304,117,86,Kratanien
+      }
+      else {
+        - playsound <player.location> sound:mob.irongolem.hit custom
+        - while <cu@mariejois_barrier.list_players.size.is[OR_MORE].than[1]> {
+          - ^run showforcefield_mariejois
+          - wait 1
+        }
+      }
+      
+    on player enters mariejois_exit:
+      - execute as_server "tp <player.name> ~0 ~0 ~-4"
+      
+GetKratanienPoints:
+  type: procedure
+  definitions: thePlayer
+  
+  script:
+    - define calculatedPoints 0
+    - define locationsFound <def[thePlayer].flag[pmsLocationsFound].as_list.size>
+    - if <def[locationsFound]> != null {
+      - define calculatedPoints <def[locationsFound].mul[10]>
+    }
+    
+    - if <def[thePlayer].flag[ommQuest].contains_any_text[completed]> {
+      - define calculatedPoints <def[calculatedPoints].add[100]>
+    }
+    - determine %calculatedPoints%
+
+showforcefield_mariejois:
+  type: task
+  script:
+    - playeffect l@304.5,117,83,Kratanien effect:ENCHANTMENT_TABLE quantity:2000 offset:0.7,0.9,0

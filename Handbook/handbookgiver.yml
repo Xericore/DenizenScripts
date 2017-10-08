@@ -1,0 +1,63 @@
+handbookgiver: 
+  type: assignment
+
+  actions:
+    on assignment:
+    - trigger name:click state:true
+    - trigger name:chat state:true radius:4
+    - trigger name:proximity state:true
+    
+  interact scripts:
+  - 1 handbookgiver_interact
+ 
+handbookgiver_interact:
+  type: interact
+  steps:
+    1:
+      click trigger:
+        script:
+        - ^random {
+          - ^playsound <npc.location> sound:mob.villager.haggle custom
+          - ^playsound <npc.location> sound:mob.villager.idle custom
+        }
+        - ^flag npc justtalked
+        - ^if <player.inventory.contains[i@kratanienhandbook]> {
+          - trigger name:chat state:false
+          - random {
+            - chat "<gold><&dq>Ah <player.name>, I see you have the Kratanien Handbook by your side.<&dq>"
+            - chat "<gold><&dq><player.name>, nice to see you<&sq>re reading the Kratanien Handbook.<&dq>"
+            - chat "<gold><&dq>You seem to take care of your copy of the Kratanien Handbook, <player.name>.<&dq>"
+          }
+        }
+        else {
+          - ^trigger name:chat state:true
+          - ^narrate ""
+          - ^chat "<gold><&dq>Hey there, <player.name>. Do you need a copy of the Kratanien Handbook?<&dq>"
+          - ^narrate "<yellow>1. <aqua>Yes please."
+          - ^narrate "<yellow>Q. <red>No thanks."
+        }
+
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - ^chat "<gold><&dq>Here you go.<&dq>"
+          - ^give i@kratanienhandbook
+          - narrate "<gray>Received <dark_green>Kratanien Handbook."
+          - trigger name:chat state:false
+        'Q':
+          trigger: "/q/"
+          script:
+          - random {
+            - ^chat "<gold><&dq>Alright, no problem. Goodbye.<&dq>"
+            - ^chat "<gold><&dq>Too bad, now I<&sq>m sad. Goodbye.<&dq>"
+          }
+          - trigger name:chat state:false
+      proximity trigger:
+        exit radius: 4
+        exit:
+          script:
+          - if <npc.has_flag[justtalked]> {
+            - ^playsound <npc.location> sound:mob.villager.yes custom
+            - flag npc justtalked:!
+          }

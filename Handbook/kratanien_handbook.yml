@@ -1,0 +1,27 @@
+# /ex give i@kratanienhandbook
+kratanienhandbook:
+  type: book
+  title: <dark_green><bold>Kratanien Handbook
+  author: <red><bold>Xericore<reset> and <aqua><bold>Davitee
+  signed: true
+  text:
+  # <n> = Newline, <p> = Paragraph
+  # <aqua> = Color, see http://mcmonkey.org/denizen/tags/. Normal minecraft formatting codes like <&f> for white work as well. 
+  # <&o><italic> = Italic
+  # <&n>/<underline> = Underline
+  # <&r>/<reset> = Reset formatting to normal black
+  # <&l>/<bold> = Bold
+  # <&m>/<strikethrough> = Strike through
+  # <magic> = Obfuscated
+  # <&hrt> = Heart symbol
+  - <dark_green><bold>Welcome to Kratanien!<n><reset><italic>Simply bombastic!<reset><n><blue>www.kratanien.com<reset><p>This book contains information about Kratanien. <n>All vanilla features still work normally.<p>You can always obtain a new copy of this book in the town hall.
+  - <red><bold>Advices:<p>- Explore the world. There is a lot to find.<n><n>- Talk to the people/NPCs of Kratanien.<n><n>- Be careful, monsters can get very tough!<n><n>- Respect everyone and have fun!
+  - <red><bold>How to talk to NPCs:<p>Right click an NPC. You might see something like:<p><green>[NPC] -> You: <gold>"Hello, can you help me?<n><gold>1.<dark_aqua> Yes I will help you.<n><gold>Q.<dark_aqua> No thanks, goodbye.<p>To answer "Yes", open the chat ('T'), type 1 and press Enter. For "No", q and Enter.
+  - <red><bold>Rules:<p>- No cheating!<n><n>- No buildings that look like swastikas, genitals etc.<n><n>- Please also see <blue>www.kratanien.com/rules<reset>
+  - <blue><bold>Features:<p>- Right click a rail with an empty hand to spawn a minecart.<n><n>- mcMMO is enabled!<n><n>- Protect your home with <dark_green>Factions<black>! [/f]<n><n>- Battle in PvP and PvE arenas.
+  - <blue><bold>Features (2):<p>- CraftBook is enabled. You can create bridges, gates and elevators.<n><n>- Teleport with /spawn and /f home.<n><n>- Check <blue>www.kratanien.com/features<reset> for more. 
+  - <dark_green><bold>Factions:<p><italic>Important commands:<p>/f create 'myFaction'<n><n>/f claim o<n><n>/f sethome<n><n>/f help
+  - <gold><bold>Chestshop:<p>To create your own shop, place a sign near a chest and write:<n><n>- (leave blank)<n>- 1 (amount)<n>- B 10:5 S (price)<n>- Coal<p>For the item's name, type <italic>/iteminfo.
+  - <light_purple><bold>Additional info:<p>- If you disconnect during a fight, you are still vulnerable for a few seconds will die if damaged enough.<n><n>- Check your wealth with /money.
+  - <blue><bold>Kratanien Client with pre-installed mods:<p>Get the modded minecraft client at <blue>www.kratanien.com<reset><n> to see a minimap, better shaders and more.<n><n>The password to the archive is 'creeper'.
+  - <red><bold>Anti-cheat plugins:<p>Kratanien has several anti-cheat plugins in place to ensure a fair gameplay for everyone. Suspicious activities will be reported to the staff. If we catch you cheating, you will be banned. No warnings, no exceptions.

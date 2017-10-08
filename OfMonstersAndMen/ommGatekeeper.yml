@@ -1,0 +1,166 @@
+ommBossWorld:
+  type: world
+  events:
+    on entity death:
+    - if <context.entity.type> == NPC {
+      - if <context.entity.id> == <s@ommGlobal.constant[boss1Id]> || <context.entity.id> == <s@ommGlobal.constant[boss2Id]> {
+        - define boss1Id <s@ommGlobal.constant[boss1Id]>
+        - define boss2Id <s@ommGlobal.constant[boss2Id]>
+        - if !<n@%boss1Id%.is_spawned> && !<n@%boss2Id%.is_spawned> {
+          - announce "<red>Of monsters and men: <aqua><server.get_players_flagged[ommFightingZavicorp].formatted> defeated Zavicorp."
+          - foreach <server.get_players_flagged[ommFightingZavicorp]> {
+            - flag %value% ommFightingZavicorp:!
+            - flag %value% ommBeatenZavicorp duration:7d
+            - give player:<def[value]> money qty:6666
+            - narrate "<gray>Received 6666 <%value%.money.currency> for defeating Zavicorp." targets:%value%
+          }
+        }
+      }
+    }
+      
+ommGatekeeper: 
+  type: assignment
+
+  actions:
+    on assignment:
+    - trigger name:click state:true
+    - trigger name:proximity state:true
+    - trigger name:chat state:true radius:5
+
+  interact scripts:
+  - 1 ommGatekeeper_interact
+ 
+ommGatekeeper_interact:
+  type: interact
+  steps:
+    1:
+      proximity trigger:
+        exit radius: 4
+        exit:
+          script:
+          - if <npc.has_flag[justtalked]> {
+            - ^playsound <npc.location> sound:mob.villager.yes custom
+            - flag npc justtalked:!
+          }
+    
+      click trigger:
+        script:
+        - ^define starterId <s@ommGlobal.constant[starterId]>
+        - ^trigger name:chat state:true
+        - random {
+          - ^playsound <npc.location> sound:mob.villager.haggle custom
+          - ^playsound <npc.location> sound:mob.villager.idle custom
+        }
+        - if <player.has_flag[ommFightingZavicorp]> {
+          # Clean up flag in case user disconnected during the fight
+          - flag player ommFightingZavicorp:!
+        }
+        else if <server.get_players_flagged[ommFightingZavicorp].size.is[OR_MORE].than[1]> {
+          - chat "<gold><&dq>Sorry, but I can<&sq>t let you in right now. There<&sq>s a fight going on inside.<&dq>"
+          - ^trigger name:chat state:false
+          - queue clear
+        }
+
+        - ^flag npc justtalked
+        - if <player.has_flag[ommQuest]> {
+          - if <player.has_flag[ommBeatenZavicorp]> {
+          
+            - if <player.flag[ommBeatenZavicorp]> == receivedReward {
+              - ^chat "<gold><&dq>Sorry <player.name>, but you should come back in <player.flag[ommBeatenZavicorp].expiration.formatted> if you want to fight again.<&dq>"
+            } else {
+              - ^chat "<gold><&dq>You did it <player.name>, ya crazy bastard! I knew you could do it! You have earned your reward for sure. Which one do you choose?<&dq>"
+              - ^narrate "<&e>1. <&b>Give me Davitee<&sq>s head!"
+              - ^narrate "<&e>2. <&b>I want Xericore<&sq>s head!"
+              - ^narrate "<red>Q. <&b>Nope, not interested."
+            }
+
+          }
+          else if <player.flag[ommQuest]> == completedTalked || <player.flag[ommQuest]> == completedKilled {
+            - ^chat "<gold><&dq>Alright, shit<&sq>s about to get down inside. Are you ready and do you want to enter this nightmare? Be aware that <red>if you die in there<gold>, you won<&sq>t be able to go back inside. <red>All your items will be lost!<gold> This is the ultimate challange, still want to enter?<&dq>" targets:<player.location.find.players.within[10]>
+            - ^narrate "<&e>1. <&b>Let me in, ya evil bastard!"
+            - ^narrate "<red>Q. <&b>On second thought, I<&sq>m not ready yet."
+          }
+          else {
+            - ^chat "<gold><&dq>I see you talked to <n@%starterId%.name><gold>. I think you should learn all you can from her, before entering this palace.<&dq>"
+          }
+        }
+        else {
+          - ^chat "<gold><&dq>It<&sq>s dangerous in there. Only experts on zombies can get inside. As far as I know, <n@%starterId%.name><gold> knows more about zombies than anyone else.<&dq>"
+        }
+        
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          
+          - if <player.has_flag[ommBeatenZavicorp]> && <player.flag[ommBeatenZavicorp]> != receivedReward {
+          
+            - ^chat "<gold><&dq>Here you go.<&dq>"
+            - ^narrate "<gray>Received <i@skull_davitee.display_name>"
+            - ^flag <player> ommBeatenZavicorp:receivedReward duration:7d
+            - ^give <i@skull_davitee> qty:1
+            - trigger name:chat state:false
+
+          } else {
+            - chat "<gold><&dq>Alright, hold on to your seat!<&dq>" targets:<player.location.find.players.within[10]>
+            - if <player.flag[ommQuest]> == completedTalked || <player.flag[ommQuest]> == completedKilled {
+              - foreach <player.location.find.players.within[10]> {
+                - ^teleport %value% l@0,32,86.1,<player.location.world.name>
+                # need this to flag all players as winners when bosses die
+                - flag %value% ommFightingZavicorp
+              }
+              - run spawnProceduralMobs def:dark_spawn|20|10|true
+              - run deferBosses delay:20s
+            }
+          }
+        '2':
+          trigger: "/2/"
+          script:
+          - if <player.has_flag[ommBeatenZavicorp]> && <player.flag[ommBeatenZavicorp]> != receivedReward {
+          
+            - ^chat "<gold><&dq>Here you go.<&dq>"
+            - ^narrate "<gray>Received <i@skull_xericore.display_name>"
+            - ^flag <player> ommBeatenZavicorp:receivedReward duration:7d
+            - ^give <i@skull_xericore> qty:1
+            - trigger name:chat state:false
+          }
+          
+        'Q':
+          trigger: "/q/"
+          script:
+            - ^chat "<gold><&dq>Come back later.<&dq>"
+            - trigger name:chat state:false
+            
+deferBosses:
+  type: task
+  script:
+  # Spawn Davitee and Xericore
+  - define boss1Id <s@ommGlobal.constant[boss1Id]>
+  - define boss2Id <s@ommGlobal.constant[boss2Id]>
+  - spawn <n@%boss1Id%> l@-14,42,86,<player.location.world.name>
+  - spawn <n@%boss2Id%> l@14,42,86,<player.location.world.name>
+  
+  
+###################       REWARDS      ###########################
+    
+# 125%
+skull_davitee:
+    type: item
+    material: i@human_skull[skull_skin=Davitee;nbt_attributes=li@generic.maxHealth/head/0/1|generic.armor/head/0/1|generic.armorToughness/head/0/1]
+    display name: Davitee<&sq>s Head
+    lore:
+    - This doctor is not 
+    - going to heal you!
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:6
+
+# 125%
+skull_xericore:
+    type: item
+    material: i@human_skull[skull_skin=Xericore;nbt_attributes=li@generic.maxHealth/head/0/1|generic.armor/head/0/1|generic.armorToughness/head/0/1]
+    display name: Xericore<&sq>s Head
+    lore:
+    - Not exactly beauty-, 
+    - but highly useful!
+    enchantments: 
+    - PROTECTION_ENVIRONMENTAL:6

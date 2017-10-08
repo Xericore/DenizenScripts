@@ -1,0 +1,126 @@
+ommSister:
+  type: assignment
+
+  actions:
+    on assignment:
+    - trigger name:click state:true
+    - trigger name:chat state:true radius:5
+    - trigger name:proximity state:true
+    - lookclose state:true
+    
+
+  interact scripts:
+  - 1 ommSister_first_meeting
+  - 2 ommSister_location_1_done
+  - 3 ommSister_location_2_done
+  - 4 ommSister_facingEnemy
+
+ommSister_first_meeting:
+  type: interact
+  steps:
+    1:
+      proximity trigger:
+        entry radius: 5
+        entry:
+          script:
+          - ^chat "Hey <player.name>, there you are. I was looking for you!"
+          - zap step:2
+    2:
+      click trigger:
+        script:
+          - ^narrate ""
+          - ^define starterId <s@ommGlobal.constant[starterId]>
+          - random {
+            - ^chat "We should kill all the zombies in the tomb."
+            - ^chat "I will follow you and collect some information on the zombies for <n@%starterId%.name>."
+            - ^chat "Don<&sq>t mind me, I<&sq>m only here to help <n@%starterId%.name> reach her goal."
+            - ^chat "I hope that I<&sq>m not getting on your nerves."
+            - ^chat "I<&sq>ll leave as soon as we are done here."
+          }
+          
+ommSister_location_1_done:
+  type: interact
+  requirements:
+    mode: all
+    list:
+      - flagged player ommQuest:location1Done
+  steps:
+    1:
+      proximity trigger:
+        entry radius: 3
+        entry:
+          script:
+          - random {
+            - chat "Good job."
+            - chat "Well done."
+          }
+      click trigger:
+        script:
+          - define starterId <s@ommGlobal.constant[starterId]>
+          - chat "That should help <n@%starterId%.name> find the culprit of this zombie outbreak. I will stay here just a bit longer."
+          
+ommSister_location_2_done:
+  type: interact
+  requirements:
+    mode: all
+    list:
+      - flagged player ommQuest:location2Done
+  steps:
+    1:
+      proximity trigger:
+        entry radius: 3
+        entry:
+          script:
+          - random {
+            - chat "Excellent job, <player.name>."
+            - chat "Great, you have killed all enemies."
+          }
+      click trigger:
+        script:
+          - define starterId <s@ommGlobal.constant[starterId]>
+          - chat "Now <n@%starterId%.name> should be able to track down the zombie headmaster. I will stay here just a bit longer."
+          
+ommSister_facingEnemy:
+  type: interact
+  requirements:
+    mode: all
+    list:
+      - flagged player ommQuest:location3SisterFound
+  steps:
+    1:
+      proximity trigger:
+        entry radius: 3
+        entry:
+          script:
+          - random {
+            - chat "Let<&sq>s go get that bastard."
+            - chat "We need to kill him."
+          }
+      click trigger:
+        script:
+          - define starterId <s@ommGlobal.constant[starterId]>
+          - random {
+            - chat "We must kill him quickly! Only then will <n@%starterId%.name> reach her goal!"
+            - chat "Hurry up, otherwise you might fall under his spell!"
+            - chat "We must act in a timely manner and kill the zombie boss."
+            - chat "He is very dangerous, try to kill him as quickly as possible."
+          }
+          - run deferredConfusion delay:1
+          
+deferredConfusion:
+  type: task
+  definitions: duration
+  script:
+  - if <def[duration].exists> {
+    - cast confusion duration:%duration%
+  }
+  else {
+    - cast confusion duration:4
+  }
+  
+
+          
+
+          
+          
+          
