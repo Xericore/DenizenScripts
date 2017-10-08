@@ -114,7 +114,7 @@ spawnProceduralMobs_world_events:
     - run spawnProceduralMobs def:treasure_b2_spawn|<util.random.int[70].to[80]>|<util.random.int[7].to[10]>
     
     on player enters treasure_B4:
-    - run spawnProceduralMobs def:treasure_B4|<util.random.int[45].to[55]>|<util.random.int[5].to[8]>
+    - run spawnProceduralMobs def:treasure_B4|5|1|true
     
     on player enters treasure_c6:
     - run spawnProceduralMobs def:treasure_c6_spawn|<util.random.int[45].to[55]>|<util.random.int[4].to[6]>
