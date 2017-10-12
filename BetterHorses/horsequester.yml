@@ -1,0 +1,184 @@
+horsequester: 
+  type: assignment
+
+  actions:
+    on assignment:
+    - trigger name:click state:true
+    - trigger name:chat state:true radius:6
+    - trigger name:proximity state:true
+    
+  interact scripts:
+  - 1 horsequester_interact
+ 
+horsequester_interact:
+  type: interact
+  steps:
+    1:
+      click trigger:
+        script:
+        - ^random {
+          - ^playsound <npc.location> sound:mob.villager.haggle custom
+          - ^playsound <npc.location> sound:mob.villager.idle custom
+        }
+        - ^flag npc justtalked
+        - ^trigger name:chat state:true
+        - ^narrate ""
+        - ^chat "<gold><&dq>Hello <player.name>. Do you want to know how good your horse is?<&dq>"
+        - ^narrate "<yellow>1. <aqua><npc.name><aqua>! What does the scouter say about it<&sq>s power level?"
+        - ^narrate "<yellow>2. <aqua>How does your power level work?"
+        - ^narrate "<yellow>Q. <red>No, I<&sq>m leaving."
+
+      chat trigger:
+        '1':
+          trigger: "/1/"
+          script:
+          - engage
+          - if <player.vehicle.entity_type> == HORSE
+          {
+            - define horse <player.vehicle>
+          }
+          else 
+          {
+            - define horse <player.location.find.entities[HORSE].within[4].get[0]>
+          }
+          
+          - if <def[horse]> != null
+          {
+            - ^define speed <def[horse].speed>
+            - ^define jump <def[horse].jump_strength>
+
+            - ^define horsePowerLevel <proc[getHorsePowerLevel].context[%speed%|%jump%]>
+            
+            - if <def[horsePowerLevel].is[OR_LESS].than[1]>
+            {
+              - ^chat "<gold><&dq><red>PATHETIC!<gold> Your horse<&sq>s power level is only <red>%horsePowerLevel%<gold>. Just a worthless <red>D-Rank<gold> horse.<&dq>"
+            }
+            else if <def[horsePowerLevel].is[OR_LESS].than[10]>
+            {
+              - ^chat "<gold><&dq><red>MEH!<gold> Your horse<&sq>s power level is a mere <red>%horsePowerLevel%<gold>. Only a poor <red>D-Rank<gold> horse.<&dq>"
+            }
+            else if <def[horsePowerLevel].is[OR_LESS].than[50]>
+            {
+              - ^chat "<gold><&dq><red>Hmmm.<gold> Your horse<&sq>s power level is <red>%horsePowerLevel%<gold>. Just a regular <red>D-Rank<gold> horse.<&dq>"
+            }
+            else if <def[horsePowerLevel].is[OR_LESS].than[150]>
+            {
+              - ^chat "<gold><&dq><red>Quite OK.<gold> Your horse<&sq>s power level is <red>%horsePowerLevel%<gold>. Still just a <red>D-Rank<gold> horse.<&dq>"
+            }
+            else if <def[horsePowerLevel].is[OR_LESS].than[250]>
+            {
+              - ^chat "<gold><&dq><yellow>Not bad.<gold> Your horse<&sq>s power level is <yellow>%horsePowerLevel%<gold>. A <yellow>C-Rank<gold> horse.<&dq>"
+            }
+            else if <def[horsePowerLevel].is[OR_LESS].than[500]>
+            {
+              - ^chat "<gold><&dq><green>Pretty good.<gold> Your horse<&sq>s power level is <green>%horsePowerLevel%<gold>. Nice to see a <green>B-Rank<gold> horse.<&dq>"
+            }
+            else if <def[horsePowerLevel].is[OR_LESS].than[1000]>
+            {
+              - ^chat "<gold><&dq><aqua>Wow!<gold> Your horse<&sq>s power level is <aqua>%horsePowerLevel%<gold>! You rarely get to see an <aqua>A-Rank<gold> horse.<&dq>"
+            }
+            else if <def[horsePowerLevel].is[MORE].than[1000]>
+            {
+              - ^chat "<gold><&dq><&d>AMAZING!<gold> Your horse<&sq>s power level is <&d>%horsePowerLevel%<gold>! It<&sq>s been a long time since I<&sq>ve seen such a magnificient <&d>S-Rank<gold> horse.<&dq>"
+            }
+            else
+            {
+              - ^chat "<gold><&dq>Your horse<&sq>s power level is: %horsePowerLevel%.<&dq>"
+            }
+          }
+          else
+          {
+            - ^chat "<gold><&dq>I don<&sq>t see any horse around, do you?<&dq>"
+          }
+          - disengage
+        '2':
+          trigger: "/2/"
+          script:
+          - ^chat "<gold><&dq>My scouter shows me all I need to know.<&dq>"
+          - wait 1
+          - ^chat "<gold><&dq>It basically says how many random horses you would need to search to have a 50<&pc> chance of finding a better one.<&dq>"
+          - ^chat "<gold><&dq>And I have the following ranks for horses:<&dq>"
+          - ^chat "<gold>Rank:      <white>Power Level:"
+          - ^chat "<red>D-Rank   <white>000 - 150"
+          - ^chat "<yellow>C-Rank   <white>150 - 250"
+          - ^chat "<green>B-Rank   <white>250 - 500"
+          - ^chat "<aqua>A-Rank   <white>500 - 1000"
+          - ^chat "<&d>S-Rank   <white>1000."
+        'Q':
+          trigger: "/q/"
+          script:
+          - random {
+            - ^chat "<gold><&dq>No problem. Goodbye.<&dq>"
+            - ^chat "<gold><&dq>So be it, bye.<&dq>"
+          }
+          - trigger name:chat state:false
+      proximity trigger:
+        exit radius: 4
+        exit:
+          script:
+          - if <npc.has_flag[justtalked]> {
+            - ^playsound <npc.location> sound:mob.villager.yes custom
+            - flag npc justtalked:!
+          }
+          - trigger name:chat state:false
+
+getHorsePowerLevel:
+  type: procedure
+  definitions: speed|jump
+  script:
+  - ^define pspeed <math:1-<proc[normdistCdf].context[%speed%|0.225|0.038638835]>>
+  - ^define pjump <math:1-<proc[normdistCdf].context[%jump%|0.7|0.1]>>
+  
+  - ^define pBothBetter <def[pspeed].mul[<def[pjump]>]>
+  
+  - ^define log05 <el@val[0.5].log[10]>
+  - ^define logBoth <el@val[<el@val[1].sub[<def[pBothBetter]>]>].log[10]>
+  
+  - ^define powerLevel <def[log05].div[<def[logBoth]>]>
+  - ^determine <def[powerLevel].round>
+  
+normdistHPL:
+  type: procedure
+  definitions: x|mu|sigma
+  script:
+  - ^define euler 2.718281828459045
+  - ^define epow <math:%euler%^(-(1/2)*(((%x%-%mu%)/%sigma%)^2))>
+  - ^define firstPart <math:1/(%sigma%*<util.pi.mul[2].sqrt>)>
+  - ^define returnValue <def[firstPart].mul[<def[epow]>]>
+  - ^determine <def[returnValue]>
+  
+normdistCdf:
+  type: procedure
+  definitions: x|mu|sigma
+  script:
+  - define i <el@val[0]>
+  - define stepSize <el@val[0.005]>
+  - define cdf <el@val[0]>
+  
+  - ^define euler 2.718281828459045
+  
+  - ^while <def[i].is[OR_LESS].than[%x%]>
+  {
+    - ^define normX <proc[normdistHPL].context[%i%|%mu%|%sigma%]>
+
+    - ^define area <def[normX].mul[%stepSize%]> 
+    - ^define cdf <def[cdf].add[%area%]> 
+    
+    - ^define i <def[i].add[%stepSize%]>
+  }
+  - determine <def[cdf]>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
