@@ -345,7 +345,7 @@ married:
           }
           - ^if <util.random.decimal.is[OR_LESS].than[0.15]> {
             - lookclose <npc> false
-            - look <player.location]>
+            - look <npc> <player.location>
             - wait 0.5
             - lookclose <npc> true
             - random {
