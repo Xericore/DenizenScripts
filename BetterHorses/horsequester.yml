@@ -26,6 +26,7 @@ horsequester_interact:
         - ^chat "<gold><&dq>Hello <player.name>. Do you want to know how good your horse is?<&dq>"
         - ^narrate "<yellow>1. <aqua><npc.name><aqua>! What does the scouter say about it<&sq>s power level?"
         - ^narrate "<yellow>2. <aqua>How does your power level work?"
+        - ^narrate "<yellow>3. <aqua>Who has the best horse in <npc.location.world.name>?"
         - ^narrate "<yellow>Q. <red>No, I<&sq>m leaving."
 
       chat trigger:
@@ -44,51 +45,63 @@ horsequester_interact:
           
           - if <def[horse]> != null
           {
-            - ^define speed <def[horse].speed>
-            - ^define jump <def[horse].jump_strength>
+            - ^chat "<gold><&dq>Let me see...<&dq>"
 
-            - ^define horsePowerLevel <proc[getHorsePowerLevel].context[%speed%|%jump%]>
+            - ^define horsePowerLevel <proc[getHorsePowerLevel].context[<def[horse]>]>
             
             - if <def[horsePowerLevel].is[OR_LESS].than[1]>
             {
               - ^chat "<gold><&dq><red>PATHETIC!<gold> Your horse<&sq>s power level is only <red>%horsePowerLevel%<gold>. Just a worthless <red>D-Rank<gold> horse.<&dq>"
             }
-            else if <def[horsePowerLevel].is[OR_LESS].than[10]>
+            else if <def[horsePowerLevel].is[LESS].than[10]>
             {
               - ^chat "<gold><&dq><red>MEH!<gold> Your horse<&sq>s power level is a mere <red>%horsePowerLevel%<gold>. Only a poor <red>D-Rank<gold> horse.<&dq>"
             }
-            else if <def[horsePowerLevel].is[OR_LESS].than[50]>
+            else if <def[horsePowerLevel].is[LESS].than[50]>
             {
               - ^chat "<gold><&dq><red>Hmmm.<gold> Your horse<&sq>s power level is <red>%horsePowerLevel%<gold>. Just a regular <red>D-Rank<gold> horse.<&dq>"
             }
-            else if <def[horsePowerLevel].is[OR_LESS].than[150]>
+            else if <def[horsePowerLevel].is[LESS].than[150]>
             {
               - ^chat "<gold><&dq><red>Quite OK.<gold> Your horse<&sq>s power level is <red>%horsePowerLevel%<gold>. Still just a <red>D-Rank<gold> horse.<&dq>"
             }
-            else if <def[horsePowerLevel].is[OR_LESS].than[250]>
+            else if <def[horsePowerLevel].is[LESS].than[250]>
             {
               - ^chat "<gold><&dq><yellow>Not bad.<gold> Your horse<&sq>s power level is <yellow>%horsePowerLevel%<gold>. A <yellow>C-Rank<gold> horse.<&dq>"
             }
-            else if <def[horsePowerLevel].is[OR_LESS].than[500]>
+            else if <def[horsePowerLevel].is[LESS].than[500]>
             {
               - ^chat "<gold><&dq><green>Pretty good.<gold> Your horse<&sq>s power level is <green>%horsePowerLevel%<gold>. Nice to see a <green>B-Rank<gold> horse.<&dq>"
             }
-            else if <def[horsePowerLevel].is[OR_LESS].than[1000]>
+            else if <def[horsePowerLevel].is[LESS].than[1000]>
             {
               - ^chat "<gold><&dq><aqua>Wow!<gold> Your horse<&sq>s power level is <aqua>%horsePowerLevel%<gold>! You rarely get to see an <aqua>A-Rank<gold> horse.<&dq>"
             }
-            else if <def[horsePowerLevel].is[MORE].than[1000]>
+            else if <def[horsePowerLevel].is[OR_MORE].than[1000]>
             {
               - ^chat "<gold><&dq><&d>AMAZING!<gold> Your horse<&sq>s power level is <&d>%horsePowerLevel%<gold>! It<&sq>s been a long time since I<&sq>ve seen such a magnificient <&d>S-Rank<gold> horse.<&dq>"
+            }
+            else if <def[horsePowerLevel].is[MORE].than[9000]>
+            {
+              - ^chat "<gold><&dq><&d>IT<&sq>S OVER 9000!<gold><&dq>" 
+              - wait 1
+              - ^chat "<gold><&dq>WHAT? <&d>%horsePowerLevel%<gold>!? THAT CAN<&sq>T BE RIGHT!? So this is the power of the legendary Super Horse!<&dq>"
             }
             else
             {
               - ^chat "<gold><&dq>Your horse<&sq>s power level is: %horsePowerLevel%.<&dq>"
             }
+            
+            - define bestHorsePL <proc[getHorsePowerLevel].context[<player.flag[bestHorse]>]>
+            
+            - if <def[bestHorsePL].is[LESS].than[<def[horsePowerLevel]>]>
+            {
+              - flag player bestHorse:<def[horse]>
+            }
           }
           else
           {
-            - ^chat "<gold><&dq>I don<&sq>t see any horse around, do you?<&dq>"
+            - ^chat "<gold><&dq>I don<&sq>t see any horse next to you. It<&sq>s best you come here riding a horse.<&dq>"
           }
           - disengage
         '2':
@@ -103,7 +116,41 @@ horsequester_interact:
           - ^chat "<yellow>C-Rank   <white>150 - 250"
           - ^chat "<green>B-Rank   <white>250 - 500"
           - ^chat "<aqua>A-Rank   <white>500 - 1000"
-          - ^chat "<&d>S-Rank   <white>1000."
+          - ^chat "<&d>S-Rank   <white>1000+"
+        '3':
+          trigger: "/3/"
+          script:
+          - engage
+          - ^chat "<gold><&dq>Let me have a short look here on my list...<&dq>"
+          - animate <npc> animation:ARM_SWING
+          - equip <npc> hand:<i@paper>
+          
+          - lookclose <npc> false
+          - look <npc> <player.location>
+
+          - define bestHorses <server.get_players_flagged[bestHorse].sort[sortHorses]>
+          
+          - ^narrate "<gold>Best horses in <player.location.world.name>:"
+          
+          - define iterations 0
+          
+          - foreach <def[bestHorses]>
+          {
+            - define iterations <def[iterations].add[1]>
+            
+            - if <def[iterations].is[MORE].than[10]>
+            {
+              - foreach stop 
+            }
+            
+            - ^define theHorse <def[value].flag[bestHorse]>
+            - define HPL <proc[getHorsePowerLevel].context[<def[theHorse]>]>
+            - define rank <proc[getRank].context[<def[HPL]>]>
+            - ^narrate "%iterations%. <green><def[value].name> <def[rank]> <def[HPL]>"
+          }
+          - equip <npc> hand:<i@air>
+          - lookclose <npc> true
+          - disengage
         'Q':
           trigger: "/q/"
           script:
@@ -124,9 +171,13 @@ horsequester_interact:
 
 getHorsePowerLevel:
   type: procedure
-  definitions: speed|jump
+  definitions: horse
   script:
-  - ^define pspeed <math:1-<proc[normdistCdf].context[%speed%|0.225|0.038638835]>>
+  
+  - ^define speed <def[horse].speed>
+  - ^define jump <def[horse].jump_strength>
+  
+  - ^define pspeed <math:1-<proc[normdistCdf].context[%speed%|0.225|0.0375]>>
   - ^define pjump <math:1-<proc[normdistCdf].context[%jump%|0.7|0.1]>>
   
   - ^define pBothBetter <def[pspeed].mul[<def[pjump]>]>
@@ -152,10 +203,10 @@ normdistCdf:
   definitions: x|mu|sigma
   script:
   - define i <el@val[0]>
-  - define stepSize <el@val[0.005]>
+  - define stepSize <el@val[0.001]>
   - define cdf <el@val[0]>
   
-  - ^define euler 2.718281828459045
+  - ^define euler <el@val[2.718281828459045]>
   
   - ^while <def[i].is[OR_LESS].than[%x%]>
   {
@@ -169,9 +220,54 @@ normdistCdf:
   - determine <def[cdf]>
     
     
+sortHorses:
+  type: procedure
+  definitions: player1|player2
+  script:
+  
+  - ^define p1Horse <def[player1].flag[bestHorse]>
+  - ^define p2Horse <def[player2].flag[bestHorse]>
+  
+  - define aPL <proc[getHorsePowerLevel].context[<def[p1Horse]>]>
+  - define bPL <proc[getHorsePowerLevel].context[<def[p2Horse]>]>
+  
+  - if <def[a]> == <def[b]>
+  {
+    - determine 0
+  }
+  else if <def[a].is[MORE].than[<def[b]>]>
+  {
+    - determine 1
+  }
+  else
+  {
+    - determine -1
+  }
     
-    
-    
+getRank:
+  type: procedure
+  definitions: horsePowerLevel
+  script:
+  - if <def[horsePowerLevel].is[LESS].than[150]>
+  {
+    - determine "<red>D-Rank"
+  }
+  else if <def[horsePowerLevel].is[LESS].than[250]>
+  {
+    - determine "<yellow>C-Rank"
+  }
+  else if <def[horsePowerLevel].is[LESS].than[500]>
+  {
+    - determine "<green>B-Rank"
+  }
+  else if <def[horsePowerLevel].is[LESS].than[1000]>
+  {
+    - determine "<aqua>A-Rank"
+  }
+  else if <def[horsePowerLevel].is[OR_MORE].than[1000]>
+  {
+    - determine "<&d>A-Rank"
+  }
     
     
     
