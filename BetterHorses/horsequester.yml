@@ -23,7 +23,7 @@ horsequester_interact:
         - ^flag npc justtalked
         - ^trigger name:chat state:true
         - ^narrate ""
-        - ^chat "<gold><&dq>Hello <player.name>. Do you want to know how good your horse is?<&dq>"
+        - ^chat "<gold><&dq>Hello <player.name>. Do you you have a good horse?<&dq>"
         - ^narrate "<yellow>1. <aqua><npc.name><aqua>! What does the scouter say about it<&sq>s power level?"
         - ^narrate "<yellow>2. <aqua>How does your power level work?"
         - ^narrate "<yellow>3. <aqua>Who has the best horse in <npc.location.world.name>?"
@@ -94,15 +94,44 @@ horsequester_interact:
             
             - define bestHorsePL <proc[getHorsePowerLevel].context[<player.flag[bestHorse]>]>
             
-            - if <def[bestHorsePL].is[LESS].than[<def[horsePowerLevel]>]>
+            - if <def[horsePowerLevel].is[MORE].than[<def[bestHorsePL]>]>
             {
               - flag player bestHorse:<def[horse]>
             }
+
           }
           else
           {
             - ^chat "<gold><&dq>I don<&sq>t see any horse next to you. It<&sq>s best you come here riding a horse.<&dq>"
           }
+          
+          - if !<player.has_flag[horsequester_receivedreward]>
+          {
+            - wait 2
+            
+            - define rewardPlayer false
+            
+            - if <def[bestHorsePL].exists>
+            {
+              - if <def[bestHorsePL].is[OR_MORE].than[1000]>
+              {
+                - define rewardPlayer true
+              }
+            }
+            else 
+            
+            - if <def[rewardPlayer]> == true
+            {
+              - give i@diamond qty:16
+              - flag player horsequester_receivedreward
+              - narrate "<yellow><italic>Received reward from <npc.name>."
+            }
+            else
+            {
+              - ^chat "<gold><&dq>If you show me an <&d>S-Rank<gold> horse, I have a reward for you.<&dq>"
+            }
+          }
+            
           - disengage
         '2':
           trigger: "/2/"
@@ -266,10 +295,35 @@ getRank:
   }
   else if <def[horsePowerLevel].is[OR_MORE].than[1000]>
   {
-    - determine "<&d>A-Rank"
+    - determine "<&d>S-Rank"
   }
+  
+################## HorseInfo ##################
+horseinfo:
+  type: command
+  name: horseinfo
+  script:
+  
+  - if <player.target> != null {
+    - define horse <player.target>
+  } else {
+    - define horse <player.location.cursor_on.find.entities[HORSE].within[4].get[0]>
+  }
+  
+  - if <def[horse].exists> {
     
-    
+    #- define x <def[horse].jump_strength>
+    #- define x2 <def[x].power[2]>
+    #- define x3 <def[x].power[3]>
+  
+    #- define jump <el@val[-0.1817584952].mul[%x%].add[<el@val[3.689713992].mul[%x2%]>].add[<el@val[2.128599134].mul[%x%]>].sub[<el@val[0.343930367]>]> 
+
+    #- narrate "<green><def[horse].health.round> / <def[horse].speed.mul[43].round_to[3]> / <def[jump].round_to[3]>"
+    #- narrate "Internal: <def[horse].speed.round_to[5]> / <def[horse].jump_strength.round_to[5]>"
+    - ^define HPL <proc[getHorsePowerLevel].context[<def[horse]>]>
+    - ^define rank <proc[getRank].context[<def[HPL]>]>
+    - ^narrate "<def[rank]>. Power Level: <def[HPL]>"
+  }
     
     
     
