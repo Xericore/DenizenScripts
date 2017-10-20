@@ -24,9 +24,6 @@ betterhorses:
           - define jump2 <def[value].jump_strength>
           - define health2 <def[value].health>
         }
-        
-        # TODO, don't reset breeding
-        - adjust %value% 'can_breed:true'
       }
       
       #################### SPEED ####################
@@ -64,7 +61,7 @@ betterhorses:
       
       #################### HEALTH ####################
       - define avgHealth <math:(%health1%+%health2%)/2>
-      - define foalHealth <proc[gauss].context[%avgHealth%|2]>
+      - define foalHealth <proc[gauss].context[%avgHealth%|3]>
       
       #################### sanity checks ####################
       - if %foalSpeed% > 0.3375 {
@@ -87,7 +84,7 @@ betterhorses:
       
       - ^adjust <context.entity> 'speed:%foalSpeed%'
       - ^adjust <context.entity> 'jump_strength:%foalJumpStrength%'
-      - ^adjust <context.entity> 'health:%foalHealth%'
+      - ^adjust <context.entity> 'max_health:%foalHealth%'
     }
 
 toJumpHeight:
